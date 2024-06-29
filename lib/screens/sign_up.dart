@@ -37,7 +37,7 @@ class _SignUpState extends State<SignUp> {
             controller: controller,
             children: [
               SizedBox(
-                height: 0.16 * MediaQuery.of(context).size.height,
+                height: 0.13 * MediaQuery.of(context).size.height,
               ),
               const Center(
                 child: Text(
@@ -49,18 +49,23 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               const SizedBox(
-                height: 18,
+                height: 16,
               ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(24),
-                child: Image.asset(
-                  kLogo,
-                  height: 90,
-                  width: 90,
+              CircleAvatar(
+                backgroundColor: Colors.grey.shade300,
+                maxRadius: 48,
+                child: IconButton(
+                  onPressed: () {},
+                  highlightColor: Colors.grey.shade400,
+                  icon: const Icon(
+                    Icons.add_a_photo_outlined,
+                    color: Colors.black,
+                    size: 30,
+                  ),
                 ),
               ),
               const SizedBox(
-                height: 32,
+                height: 24,
               ),
               CustomTextField(
                 onTap: () async {
@@ -79,7 +84,6 @@ class _SignUpState extends State<SignUp> {
                 },
                 label: 'email',
                 hint: 'Enter email',
-                autoFocus: true,
               ),
               const SizedBox(
                 height: 20,
@@ -91,7 +95,6 @@ class _SignUpState extends State<SignUp> {
                 },
                 label: 'password',
                 hint: 'Enter password',
-                autoFocus: true,
                 obsecure: true,
               ),
               const SizedBox(
@@ -109,7 +112,7 @@ class _SignUpState extends State<SignUp> {
                     Navigator.pop(context);
                   },
                 ),
-              )
+              ),
             ],
           ),
         ),

@@ -29,7 +29,7 @@ class _SignInState extends State<SignIn> {
             controller: controller,
             children: [
               SizedBox(
-                height: 0.16 * MediaQuery.of(context).size.height,
+                height: 0.25 * MediaQuery.of(context).size.height,
               ),
               const Center(
                 child: Text(
@@ -38,18 +38,7 @@ class _SignInState extends State<SignIn> {
                 ),
               ),
               const SizedBox(
-                height: 18,
-              ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(24),
-                child: Image.asset(
-                  kLogo,
-                  height: 90,
-                  width: 90,
-                ),
-              ),
-              const SizedBox(
-                height: 32,
+                height: 28,
               ),
               const CustomTextField(
                 label: 'email',
@@ -58,14 +47,7 @@ class _SignInState extends State<SignIn> {
               const SizedBox(
                 height: 20,
               ),
-              CustomTextField(
-                onTap: () {
-                  controller.animateTo(
-                    controller.position.maxScrollExtent,
-                    duration: const Duration(milliseconds: 100),
-                    curve: Curves.linear,
-                  );
-                },
+              const CustomTextField(
                 label: 'password',
                 hint: 'Enter password',
                 obsecure: true,

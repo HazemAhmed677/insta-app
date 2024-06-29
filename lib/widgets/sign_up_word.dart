@@ -9,11 +9,12 @@ class SignUpWord extends StatelessWidget {
     return Align(
       alignment: Alignment.center,
       child: SizedBox(
-        width: 90,
+        width: 85,
         child: Padding(
           padding: const EdgeInsets.only(bottom: 14.0),
           child: InkWell(
-            borderRadius: BorderRadius.circular(14),
+            highlightColor: Colors.blue.shade50,
+            borderRadius: BorderRadius.circular(16),
             onTap: () {
               Navigator.pushNamed(context, SignUp.signUpId);
             },
