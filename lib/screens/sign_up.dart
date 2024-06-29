@@ -69,6 +69,7 @@ class SignUp extends StatelessWidget {
                 child: CustomInkWell(text: 'Sign up'),
               ),
               CustomQuestionText(
+                question: 'do you have an account?',
                 onTap: () {
                   Navigator.pushNamed(context, SignIn.signInId);
                 },
