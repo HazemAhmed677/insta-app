@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
+import 'package:insta_app/widgets/custom_text_field.dart';
 
 class SignUp extends StatelessWidget {
   const SignUp({super.key});
@@ -8,32 +9,38 @@ class SignUp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 160,
-          ),
-          const Center(
-            child: Text(
-              'Insta',
-              style: TextStyle(fontSize: 40, fontFamily: 'PlaywriteMX'),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 160,
             ),
-          ),
-          const SizedBox(
-            height: 18,
-          ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(50),
-            child: Image.asset(
-              kLogo,
-              height: 130,
-              width: 130,
+            const Center(
+              child: Text(
+                'Insta',
+                style: TextStyle(fontSize: 40, fontFamily: 'PlaywriteMX'),
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 20,
-          )
-        ],
+            const SizedBox(
+              height: 18,
+            ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(40),
+              child: Image.asset(
+                kLogo,
+                height: 110,
+                width: 110,
+              ),
+            ),
+            const SizedBox(
+              height: 40,
+            ),
+            CustomTextField(
+              hint: 'username',
+            )
+          ],
+        ),
       ),
     );
   }
