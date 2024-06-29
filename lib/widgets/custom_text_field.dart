@@ -2,20 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
 
 class CustomTextField extends StatefulWidget {
-  const CustomTextField(
-      {super.key,
-      required this.label,
-      required this.hint,
-      this.obsecure = false,
-      this.onTap,
-      this.autoFocus = false,
-      this.passwordIcon});
+  CustomTextField({
+    super.key,
+    required this.label,
+    required this.hint,
+    this.obsecure = false,
+    this.onTap,
+    this.autoFocus = false,
+    this.passwordIcon,
+    this.validator,
+    this.flag,
+    this.autovalidateMode,
+  });
   final String label;
   final String hint;
   final bool obsecure;
   final bool autoFocus;
   final IconButton? passwordIcon;
   final Function()? onTap;
+  final String? Function(String?)? validator;
+  AutovalidateMode? autovalidateMode;
+  bool? flag;
+
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
 }
@@ -23,7 +31,28 @@ class CustomTextField extends StatefulWidget {
 class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      autovalidateMode: widget.autovalidateMode,
+      onChanged: (input) {
+        if (widget.label == 'email') {
+          if (input.isNotEmpty && input.contains('@')) {
+            widget.autovalidateMode = AutovalidateMode.disabled;
+            widget.flag = true;
+          } else if (widget.flag!) {
+            widget.autovalidateMode = AutovalidateMode.disabled;
+            setState(() {});
+          }
+        } else {
+          if (input.isNotEmpty && input.length >= 8) {
+            widget.autovalidateMode = AutovalidateMode.disabled;
+            widget.flag = true;
+          } else if (widget.flag!) {
+            widget.autovalidateMode = AutovalidateMode.disabled;
+            setState(() {});
+          }
+        }
+      },
+      validator: widget.validator,
       onTap: widget.onTap,
       autofocus: widget.autoFocus,
       obscureText: widget.obsecure,

@@ -77,6 +77,12 @@ class _SignUpState extends State<SignUp> {
                 height: 20,
               ),
               CustomTextField(
+                validator: (input) {
+                  if (input != null && input.contains('&')) {
+                    return null;
+                  }
+                  return 'please enter your email';
+                },
                 onTap: () async {
                   await animateTo();
                 },
