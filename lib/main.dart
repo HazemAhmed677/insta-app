@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:insta_app/screens/sign_in.dart';
 import 'package:insta_app/screens/sign_up.dart';
 
 void main() {
@@ -13,7 +14,11 @@ class InstaApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(brightness: Brightness.dark),
-      home: SignUp(),
+      routes: {
+        SignUp.signUpId: (context) => const SignUp(),
+        SignIn.signInId: (context) => const SignIn(),
+      },
+      initialRoute: SignUp.signUpId,
     );
   }
 }

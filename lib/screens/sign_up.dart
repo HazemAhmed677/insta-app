@@ -6,7 +6,7 @@ import 'package:insta_app/widgets/custom_text_field.dart';
 
 class SignUp extends StatelessWidget {
   const SignUp({super.key});
-
+  static String signUpId = 'Sign up page';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
