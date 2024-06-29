@@ -18,7 +18,7 @@ class InstaApp extends StatelessWidget {
         SignUp.signUpId: (context) => const SignUp(),
         SignIn.signInId: (context) => const SignIn(),
       },
-      initialRoute: SignUp.signUpId,
+      initialRoute: SignIn.signInId,
     );
   }
 }

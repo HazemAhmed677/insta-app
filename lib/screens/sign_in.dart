@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
+import 'package:insta_app/screens/sign_up.dart';
 import 'package:insta_app/widgets/custom_ink_well.dart';
-import 'package:insta_app/widgets/custom_question_text.dart';
 import 'package:insta_app/widgets/custom_text_field.dart';
 
 class SignIn extends StatelessWidget {
@@ -22,7 +22,7 @@ class SignIn extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(
-                height: 145,
+                height: 140,
               ),
               const Center(
                 child: Text(
@@ -44,14 +44,14 @@ class SignIn extends StatelessWidget {
               const SizedBox(
                 height: 32,
               ),
-              const CustomTextField(
+              CustomTextField(
                 label: 'email',
                 hint: 'Enter email',
               ),
               const SizedBox(
                 height: 20,
               ),
-              const CustomTextField(
+              CustomTextField(
                 label: 'password',
                 hint: 'Enter password',
                 obsecure: true,
@@ -63,11 +63,20 @@ class SignIn extends StatelessWidget {
                 padding: EdgeInsets.only(bottom: 8),
                 child: CustomInkWell(text: 'Sign In'),
               ),
-              CustomQuestionText(
-                question: r"don't have an account, Sign up",
-                onTap: () {
-                  Navigator.pop(context);
-                },
+              SizedBox(
+                width: 90,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(14),
+                  onTap: () {
+                    Navigator.pushNamed(context, SignUp.signUpId);
+                  },
+                  child: const Center(
+                    child: Text(
+                      'Sign up',
+                      style: TextStyle(color: Colors.blue, fontSize: 20),
+                    ),
+                  ),
+                ),
               )
             ],
           ),

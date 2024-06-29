@@ -10,7 +10,7 @@ class CustomQuestionText extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 24.0),
+        padding: const EdgeInsets.only(bottom: 14.0),
         child: Text(
           question,
           style: const TextStyle(
