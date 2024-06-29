@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
+import 'package:insta_app/widgets/custom_ink_well.dart';
 import 'package:insta_app/widgets/custom_text_field.dart';
 
 class SignUp extends StatelessWidget {
@@ -10,53 +11,64 @@ class SignUp extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        clipBehavior: Clip.none,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 160,
-              ),
-              const Center(
-                child: Text(
-                  'Insta',
-                  style: TextStyle(fontSize: 40, fontFamily: 'PlaywriteMX'),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+          ),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height - 210,
+            ),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 160,
                 ),
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(26),
-                child: Image.asset(
-                  kLogo,
-                  height: 110,
-                  width: 110,
+                const Center(
+                  child: Text(
+                    'Insta',
+                    style: TextStyle(fontSize: 40, fontFamily: 'PlaywriteMX'),
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 32,
-              ),
-              const CustomTextField(label: 'username', hint: 'Enter username'),
-              const SizedBox(
-                height: 20,
-              ),
-              const CustomTextField(
-                label: 'email',
-                hint: 'Enter email',
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const CustomTextField(
-                label: 'password',
-                hint: 'Enter password',
-                obsecure: true,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-            ],
+                const SizedBox(
+                  height: 18,
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(26),
+                  child: Image.asset(
+                    kLogo,
+                    height: 110,
+                    width: 110,
+                  ),
+                ),
+                const SizedBox(
+                  height: 32,
+                ),
+                const CustomTextField(
+                    label: 'username', hint: 'Enter username'),
+                const SizedBox(
+                  height: 20,
+                ),
+                const CustomTextField(
+                  label: 'email',
+                  hint: 'Enter email',
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const CustomTextField(
+                  label: 'password',
+                  hint: 'Enter password',
+                  obsecure: true,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const CustomInkWell(text: 'Sign up')
+              ],
+            ),
           ),
         ),
       ),
