@@ -53,7 +53,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           if (input.isNotEmpty && input.length >= 8) {
             widget.autovalidateMode = AutovalidateMode.disabled;
             widget.flag = true;
-          } else if (widget.flag!) {
+          } else if (widget.flag) {
             widget.autovalidateMode = AutovalidateMode.disabled;
             setState(() {});
           }

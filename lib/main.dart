@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:insta_app/screens/sign_in.dart';
-import 'package:insta_app/screens/sign_up.dart';
+import 'package:insta_app/views/home_view.dart';
+import 'package:insta_app/views/sign_in_view.dart';
+import 'package:insta_app/views/sign_up_view.dart';
 
 void main() {
   runApp(const InstaApp());
@@ -17,6 +18,7 @@ class InstaApp extends StatelessWidget {
       routes: {
         SignUp.signUpId: (context) => const SignUp(),
         SignIn.signInId: (context) => const SignIn(),
+        HomeView.homeViewId: (context) => const HomeView(),
       },
       initialRoute: SignIn.signInId,
     );
