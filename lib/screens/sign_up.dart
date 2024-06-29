@@ -9,37 +9,55 @@ class SignUp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 160,
-            ),
-            const Center(
-              child: Text(
-                'Insta',
-                style: TextStyle(fontSize: 40, fontFamily: 'PlaywriteMX'),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 160,
               ),
-            ),
-            const SizedBox(
-              height: 18,
-            ),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(40),
-              child: Image.asset(
-                kLogo,
-                height: 110,
-                width: 110,
+              const Center(
+                child: Text(
+                  'Insta',
+                  style: TextStyle(fontSize: 40, fontFamily: 'PlaywriteMX'),
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            CustomTextField(
-              hint: 'username',
-            )
-          ],
+              const SizedBox(
+                height: 18,
+              ),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(26),
+                child: Image.asset(
+                  kLogo,
+                  height: 110,
+                  width: 110,
+                ),
+              ),
+              const SizedBox(
+                height: 32,
+              ),
+              const CustomTextField(label: 'username', hint: 'Enter username'),
+              const SizedBox(
+                height: 20,
+              ),
+              const CustomTextField(
+                label: 'email',
+                hint: 'Enter email',
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const CustomTextField(
+                label: 'password',
+                hint: 'Enter password',
+                obsecure: true,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+            ],
+          ),
         ),
       ),
     );

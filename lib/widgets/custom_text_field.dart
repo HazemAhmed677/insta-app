@@ -2,16 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField({super.key, required this.hint});
+  const CustomTextField(
+      {super.key,
+      required this.label,
+      required this.hint,
+      this.obsecure = false});
+  final String label;
   final String hint;
+  final bool obsecure;
   @override
   Widget build(BuildContext context) {
     return TextField(
+      obscureText: obsecure,
       decoration: InputDecoration(
+        label: Text(label),
         hintText: hint,
-        hintStyle: TextStyle(
-          color: Colors.grey.shade600,
-        ),
+        contentPadding: EdgeInsets.symmetric(vertical: 18, horizontal: 12),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(6),
         ),
