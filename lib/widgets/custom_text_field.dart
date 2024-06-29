@@ -7,13 +7,14 @@ class CustomTextField extends StatefulWidget {
     required this.label,
     required this.hint,
     this.obsecure = false,
-    this.controller,
+    this.onTap,
+    this.autoFocus = false,
   });
   final String label;
   final String hint;
   final bool obsecure;
-  final ScrollController? controller;
-
+  final bool autoFocus;
+  final Function()? onTap;
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
 }
@@ -22,15 +23,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      onTap: () {
-        if (widget.controller != null) {
-          widget.controller!.animateTo(
-            widget.controller!.position.maxScrollExtent,
-            duration: const Duration(milliseconds: 100),
-            curve: Curves.linear,
-          );
-        }
-      },
+      onTap: widget.onTap,
+      autofocus: widget.autoFocus,
       obscureText: widget.obsecure,
       decoration: InputDecoration(
         label: Text(widget.label),
