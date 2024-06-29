@@ -16,9 +16,23 @@ class HomeView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Insta',
-                style: TextStyle(fontFamily: 'PlaywriteMX', fontSize: 40),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Insta',
+                    style: TextStyle(
+                      fontFamily: 'PlaywriteMX',
+                      fontSize: 36,
+                    ),
+                  ),
+                  IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.logout,
+                        size: 26,
+                      ))
+                ],
               ),
               SizedBox(
                 height: hight * 0.20,
@@ -34,7 +48,7 @@ class HomeView extends StatelessWidget {
             ],
           ),
         ),
-        bottomNavigationBar: CustomBottomNavigationBar(),
+        bottomNavigationBar: const CustomBottomNavigationBar(),
       ),
     );
   }

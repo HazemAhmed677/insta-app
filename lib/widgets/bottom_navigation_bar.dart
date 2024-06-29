@@ -1,14 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
 
-class CustomBottomNavigationBar extends StatelessWidget {
+class CustomBottomNavigationBar extends StatefulWidget {
   const CustomBottomNavigationBar({super.key});
 
   @override
+  State<CustomBottomNavigationBar> createState() =>
+      _CustomBottomNavigationBarState();
+}
+
+class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
+  int currentIndex = 0;
+  @override
   Widget build(BuildContext context) {
+    double hight = MediaQuery.of(context).size.height;
+    BottomNavigationBarItem getBNBItem(
+        IconData icon, String label, int current) {
+      return BottomNavigationBarItem(
+        icon: IconButton(
+          onPressed: () {
+            currentIndex = current;
+            setState(() {});
+          },
+          icon: Icon(
+            icon,
+          ),
+        ),
+        label: label,
+      );
+    }
+
     return Container(
+      height: hight * 0.1181,
       decoration: const BoxDecoration(color: Colors.white),
       child: BottomNavigationBar(
+        currentIndex: currentIndex,
         elevation: 20,
         showSelectedLabels: true,
         selectedIconTheme: const IconThemeData(
@@ -25,42 +51,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
         type: BottomNavigationBarType.fixed,
         fixedColor: kWhite,
         items: [
-          BottomNavigationBarItem(
-            icon: IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.home,
-              ),
-            ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.home,
-                color: kWhite,
-              ),
-            ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.home,
-                color: kWhite,
-              ),
-            ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.home, color: kWhite),
-            ),
-            label: 'Home',
-          ),
+          getBNBItem(Icons.home, 'Home', 0),
+          getBNBItem(Icons.search, 'Search', 1),
+          getBNBItem(Icons.add, 'Post', 2),
+          getBNBItem(Icons.person, 'Profile', 3),
         ],
       ),
     );
