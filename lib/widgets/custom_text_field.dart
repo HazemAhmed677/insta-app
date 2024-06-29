@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
 
+// ignore: must_be_immutable
 class CustomTextField extends StatefulWidget {
   CustomTextField({
     super.key,
@@ -11,8 +12,8 @@ class CustomTextField extends StatefulWidget {
     this.autoFocus = false,
     this.passwordIcon,
     this.validator,
-    this.flag,
-    this.autovalidateMode,
+    required this.flag,
+    required this.autovalidateMode,
   });
   final String label;
   final String hint;
@@ -21,8 +22,8 @@ class CustomTextField extends StatefulWidget {
   final IconButton? passwordIcon;
   final Function()? onTap;
   final String? Function(String?)? validator;
-  AutovalidateMode? autovalidateMode;
-  bool? flag;
+  AutovalidateMode autovalidateMode;
+  bool flag;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -34,12 +35,18 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return TextFormField(
       autovalidateMode: widget.autovalidateMode,
       onChanged: (input) {
-        if (widget.label == 'email') {
+        if (widget.label == 'username') {
+          if (input.isNotEmpty && input.length >= 4) {
+            widget.autovalidateMode = AutovalidateMode.disabled;
+            widget.flag = true;
+          } else if (widget.flag) {
+            setState(() {});
+          }
+        } else if (widget.label == 'email') {
           if (input.isNotEmpty && input.contains('@')) {
             widget.autovalidateMode = AutovalidateMode.disabled;
             widget.flag = true;
-          } else if (widget.flag!) {
-            widget.autovalidateMode = AutovalidateMode.disabled;
+          } else if (widget.flag) {
             setState(() {});
           }
         } else {

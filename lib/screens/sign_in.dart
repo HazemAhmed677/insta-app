@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:insta_app/constants.dart';
 import 'package:insta_app/widgets/custom_ink_well.dart';
 import 'package:insta_app/widgets/custom_text_field.dart';
 import 'package:insta_app/widgets/sign_up_word.dart';
@@ -18,8 +19,7 @@ class _SignInState extends State<SignIn> {
   AutovalidateMode autovalidateMode1 = AutovalidateMode.disabled;
   AutovalidateMode autovalidateMode2 = AutovalidateMode.disabled;
   bool flag1 = false, flag2 = false;
-  bool click1 = false, click2 = false;
-  @override
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -70,6 +70,9 @@ class _SignInState extends State<SignIn> {
                   height: 20,
                 ),
                 CustomTextField(
+                  onTap: () async {
+                    await kAnimateTo(controller);
+                  },
                   autovalidateMode: autovalidateMode2,
                   flag: flag2,
                   validator: (input) {
@@ -100,18 +103,19 @@ class _SignInState extends State<SignIn> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8),
                   child: CustomInkWell(
-                      onTap: () {
-                        if (formKey.currentState!.validate()) {
-                          formKey.currentState!.save();
-                          autovalidateMode1 = AutovalidateMode.disabled;
-                          autovalidateMode2 = AutovalidateMode.disabled;
-                        }
-                        autovalidateMode1 = AutovalidateMode.always;
-                        setState(() {});
-                        autovalidateMode2 = AutovalidateMode.always;
-                        setState(() {});
-                      },
-                      text: 'Log in'),
+                    onTap: () {
+                      if (formKey.currentState!.validate()) {
+                        formKey.currentState!.save();
+                        autovalidateMode1 = AutovalidateMode.disabled;
+                        autovalidateMode2 = AutovalidateMode.disabled;
+                      }
+                      autovalidateMode1 = AutovalidateMode.always;
+                      setState(() {});
+                      autovalidateMode2 = AutovalidateMode.always;
+                      setState(() {});
+                    },
+                    text: 'Log in',
+                  ),
                 ),
                 const SignUpWord(),
               ],
