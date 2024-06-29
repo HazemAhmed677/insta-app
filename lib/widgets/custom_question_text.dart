@@ -8,7 +8,7 @@ class CustomQuestionText extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: const Padding(
-        padding: EdgeInsets.only(bottom: 20.0),
+        padding: EdgeInsets.only(bottom: 24.0),
         child: Text(
           'do you have an account?',
           style: TextStyle(

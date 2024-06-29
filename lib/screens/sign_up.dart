@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
+import 'package:insta_app/screens/sign_in.dart';
 import 'package:insta_app/widgets/custom_ink_well.dart';
 import 'package:insta_app/widgets/custom_question_text.dart';
 import 'package:insta_app/widgets/custom_text_field.dart';
@@ -22,7 +23,7 @@ class SignUp extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(
-                height: 160,
+                height: 145,
               ),
               const Center(
                 child: Text(
@@ -68,7 +69,9 @@ class SignUp extends StatelessWidget {
                 child: CustomInkWell(text: 'Sign up'),
               ),
               CustomQuestionText(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, SignIn.signInId);
+                },
               )
             ],
           ),
