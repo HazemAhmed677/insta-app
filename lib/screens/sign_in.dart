@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:insta_app/constants.dart';
 import 'package:insta_app/widgets/custom_ink_well.dart';
 import 'package:insta_app/widgets/custom_text_field.dart';
 import 'package:insta_app/widgets/sign_up_word.dart';
@@ -13,6 +12,7 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  bool obsecure = true;
   ScrollController controller = ScrollController();
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class _SignInState extends State<SignIn> {
                 ),
               ),
               const SizedBox(
-                height: 28,
+                height: 24,
               ),
               const CustomTextField(
                 label: 'email',
@@ -47,10 +47,19 @@ class _SignInState extends State<SignIn> {
               const SizedBox(
                 height: 20,
               ),
-              const CustomTextField(
+              CustomTextField(
                 label: 'password',
                 hint: 'Enter password',
-                obsecure: true,
+                obsecure: obsecure,
+                passwordIcon: IconButton(
+                  onPressed: () {
+                    obsecure = !obsecure;
+                    setState(() {});
+                  },
+                  icon: (obsecure)
+                      ? const Icon(Icons.visibility_off)
+                      : const Icon(Icons.visibility),
+                ),
               ),
               const SizedBox(
                 height: 20,

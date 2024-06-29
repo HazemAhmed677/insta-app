@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:insta_app/constants.dart';
 import 'package:insta_app/widgets/custom_ink_well.dart';
 import 'package:insta_app/widgets/custom_question_text.dart';
 import 'package:insta_app/widgets/custom_text_field.dart';
@@ -22,6 +21,7 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
+  bool obsecure = true;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -68,9 +68,7 @@ class _SignUpState extends State<SignUp> {
                 height: 24,
               ),
               CustomTextField(
-                onTap: () async {
-                  await animateTo();
-                },
+                onTap: () async {},
                 label: 'username',
                 hint: 'Enter username',
                 autoFocus: true,
@@ -91,11 +89,19 @@ class _SignUpState extends State<SignUp> {
               CustomTextField(
                 onTap: () async {
                   await animateTo();
-                  setState(() {});
                 },
                 label: 'password',
                 hint: 'Enter password',
-                obsecure: true,
+                obsecure: obsecure,
+                passwordIcon: IconButton(
+                  onPressed: () {
+                    obsecure = !obsecure;
+                    setState(() {});
+                  },
+                  icon: (obsecure)
+                      ? const Icon(Icons.visibility_off)
+                      : const Icon(Icons.visibility),
+                ),
               ),
               const SizedBox(
                 height: 20,

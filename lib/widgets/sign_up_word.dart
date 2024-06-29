@@ -13,7 +13,7 @@ class SignUpWord extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(bottom: 14.0),
           child: InkWell(
-            highlightColor: Colors.blue.shade50,
+            highlightColor: Color.fromARGB(255, 106, 115, 122),
             borderRadius: BorderRadius.circular(16),
             onTap: () {
               Navigator.pushNamed(context, SignUp.signUpId);
