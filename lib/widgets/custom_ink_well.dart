@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 class CustomInkWell extends StatelessWidget {
-  const CustomInkWell({super.key, required this.text});
+  const CustomInkWell({super.key, required this.text, required this.onTap});
   final String text;
+  final Function() onTap;
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: onTap,
       child: Container(
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(

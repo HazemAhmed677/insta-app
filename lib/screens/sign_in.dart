@@ -34,7 +34,7 @@ class _SignInState extends State<SignIn> {
               const Center(
                 child: Text(
                   'Insta',
-                  style: TextStyle(fontSize: 40, fontFamily: 'PlaywriteMX'),
+                  style: TextStyle(fontSize: 44, fontFamily: 'PlaywriteMX'),
                 ),
               ),
               const SizedBox(
@@ -64,9 +64,9 @@ class _SignInState extends State<SignIn> {
               const SizedBox(
                 height: 20,
               ),
-              const Padding(
-                padding: EdgeInsets.only(bottom: 8),
-                child: CustomInkWell(text: 'Log in'),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: CustomInkWell(onTap: () {}, text: 'Log in'),
               ),
               const SignUpWord(),
             ],

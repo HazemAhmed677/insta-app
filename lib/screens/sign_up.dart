@@ -106,9 +106,9 @@ class _SignUpState extends State<SignUp> {
               const SizedBox(
                 height: 20,
               ),
-              const Padding(
-                padding: EdgeInsets.only(bottom: 8),
-                child: CustomInkWell(text: 'Sign up'),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: CustomInkWell(onTap: () {}, text: 'Sign up'),
               ),
               Align(
                 alignment: Alignment.center,
