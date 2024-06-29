@@ -10,7 +10,7 @@ class CustomInkWell extends StatelessWidget {
       child: Container(
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-            color: Colors.blue.withOpacity(0.9),
+            color: Colors.blue.withOpacity(0.88),
             borderRadius: BorderRadius.circular(10)),
         child: Center(
             child: Padding(
