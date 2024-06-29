@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
+import 'package:insta_app/views/home_view.dart';
 import 'package:insta_app/widgets/custom_ink_well.dart';
 import 'package:insta_app/widgets/custom_text_field.dart';
 import 'package:insta_app/widgets/sign_up_word.dart';
@@ -108,6 +109,7 @@ class _SignInState extends State<SignIn> {
                         formKey.currentState!.save();
                         autovalidateMode1 = AutovalidateMode.disabled;
                         autovalidateMode2 = AutovalidateMode.disabled;
+                        Navigator.pushNamed(context, HomeView.homeViewId);
                       }
                       autovalidateMode1 = AutovalidateMode.always;
                       setState(() {});
