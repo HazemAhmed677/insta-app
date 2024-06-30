@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/widgets/custom_ink_well.dart';
 import 'package:insta_app/widgets/custom_question_text.dart';
@@ -20,6 +23,15 @@ class _SignUpState extends State<SignUp> {
   List<AutovalidateMode> autoValidMode =
       List.filled(3, AutovalidateMode.disabled);
   bool flag1 = false, flag2 = false, flag3 = false;
+
+  File? selectedImage;
+  Future<void> selectImage() async {
+    var image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      selectedImage = File(image.path);
+      setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,13 +66,18 @@ class _SignUpState extends State<SignUp> {
                 ),
                 CircleAvatar(
                   backgroundColor: Colors.grey.shade300,
+                  backgroundImage: (selectedImage != null)
+                      ? FileImage(selectedImage!)
+                      : null,
                   maxRadius: 48,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      await selectImage();
+                    },
                     highlightColor: Colors.grey.shade400,
                     icon: const Icon(
                       Icons.add_a_photo_outlined,
-                      color: Colors.black,
+                      color: kPink,
                       size: 30,
                     ),
                   ),
