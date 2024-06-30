@@ -22,6 +22,7 @@ class _HomeViewState extends State<HomeView> {
     double hight = MediaQuery.of(context).size.height;
     return BlocBuilder<SwitchScreensCubit, SwitchScreensStates>(
       builder: (context, state) {
+        BlocProvider.of<SwitchScreensCubit>(context).getScreen();
         return SafeArea(
           child: Scaffold(
             backgroundColor: kBlack,

@@ -25,8 +25,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         icon: IconButton(
           onPressed: () {
             widget.currentIndex = current;
-            BlocProvider.of<SwitchScreensCubit>(context)
-                .getScreen(widget.currentIndex);
+
+            BlocProvider.of<SwitchScreensCubit>(context).currentIndex = current;
           },
           icon: Icon(
             icon,
@@ -39,11 +39,9 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     return SizedBox(
       height: 103,
       child: BottomNavigationBar(
-        mouseCursor: SystemMouseCursors.none,
         currentIndex: widget.currentIndex,
         backgroundColor: kBlack,
         selectedFontSize: 16,
-        enableFeedback: true,
         selectedIconTheme: const IconThemeData(
           size: 40,
           color: kPink,
