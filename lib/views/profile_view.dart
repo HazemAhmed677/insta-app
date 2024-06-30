@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
+import 'package:insta_app/helper/profile_grid_view.dart';
 import 'package:insta_app/helper/profile_helper.dart';
 import 'package:insta_app/widgets/custom_ink_well.dart';
 
@@ -11,6 +12,8 @@ class ProfileView extends StatelessWidget {
     double hight = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return CustomScrollView(
+      physics: const BouncingScrollPhysics(
+          decelerationRate: ScrollDecelerationRate.fast),
       slivers: [
         SliverToBoxAdapter(
             child: SizedBox(
@@ -67,6 +70,7 @@ class ProfileView extends StatelessWidget {
             height: 0.02 * hight,
           ),
         ),
+        ProfileGridView()
       ],
     );
   }
