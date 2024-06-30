@@ -22,16 +22,13 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         IconData icon, String label, int current, String view) {
       return BottomNavigationBarItem(
         icon: IconButton(
-          padding: EdgeInsets.all(0),
+          padding: EdgeInsets.zero,
           constraints:
               const BoxConstraints(), // override default min size of 48px
           style: const ButtonStyle(
             tapTargetSize: MaterialTapTargetSize.shrinkWrap, // the '2023' part
           ),
-          onPressed: () {
-            BlocProvider.of<SwitchScreensCubit>(context).currentIndex = current;
-            setState(() {});
-          },
+          onPressed: () {},
           icon: Icon(
             icon,
           ),
@@ -58,6 +55,10 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           getBNBItem(Icons.add, 'Post', 2, AddPostView.addPostId),
           getBNBItem(Icons.person, 'Profile', 3, ProfileView.profileId),
         ],
+        onTap: (value) {
+          BlocProvider.of<SwitchScreensCubit>(context).currentIndex = value;
+          setState(() {});
+        },
       ),
     );
   }
