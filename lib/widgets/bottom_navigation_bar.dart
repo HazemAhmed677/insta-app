@@ -8,7 +8,7 @@ import 'package:insta_app/views/profile_view.dart';
 import 'package:insta_app/views/search_view.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
-  CustomBottomNavigationBar({super.key});
+  const CustomBottomNavigationBar({super.key});
 
   @override
   State<CustomBottomNavigationBar> createState() =>

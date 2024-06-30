@@ -7,6 +7,7 @@ import 'package:insta_app/views/add_post_view.dart';
 import 'package:insta_app/views/profile_view.dart';
 import 'package:insta_app/views/search_view.dart';
 import 'package:insta_app/widgets/bottom_navigation_bar.dart';
+import 'package:insta_app/widgets/custom_home_view.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -19,7 +20,6 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
-    double hight = MediaQuery.of(context).size.height;
     return BlocBuilder<SwitchScreensCubit, SwitchScreensStates>(
       builder: (context, state) {
         BlocProvider.of<SwitchScreensCubit>(context).getScreen();
@@ -29,47 +29,14 @@ class _HomeViewState extends State<HomeView> {
             body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 14.0),
               child: (state is HomeScreenState)
-                  ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              'Insta',
-                              style: TextStyle(
-                                fontFamily: 'PlaywriteMX',
-                                fontSize: 36,
-                              ),
-                            ),
-                            IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.logout,
-                                  size: 26,
-                                ))
-                          ],
-                        ),
-                        SizedBox(
-                          height: hight * 0.20,
-                        ),
-                        const CircleAvatar(
-                          backgroundImage: AssetImage(kImage),
-                          maxRadius: 34,
-                        ),
-                        Expanded(
-                          child: ListView.builder(
-                              itemCount: 10, itemBuilder: (context, index) {}),
-                        ),
-                      ],
-                    )
+                  ? const CustomHomeView()
                   : (state is SearchScreenState)
                       ? const SearchView()
                       : (state is AddPostScreenState)
                           ? const AddPostView()
                           : const ProfileView(),
             ),
-            bottomNavigationBar: CustomBottomNavigationBar(),
+            bottomNavigationBar: const CustomBottomNavigationBar(),
           ),
         );
       },
