@@ -10,7 +10,6 @@ import 'package:insta_app/views/search_view.dart';
 class CustomBottomNavigationBar extends StatefulWidget {
   CustomBottomNavigationBar({super.key});
 
-  int currentIndex = 0;
   @override
   State<CustomBottomNavigationBar> createState() =>
       _CustomBottomNavigationBarState();
@@ -24,9 +23,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       return BottomNavigationBarItem(
         icon: IconButton(
           onPressed: () {
-            widget.currentIndex = current;
-
             BlocProvider.of<SwitchScreensCubit>(context).currentIndex = current;
+            setState(() {});
           },
           icon: Icon(
             icon,
@@ -39,7 +37,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     return SizedBox(
       height: 103,
       child: BottomNavigationBar(
-        currentIndex: widget.currentIndex,
+        currentIndex: BlocProvider.of<SwitchScreensCubit>(context).currentIndex,
         backgroundColor: kBlack,
         selectedFontSize: 16,
         selectedIconTheme: const IconThemeData(

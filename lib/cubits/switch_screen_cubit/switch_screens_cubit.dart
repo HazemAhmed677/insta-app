@@ -5,14 +5,14 @@ class SwitchScreensCubit extends Cubit<SwitchScreensStates> {
   SwitchScreensCubit() : super(HomeScreenState());
   int currentIndex = 0;
   getScreen() {
-    if (currentIndex == 1) {
+    if (currentIndex == 0) {
+      emit(HomeScreenState());
+    } else if (currentIndex == 1) {
       emit(SearchScreenState());
     } else if (currentIndex == 2) {
       emit(AddPostScreenState());
-    } else if (currentIndex == 3) {
-      emit(ProfilScreenState());
     } else {
-      emit(HomeScreenState());
+      emit(ProfilScreenState());
     }
   }
 }
