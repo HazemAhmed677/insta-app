@@ -10,7 +10,6 @@ class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double hight = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
     return CustomScrollView(
       physics: const BouncingScrollPhysics(
           decelerationRate: ScrollDecelerationRate.fast),
@@ -59,10 +58,24 @@ class ProfileView extends StatelessWidget {
           ),
         ),
         SliverToBoxAdapter(
-          child: CustomInkWell(
-            color: kPink,
-            text: 'Edit profile',
-            onTap: () {},
+          child: SizedBox(
+            height: 0.062 * hight,
+            child: TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: kPink,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              onPressed: () {},
+              child: const Text(
+                'Edit profile',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: kWhite,
+                ),
+              ),
+            ),
           ),
         ),
         SliverToBoxAdapter(
@@ -70,7 +83,7 @@ class ProfileView extends StatelessWidget {
             height: 0.02 * hight,
           ),
         ),
-        ProfileGridView()
+        const ProfileGridView()
       ],
     );
   }
