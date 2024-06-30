@@ -17,9 +17,8 @@ class _SignUpState extends State<SignUp> {
 
   GlobalKey<FormState> formKey = GlobalKey();
   bool obsecure = true;
-  AutovalidateMode autovalidateMode1 = AutovalidateMode.disabled;
-  AutovalidateMode autovalidateMode2 = AutovalidateMode.disabled;
-  AutovalidateMode autovalidateMode3 = AutovalidateMode.disabled;
+  List<AutovalidateMode> autoValidMode =
+      List.filled(3, AutovalidateMode.disabled);
   bool flag1 = false, flag2 = false, flag3 = false;
 
   @override
@@ -70,7 +69,7 @@ class _SignUpState extends State<SignUp> {
                   height: 24,
                 ),
                 CustomTextFormField(
-                  autovalidateMode: autovalidateMode1,
+                  autovalidateMode: autoValidMode[0],
                   flag: flag1,
                   validator: (input) {
                     if (input!.isEmpty) {
@@ -89,7 +88,7 @@ class _SignUpState extends State<SignUp> {
                   height: 20,
                 ),
                 CustomTextFormField(
-                  autovalidateMode: autovalidateMode2,
+                  autovalidateMode: autoValidMode[1],
                   flag: flag2,
                   validator: (input) {
                     if (input!.isEmpty) {
@@ -110,7 +109,7 @@ class _SignUpState extends State<SignUp> {
                   height: 20,
                 ),
                 CustomTextFormField(
-                  autovalidateMode: autovalidateMode3,
+                  autovalidateMode: autoValidMode[2],
                   flag: flag3,
                   onTap: () async {
                     await kAnimateTo(controller);
@@ -147,16 +146,14 @@ class _SignUpState extends State<SignUp> {
                       onTap: () {
                         if (formKey.currentState!.validate()) {
                           formKey.currentState!.save();
-                          autovalidateMode1 = AutovalidateMode.disabled;
-                          autovalidateMode2 = AutovalidateMode.disabled;
-                          autovalidateMode3 = AutovalidateMode.disabled;
+                          for (int i = 0; i < 3; i++) {
+                            autoValidMode[i] = AutovalidateMode.disabled;
+                          }
                         }
-                        autovalidateMode1 = AutovalidateMode.always;
-                        setState(() {});
-                        autovalidateMode2 = AutovalidateMode.always;
-                        setState(() {});
-                        autovalidateMode3 = AutovalidateMode.always;
-                        setState(() {});
+                        for (int i = 0; i < 3; i++) {
+                          autoValidMode[i] = AutovalidateMode.always;
+                          setState(() {});
+                        }
                       },
                       text: 'Sign up'),
                 ),
