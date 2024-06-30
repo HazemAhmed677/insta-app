@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
 
 // ignore: must_be_immutable
-class CustomTextField extends StatefulWidget {
-  CustomTextField({
+class CustomTextFormField extends StatefulWidget {
+  CustomTextFormField({
     super.key,
     required this.label,
     required this.hint,
@@ -26,10 +26,10 @@ class CustomTextField extends StatefulWidget {
   bool flag;
 
   @override
-  State<CustomTextField> createState() => _CustomTextFieldState();
+  State<CustomTextFormField> createState() => _CustomTextFormFieldState();
 }
 
-class _CustomTextFieldState extends State<CustomTextField> {
+class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
