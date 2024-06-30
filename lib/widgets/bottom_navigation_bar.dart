@@ -1,26 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insta_app/constants.dart';
+import 'package:insta_app/cubits/switch_screen_cubit/switch_screens_cubit.dart';
+import 'package:insta_app/views/add_post_view.dart';
+import 'package:insta_app/views/home_view.dart';
+import 'package:insta_app/views/profile_view.dart';
+import 'package:insta_app/views/search_view.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
-  const CustomBottomNavigationBar({super.key});
+  CustomBottomNavigationBar({super.key});
 
+  int currentIndex = 0;
   @override
   State<CustomBottomNavigationBar> createState() =>
       _CustomBottomNavigationBarState();
 }
 
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
-  int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
-    double hight = MediaQuery.of(context).size.height;
     BottomNavigationBarItem getBNBItem(
-        IconData icon, String label, int current) {
+        IconData icon, String label, int current, String view) {
       return BottomNavigationBarItem(
         icon: IconButton(
           onPressed: () {
-            currentIndex = current;
-            setState(() {});
+            widget.currentIndex = current;
+            BlocProvider.of<SwitchScreensCubit>(context)
+                .getScreen(widget.currentIndex);
           },
           icon: Icon(
             icon,
@@ -30,31 +36,25 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       );
     }
 
-    return Container(
-      height: hight * 0.1181,
-      decoration: const BoxDecoration(color: Colors.white),
+    return SizedBox(
+      height: 103,
       child: BottomNavigationBar(
-        currentIndex: currentIndex,
-        elevation: 20,
-        showSelectedLabels: true,
+        mouseCursor: SystemMouseCursors.none,
+        currentIndex: widget.currentIndex,
+        backgroundColor: kBlack,
+        selectedFontSize: 16,
+        enableFeedback: true,
         selectedIconTheme: const IconThemeData(
           size: 40,
-          shadows: [
-            BoxShadow(
-              offset: Offset(2, 2),
-              blurRadius: 20,
-              spreadRadius: 20,
-            ),
-          ],
           color: kPink,
         ),
         type: BottomNavigationBarType.fixed,
         fixedColor: kWhite,
         items: [
-          getBNBItem(Icons.home, 'Home', 0),
-          getBNBItem(Icons.search, 'Search', 1),
-          getBNBItem(Icons.add, 'Post', 2),
-          getBNBItem(Icons.person, 'Profile', 3),
+          getBNBItem(Icons.home, 'Home', 0, HomeView.homeViewId),
+          getBNBItem(Icons.search, 'Search', 1, SearchView.searchId),
+          getBNBItem(Icons.add, 'Post', 2, AddPostView.addPostId),
+          getBNBItem(Icons.person, 'Profile', 3, ProfileView.profileId),
         ],
       ),
     );
