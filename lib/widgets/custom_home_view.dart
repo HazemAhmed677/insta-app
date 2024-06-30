@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:insta_app/constants.dart';
 import 'package:insta_app/helper/post_widget.dart';
 
 class CustomHomeView extends StatelessWidget {
@@ -37,7 +36,7 @@ class CustomHomeView extends StatelessWidget {
           child: ListView.builder(
             itemCount: 10,
             itemBuilder: (context, index) {
-              return CustomPostWidget();
+              return const CustomPostWidget();
             },
           ),
         ),

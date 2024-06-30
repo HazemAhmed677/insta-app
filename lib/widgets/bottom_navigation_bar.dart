@@ -22,6 +22,12 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         IconData icon, String label, int current, String view) {
       return BottomNavigationBarItem(
         icon: IconButton(
+          padding: EdgeInsets.zero,
+          constraints:
+              const BoxConstraints(), // override default min size of 48px
+          style: const ButtonStyle(
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap, // the '2023' part
+          ),
           onPressed: () {
             BlocProvider.of<SwitchScreensCubit>(context).currentIndex = current;
             setState(() {});
@@ -35,7 +41,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     }
 
     return SizedBox(
-      height: 103,
+      height: 90,
       child: BottomNavigationBar(
         currentIndex: BlocProvider.of<SwitchScreensCubit>(context).currentIndex,
         backgroundColor: kBlack,
