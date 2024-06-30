@@ -64,10 +64,10 @@ class CustomPostWidget extends StatelessWidget {
         ),
         TextButton(
           style: TextButton.styleFrom(
-              padding: EdgeInsets.zero,
-              minimumSize: const Size(50, 30),
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              alignment: Alignment.centerLeft),
+            padding: EdgeInsets.only(left: 1, right: 4),
+            minimumSize: const Size(50, 30),
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
           onPressed: () {},
           child: const Text(
             'Add comment',

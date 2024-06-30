@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:insta_app/constants.dart';
 
 class AddPostView extends StatelessWidget {
   const AddPostView({super.key});

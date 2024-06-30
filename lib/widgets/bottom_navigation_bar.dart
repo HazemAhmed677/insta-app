@@ -22,7 +22,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         IconData icon, String label, int current, String view) {
       return BottomNavigationBarItem(
         icon: IconButton(
-          padding: EdgeInsets.zero,
+          padding: EdgeInsets.all(0),
           constraints:
               const BoxConstraints(), // override default min size of 48px
           style: const ButtonStyle(
