@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:insta_app/helper/post_widget.dart';
-import 'package:insta_app/views/sign_in_view.dart';
 
 class CustomHomeView extends StatelessWidget {
   const CustomHomeView({super.key});
@@ -22,37 +20,42 @@ class CustomHomeView extends StatelessWidget {
                   fontSize: 36,
                 ),
               ),
-              IconButton(
-                onPressed: () async {
-                  AlertDialog alert = AlertDialog(
-                    title: const Text('Are you sure?'),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context)
-                            ..pop()
-                            ..pop();
-                        },
-                        child: const Text('yes'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('no'),
-                      ),
-                    ],
-                  );
-                  return await showDialog(
-                    context: context,
-                    builder: (context) => alert,
-                  );
-                },
-                icon: const Icon(
-                  Icons.logout,
-                  size: 26,
+              Tooltip(
+                message: 'Log out',
+                showDuration: const Duration(milliseconds: 500),
+                child: IconButton(
+                  onPressed: () async {
+                    AlertDialog alert = AlertDialog(
+                      backgroundColor: Colors.black,
+                      shadowColor: Colors.grey.shade800,
+                      title: const Text('Are you sure?'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('No'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context)
+                              ..pop()
+                              ..pop();
+                          },
+                          child: const Text('Yes'),
+                        ),
+                      ],
+                    );
+                    return await showDialog(
+                      context: context,
+                      builder: (context) => alert,
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.logout,
+                    size: 26,
+                  ),
                 ),
-                tooltip: 'Log out',
               )
             ],
           ),
@@ -63,7 +66,7 @@ class CustomHomeView extends StatelessWidget {
           ),
         ),
         SliverList.builder(
-          itemCount: 10,
+          itemCount: 4,
           itemBuilder: (context, index) {
             return const CustomPostWidget();
           },
