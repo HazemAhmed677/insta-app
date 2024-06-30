@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 const kImage = 'assets/images/logo.jpg';
-const kPink = Color.fromARGB(255, 198, 115, 221);
+const kPink = Colors.pink;
 const kBlack = Colors.black;
 const kWhite = Colors.white;
 Future<void> kAnimateTo(ScrollController controller) async {
