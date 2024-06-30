@@ -143,6 +143,7 @@ class _SignUpState extends State<SignUp> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8),
                   child: CustomInkWell(
+                      color: Colors.blue.withOpacity(0.88),
                       onTap: () {
                         if (formKey.currentState!.validate()) {
                           formKey.currentState!.save();

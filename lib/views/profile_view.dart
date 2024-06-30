@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/helper/profile_helper.dart';
+import 'package:insta_app/widgets/custom_ink_well.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
@@ -48,7 +49,24 @@ class ProfileView extends StatelessWidget {
               ),
             ],
           ),
-        )
+        ),
+        SliverToBoxAdapter(
+          child: SizedBox(
+            height: 0.02 * hight,
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: CustomInkWell(
+            color: kPink,
+            text: 'Edit profile',
+            onTap: () {},
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: SizedBox(
+            height: 0.02 * hight,
+          ),
+        ),
       ],
     );
   }
