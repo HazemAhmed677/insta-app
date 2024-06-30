@@ -41,7 +41,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     }
 
     return SizedBox(
-      height: 90,
+      height: 79,
       child: BottomNavigationBar(
         currentIndex: BlocProvider.of<SwitchScreensCubit>(context).currentIndex,
         backgroundColor: kBlack,

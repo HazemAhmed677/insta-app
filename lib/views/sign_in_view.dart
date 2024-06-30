@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/views/home_view.dart';
 import 'package:insta_app/widgets/custom_ink_well.dart';
-import 'package:insta_app/widgets/custom_text_field.dart';
+import 'package:insta_app/widgets/custom_text_form_field.dart';
 import 'package:insta_app/widgets/sign_up_word.dart';
 
 class SignIn extends StatefulWidget {
@@ -52,7 +52,7 @@ class _SignInState extends State<SignIn> {
                 const SizedBox(
                   height: 24,
                 ),
-                CustomTextField(
+                CustomTextFormField(
                   autovalidateMode: autovalidateMode1,
                   flag: flag1,
                   validator: (input) {
@@ -70,7 +70,7 @@ class _SignInState extends State<SignIn> {
                 const SizedBox(
                   height: 20,
                 ),
-                CustomTextField(
+                CustomTextFormField(
                   onTap: () async {
                     await kAnimateTo(controller);
                   },

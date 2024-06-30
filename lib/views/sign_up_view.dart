@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/widgets/custom_ink_well.dart';
 import 'package:insta_app/widgets/custom_question_text.dart';
-import 'package:insta_app/widgets/custom_text_field.dart';
+import 'package:insta_app/widgets/custom_text_form_field.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -69,7 +69,7 @@ class _SignUpState extends State<SignUp> {
                 const SizedBox(
                   height: 24,
                 ),
-                CustomTextField(
+                CustomTextFormField(
                   autovalidateMode: autovalidateMode1,
                   flag: flag1,
                   validator: (input) {
@@ -88,7 +88,7 @@ class _SignUpState extends State<SignUp> {
                 const SizedBox(
                   height: 20,
                 ),
-                CustomTextField(
+                CustomTextFormField(
                   autovalidateMode: autovalidateMode2,
                   flag: flag2,
                   validator: (input) {
@@ -109,7 +109,7 @@ class _SignUpState extends State<SignUp> {
                 const SizedBox(
                   height: 20,
                 ),
-                CustomTextField(
+                CustomTextFormField(
                   autovalidateMode: autovalidateMode3,
                   flag: flag3,
                   onTap: () async {
