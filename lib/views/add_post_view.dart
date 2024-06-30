@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:insta_app/constants.dart';
 
 class AddPostView extends StatelessWidget {
   const AddPostView({super.key});
@@ -56,14 +57,15 @@ class AddPostView extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: hight * 0.015,
+            height: hight * 0.018,
           ),
           const TextField(
+            cursorColor: kPink,
             maxLines: 12,
             decoration: InputDecoration(
               hintText: 'Add caption',
               hintStyle: TextStyle(
-                fontSize: 18,
+                fontSize: 16,
               ),
               focusedBorder: InputBorder.none,
               border: InputBorder.none,

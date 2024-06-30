@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:insta_app/helper/post_widget.dart';
+import 'package:insta_app/views/sign_in_view.dart';
 
 class CustomHomeView extends StatelessWidget {
   const CustomHomeView({super.key});
@@ -22,17 +23,43 @@ class CustomHomeView extends StatelessWidget {
                 ),
               ),
               IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.logout,
-                    size: 26,
-                  ))
+                onPressed: () async {
+                  AlertDialog alert = AlertDialog(
+                    title: const Text('Are you sure?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context)
+                            ..pop()
+                            ..pop();
+                        },
+                        child: const Text('yes'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text('no'),
+                      ),
+                    ],
+                  );
+                  return await showDialog(
+                    context: context,
+                    builder: (context) => alert,
+                  );
+                },
+                icon: const Icon(
+                  Icons.logout,
+                  size: 26,
+                ),
+                tooltip: 'Log out',
+              )
             ],
           ),
         ),
         SliverToBoxAdapter(
           child: SizedBox(
-            height: hight * 0.20,
+            height: hight * 0.18,
           ),
         ),
         SliverList.builder(

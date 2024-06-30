@@ -32,8 +32,11 @@ class CustomPostWidget extends StatelessWidget {
         SizedBox(
           height: 0.02 * hight,
         ),
-        Image.asset(
-          kImage,
+        ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: Image.asset(
+            kImage,
+          ),
         ),
         const SizedBox(
           height: 20,
@@ -64,7 +67,7 @@ class CustomPostWidget extends StatelessWidget {
         ),
         TextButton(
           style: TextButton.styleFrom(
-            padding: EdgeInsets.only(left: 1, right: 4),
+            padding: const EdgeInsets.only(left: 1, right: 4),
             minimumSize: const Size(50, 30),
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),

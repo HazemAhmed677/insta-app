@@ -78,7 +78,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: const BorderSide(
-            color: kPink,
+            color: kPuple,
           ),
           borderRadius: BorderRadius.circular(6),
         ),
