@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/helper/profile_grid_view.dart';
 import 'package:insta_app/helper/profile_helper.dart';
-import 'package:insta_app/widgets/custom_ink_well.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
