@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insta_app/cubits/switch_screen_cubit/switch_screens_cubit.dart';
@@ -8,7 +9,10 @@ import 'package:insta_app/views/search_view.dart';
 import 'package:insta_app/views/sign_in_view.dart';
 import 'package:insta_app/views/sign_up_view.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   runApp(const InstaApp());
 }
 
