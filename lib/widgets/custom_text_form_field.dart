@@ -22,6 +22,7 @@ class CustomTextFormField extends StatefulWidget {
   final Function()? onTap;
   final String? Function(String?)? validator;
   Function(String)? onChange;
+
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
 }
@@ -37,7 +38,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       obscureText: widget.obsecure,
       decoration: InputDecoration(
         suffixIcon: widget.passwordIcon,
-        suffixIconColor: Colors.grey,
+        suffixIconColor: Colors.grey.shade400,
         label: Text(
           widget.label,
         ),

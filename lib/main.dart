@@ -34,7 +34,7 @@ class InstaApp extends StatelessWidget {
           AddPostView.addPostId: (context) => const AddPostView(),
           ProfileView.profileId: (context) => const ProfileView()
         },
-        initialRoute: SignIn.signInId,
+        initialRoute: HomeView.homeViewId,
       ),
     );
   }
