@@ -12,8 +12,6 @@ class CustomTextFormField extends StatefulWidget {
     this.autoFocus = false,
     this.passwordIcon,
     this.validator,
-    required this.flag,
-    required this.autovalidateMode,
     this.onChange,
   });
   final String label;
@@ -23,8 +21,6 @@ class CustomTextFormField extends StatefulWidget {
   final IconButton? passwordIcon;
   final Function()? onTap;
   final String? Function(String?)? validator;
-  AutovalidateMode autovalidateMode;
-  bool flag;
   Function(String)? onChange;
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
@@ -34,7 +30,6 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      autovalidateMode: widget.autovalidateMode,
       onChanged: widget.onChange,
       validator: widget.validator,
       onTap: widget.onTap,
@@ -42,7 +37,10 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       obscureText: widget.obsecure,
       decoration: InputDecoration(
         suffixIcon: widget.passwordIcon,
-        label: Text(widget.label),
+        suffixIconColor: Colors.grey,
+        label: Text(
+          widget.label,
+        ),
         hintText: widget.hint,
         contentPadding:
             const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
@@ -51,7 +49,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(6),
-          borderSide: const BorderSide(color: kPink),
+          borderSide: const BorderSide(
+            color: kPuple,
+          ),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Colors.white),

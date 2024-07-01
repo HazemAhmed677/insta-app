@@ -68,8 +68,6 @@ class _SignUpState extends State<SignUp> {
                     height: hight * 0.028,
                   ),
                   CustomTextFormField(
-                    autovalidateMode: autoValidMode[0],
-                    flag: flag1,
                     validator: (input) {
                       if (input!.isEmpty) {
                         return 'please enter your name';
@@ -87,8 +85,6 @@ class _SignUpState extends State<SignUp> {
                     height: hight * 0.020,
                   ),
                   CustomTextFormField(
-                    autovalidateMode: autoValidMode[1],
-                    flag: flag2,
                     validator: (input) {
                       if (input!.isEmpty) {
                         return 'please enter your email';
@@ -109,8 +105,6 @@ class _SignUpState extends State<SignUp> {
                     height: hight * 0.020,
                   ),
                   CustomTextFormField(
-                    autovalidateMode: autoValidMode[2],
-                    flag: flag3,
                     onTap: () async {
                       await kAnimateTo(controller);
                     },
