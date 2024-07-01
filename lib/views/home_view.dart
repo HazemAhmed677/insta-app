@@ -1,13 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insta_app/constants.dart';
-import 'package:insta_app/cubits/switch_screen_cubit/switch_screen_cubit_states.dart';
-import 'package:insta_app/cubits/switch_screen_cubit/switch_screens_cubit.dart';
-import 'package:insta_app/views/add_post_view.dart';
-import 'package:insta_app/views/profile_view.dart';
-import 'package:insta_app/views/search_view.dart';
-import 'package:insta_app/widgets/bottom_navigation_bar.dart';
-import 'package:insta_app/widgets/custom_home_view.dart';
+import 'package:insta_app/helper/modal_progress_hud_helper.dart';
+import 'package:insta_app/helper/show_snack_bar_function.dart';
+import 'package:insta_app/views/sign_in_view.dart';
+import 'package:insta_app/widgets/trigger_switch_cubit.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -20,25 +18,23 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SwitchScreensCubit, SwitchScreensStates>(
-      builder: (context, state) {
-        return SafeArea(
-          child: Scaffold(
-            backgroundColor: kBlack,
-            body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 14.0),
-              child: (state is HomeScreenState)
-                  ? const CustomHomeView()
-                  : (state is SearchScreenState)
-                      ? const SearchView()
-                      : (state is AddPostScreenState)
-                          ? const AddPostView()
-                          : const ProfileView(),
-            ),
-            bottomNavigationBar: const CustomBottomNavigationBar(),
-          ),
-        );
-      },
-    );
+    return StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const ModalProgressHudHelper(child: Scaffold());
+          }
+          if (snapshot.hasError) {
+            return getShowSnackBar(context, ' error occured');
+          }
+
+          if (snapshot.data == null) {
+            return const SignIn();
+          }
+          if (snapshot.hasData) {
+            return const TriggerSwitchCubit();
+          }
+          return const SizedBox();
+        });
   }
 }

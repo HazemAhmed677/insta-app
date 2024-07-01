@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
+import 'package:insta_app/helper/modal_progress_hud_helper.dart';
 import 'package:insta_app/helper/show_snack_bar_function.dart';
 import 'package:insta_app/views/home_view.dart';
 import 'package:insta_app/widgets/custom_ink_well.dart';
 import 'package:insta_app/widgets/custom_question_text.dart';
 import 'package:insta_app/widgets/custom_stack_widget.dart';
 import 'package:insta_app/widgets/custom_text_form_field.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -34,11 +34,7 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     double hight = MediaQuery.of(context).size.height;
     return SafeArea(
-      child: ModalProgressHUD(
-        blur: 1.5,
-        color: kBlack,
-        opacity: 0.3,
-        inAsyncCall: isLoading,
+      child: ModalProgressHudHelper(
         child: Scaffold(
           backgroundColor: Colors.black,
           body: Padding(
