@@ -12,7 +12,7 @@ getShowSnackBar(BuildContext context, String content) {
         ),
       ),
       duration: const Duration(milliseconds: 1500),
-      backgroundColor: kPink,
+      backgroundColor: kPink.shade500,
       content: Text(
         content,
         style: const TextStyle(
