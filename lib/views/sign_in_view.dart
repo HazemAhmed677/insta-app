@@ -67,8 +67,6 @@ class _SignInState extends State<SignIn> {
                     height: hight * 0.017,
                   ),
                   CustomTextFormField(
-                    autovalidateMode: autoValidateMode[0],
-                    flag: flag1,
                     validator: (input) {
                       if (input!.isEmpty) {
                         return 'please enter your email';
@@ -95,8 +93,6 @@ class _SignInState extends State<SignIn> {
                     onTap: () async {
                       await kAnimateTo(controller);
                     },
-                    autovalidateMode: autoValidateMode[1],
-                    flag: flag2,
                     validator: (input) {
                       if (input!.isEmpty) {
                         return 'please enter password';
@@ -110,7 +106,6 @@ class _SignInState extends State<SignIn> {
                         flag2 = true;
                         password = data;
                       } else if (flag2) {
-                        autoValidateMode[1] = AutovalidateMode.disabled;
                         setState(() {});
                       }
                     },
@@ -185,6 +180,8 @@ class _SignInState extends State<SignIn> {
                             autoValidateMode[i] = AutovalidateMode.disabled;
                           }
                         }
+                        flag1 = false;
+                        flag2 = false;
                         for (int i = 0; i < 1; i++) {
                           autoValidateMode[i] = AutovalidateMode.always;
                           setState(() {});

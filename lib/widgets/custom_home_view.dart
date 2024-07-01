@@ -1,9 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:insta_app/constants.dart';
 import 'package:insta_app/helper/post_widget.dart';
 
-class CustomHomeView extends StatelessWidget {
+class CustomHomeView extends StatefulWidget {
   const CustomHomeView({super.key});
 
+  @override
+  State<CustomHomeView> createState() => _CustomHomeViewState();
+}
+
+class _CustomHomeViewState extends State<CustomHomeView> {
   @override
   Widget build(BuildContext context) {
     double hight = MediaQuery.of(context).size.height;
@@ -28,21 +35,40 @@ class CustomHomeView extends StatelessWidget {
                     AlertDialog alert = AlertDialog(
                       backgroundColor: Colors.black,
                       shadowColor: Colors.grey.shade800,
-                      title: const Text('Are you sure?'),
+                      title: const Text('Log out of you account?'),
                       actions: [
                         TextButton(
                           onPressed: () {
                             Navigator.pop(context);
                           },
-                          child: const Text('No'),
+                          child: const Text(
+                            'Cancel',
+                            style: TextStyle(
+                              color: kWhite,
+                            ),
+                          ),
                         ),
                         TextButton(
-                          onPressed: () {
-                            Navigator.of(context)
-                              ..pop()
-                              ..pop();
+                          onPressed: () async {
+                            try {
+                              await FirebaseAuth.instance.signOut();
+                              if (mounted) {
+                                setState(() {
+                                  Navigator.of(context)
+                                    ..pop()
+                                    ..pop();
+                                });
+                              }
+                            } catch (e) {
+                              print(e.toString());
+                            }
                           },
-                          child: const Text('Yes'),
+                          child: const Text(
+                            'Log out',
+                            style: TextStyle(
+                              color: kPink,
+                            ),
+                          ),
                         ),
                       ],
                     );
