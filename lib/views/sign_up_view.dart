@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/widgets/custom_ink_well.dart';
 import 'package:insta_app/widgets/custom_question_text.dart';
+import 'package:insta_app/widgets/custom_stack_widget.dart';
 import 'package:insta_app/widgets/custom_text_form_field.dart';
 
 class SignUp extends StatefulWidget {
@@ -25,16 +26,10 @@ class _SignUpState extends State<SignUp> {
   bool flag1 = false, flag2 = false, flag3 = false;
 
   File? selectedImage;
-  Future<void> selectImage() async {
-    var image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      selectedImage = File(image.path);
-      setState(() {});
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
+    double hight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.black,
@@ -50,7 +45,7 @@ class _SignUpState extends State<SignUp> {
               controller: controller,
               children: [
                 SizedBox(
-                  height: 0.13 * MediaQuery.of(context).size.height,
+                  height: 0.125 * hight,
                 ),
                 const Center(
                   child: Text(
@@ -61,29 +56,12 @@ class _SignUpState extends State<SignUp> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 16,
+                SizedBox(
+                  height: hight * 0.025,
                 ),
-                CircleAvatar(
-                  backgroundColor: Colors.grey.shade300,
-                  backgroundImage: (selectedImage != null)
-                      ? FileImage(selectedImage!)
-                      : null,
-                  maxRadius: 48,
-                  child: IconButton(
-                    onPressed: () async {
-                      await selectImage();
-                    },
-                    highlightColor: Colors.grey.shade400,
-                    icon: const Icon(
-                      Icons.add_a_photo_outlined,
-                      color: kPink,
-                      size: 30,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 24,
+                const CustomStackWidget(),
+                SizedBox(
+                  height: hight * 0.025,
                 ),
                 CustomTextFormField(
                   autovalidateMode: autoValidMode[0],
@@ -101,8 +79,8 @@ class _SignUpState extends State<SignUp> {
                   hint: 'Enter username',
                   autoFocus: true,
                 ),
-                const SizedBox(
-                  height: 20,
+                SizedBox(
+                  height: hight * 0.022,
                 ),
                 CustomTextFormField(
                   autovalidateMode: autoValidMode[1],
@@ -122,8 +100,8 @@ class _SignUpState extends State<SignUp> {
                   label: 'email',
                   hint: 'Enter email',
                 ),
-                const SizedBox(
-                  height: 20,
+                SizedBox(
+                  height: hight * 0.022,
                 ),
                 CustomTextFormField(
                   autovalidateMode: autoValidMode[2],
@@ -153,8 +131,8 @@ class _SignUpState extends State<SignUp> {
                         : const Icon(Icons.visibility),
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
+                SizedBox(
+                  height: hight * 0.024,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8),

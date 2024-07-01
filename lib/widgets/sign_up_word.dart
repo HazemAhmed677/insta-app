@@ -11,7 +11,7 @@ class SignUpWord extends StatelessWidget {
       child: SizedBox(
         width: 85,
         child: Padding(
-          padding: const EdgeInsets.only(bottom: 14.0),
+          padding: const EdgeInsets.only(bottom: 28.0),
           child: InkWell(
             highlightColor: const Color.fromARGB(255, 106, 115, 122),
             borderRadius: BorderRadius.circular(16),
