@@ -4,6 +4,7 @@ import 'package:insta_app/constants.dart';
 getShowSnackBar(BuildContext context, String content) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 13),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(10),
