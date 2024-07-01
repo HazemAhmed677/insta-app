@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/widgets/custom_ink_well.dart';
 import 'package:insta_app/widgets/custom_question_text.dart';
