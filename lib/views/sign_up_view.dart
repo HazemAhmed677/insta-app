@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/widgets/custom_ink_well.dart';
@@ -23,7 +24,7 @@ class _SignUpState extends State<SignUp> {
   List<AutovalidateMode> autoValidMode =
       List.filled(3, AutovalidateMode.disabled);
   bool flag1 = false, flag2 = false, flag3 = false;
-
+  String? email, password;
   File? selectedImage;
 
   @override
@@ -90,6 +91,7 @@ class _SignUpState extends State<SignUp> {
                     } else if (!input.contains('@')) {
                       return 'enter a valid email';
                     } else {
+                      email = input;
                       return null;
                     }
                   },
@@ -114,6 +116,7 @@ class _SignUpState extends State<SignUp> {
                     } else if (input.length < 8) {
                       return 'enter 8 characters at least';
                     } else {
+                      password = input;
                       return null;
                     }
                   },
@@ -137,9 +140,27 @@ class _SignUpState extends State<SignUp> {
                   padding: const EdgeInsets.only(bottom: 8),
                   child: CustomInkWell(
                       color: Colors.blue.withOpacity(0.88),
-                      onTap: () {
+                      onTap: () async {
                         if (formKey.currentState!.validate()) {
                           formKey.currentState!.save();
+                          // firebase code
+                          try {
+                            final credential = await FirebaseAuth.instance
+                                .createUserWithEmailAndPassword(
+                              email: email!,
+                              password: password!,
+                            );
+                          } on FirebaseAuthException catch (e) {
+                            if (e.code == 'weak-password') {
+                              print('The password provided is too weak.');
+                            } else if (e.code == 'email-already-in-use') {
+                              print(
+                                  'The account already exists for that email.');
+                            }
+                          } catch (e) {
+                            print(e);
+                          }
+
                           for (int i = 0; i < 3; i++) {
                             autoValidMode[i] = AutovalidateMode.disabled;
                           }
