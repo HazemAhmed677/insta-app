@@ -5,7 +5,7 @@ getShowSnackBar(BuildContext context, String content) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       padding: const EdgeInsets.symmetric(
-        vertical: 10,
+        vertical: 12,
         horizontal: 13,
       ),
       shape: const RoundedRectangleBorder(

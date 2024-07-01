@@ -62,7 +62,7 @@ class _SignUpState extends State<SignUp> {
                     ),
                   ),
                   SizedBox(
-                    height: hight * 0.025,
+                    height: hight * 0.024,
                   ),
                   const CustomStackWidget(),
                   SizedBox(
@@ -129,7 +129,10 @@ class _SignUpState extends State<SignUp> {
                       },
                       icon: (obsecure)
                           ? const Icon(Icons.visibility_off)
-                          : const Icon(Icons.visibility),
+                          : const Icon(
+                              Icons.visibility,
+                              color: kPink,
+                            ),
                     ),
                   ),
                   SizedBox(
@@ -160,13 +163,16 @@ class _SignUpState extends State<SignUp> {
                               }
                             } on FirebaseAuthException catch (e) {
                               if (e.code == 'email-already-in-use') {
-                                if (mounted) {
-                                  setState(() {
-                                    isLoading = false;
-                                    getShowSnackBar(
-                                        context, 'Email already exists');
-                                  });
-                                }
+                                setState(() {
+                                  isLoading = false;
+                                  getShowSnackBar(
+                                      context, 'Email already exists');
+                                });
+                              } else {
+                                setState(() {
+                                  isLoading = false;
+                                  getShowSnackBar(context, 'email not valid');
+                                });
                               }
                             } catch (e) {
                               print(e);

@@ -38,8 +38,8 @@ class _CustomStackWidgetState extends State<CustomStackWidget> {
             maxRadius: 48,
           ),
           Positioned(
-            top: hight * 0.085,
-            left: width * 0.0865,
+            top: hight * 0.084,
+            left: width * 0.086,
             child: IconButton(
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),
@@ -53,7 +53,7 @@ class _CustomStackWidgetState extends State<CustomStackWidget> {
               icon: const Icon(
                 Icons.add_a_photo_outlined,
                 color: kPink,
-                size: 22,
+                size: 24,
               ),
             ),
           ),

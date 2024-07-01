@@ -7,7 +7,6 @@ import 'package:insta_app/views/home_view.dart';
 import 'package:insta_app/widgets/custom_ink_well.dart';
 import 'package:insta_app/widgets/custom_text_form_field.dart';
 import 'package:insta_app/widgets/sign_up_word.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
