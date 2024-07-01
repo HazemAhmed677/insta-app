@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
+import 'package:insta_app/helper/show_snack_bar_function.dart';
 import 'package:insta_app/views/home_view.dart';
 import 'package:insta_app/widgets/custom_ink_well.dart';
 import 'package:insta_app/widgets/custom_text_form_field.dart';
@@ -17,12 +19,13 @@ class _SignInState extends State<SignIn> {
   bool obsecure = true;
   ScrollController controller = ScrollController();
   GlobalKey<FormState> formKey = GlobalKey();
-  AutovalidateMode autovalidateMode1 = AutovalidateMode.disabled;
-  AutovalidateMode autovalidateMode2 = AutovalidateMode.disabled;
+  List<AutovalidateMode> autoValidateMode =
+      List.filled(2, AutovalidateMode.disabled);
   bool flag1 = false, flag2 = false;
-
+  String? email, password;
   @override
   Widget build(BuildContext context) {
+    double hight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.black,
@@ -38,7 +41,7 @@ class _SignInState extends State<SignIn> {
               controller: controller,
               children: [
                 SizedBox(
-                  height: 0.25 * MediaQuery.of(context).size.height,
+                  height: 0.25 * hight,
                 ),
                 const Center(
                   child: Text(
@@ -49,39 +52,37 @@ class _SignInState extends State<SignIn> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 24,
+                SizedBox(
+                  height: hight * 0.017,
                 ),
                 CustomTextFormField(
-                  autovalidateMode: autovalidateMode1,
+                  autovalidateMode: autoValidateMode[0],
                   flag: flag1,
                   validator: (input) {
                     if (input!.isEmpty) {
                       return 'please enter your email';
-                    } else if (!input.contains('@')) {
-                      return 'enter a valid email';
                     } else {
+                      email = input;
                       return null;
                     }
                   },
                   label: 'email',
                   hint: 'Enter email',
                 ),
-                const SizedBox(
-                  height: 20,
+                SizedBox(
+                  height: hight * 0.022,
                 ),
                 CustomTextFormField(
                   onTap: () async {
                     await kAnimateTo(controller);
                   },
-                  autovalidateMode: autovalidateMode2,
+                  autovalidateMode: autoValidateMode[1],
                   flag: flag2,
                   validator: (input) {
                     if (input!.isEmpty) {
                       return 'please enter password';
-                    } else if (input.length < 8) {
-                      return 'enter 8 characters at least';
                     } else {
+                      password = input;
                       return null;
                     }
                   },
@@ -98,26 +99,56 @@ class _SignInState extends State<SignIn> {
                         : const Icon(Icons.visibility),
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
+                SizedBox(
+                  height: hight * 0.025,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8),
                   child: CustomInkWell(
+                    text: 'Log in',
                     color: Colors.blue.withOpacity(0.88),
-                    onTap: () {
+                    onTap: () async {
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
-                        autovalidateMode1 = AutovalidateMode.disabled;
-                        autovalidateMode2 = AutovalidateMode.disabled;
-                        Navigator.pushNamed(context, HomeView.homeViewId);
+                        // firebase auth code
+                        try {
+                          await logIn();
+                          if (mounted) {
+                            setState(() {
+                              Navigator.pushNamed(
+                                context,
+                                HomeView.homeViewId,
+                              );
+                            });
+                          }
+                        } on FirebaseAuthException catch (e) {
+                          if (e.code == 'user-not-found') {
+                            if (mounted) {
+                              setState(() {
+                                getShowSnackBar(context, 'No account found');
+                              });
+                            } else if (e.code == 'wrong-password') {
+                              setState(() {
+                                getShowSnackBar(context, 'Wrong password');
+                              });
+                            }
+                          }
+                        } catch (e) {
+                          if (mounted) {
+                            setState(() {
+                              getShowSnackBar(context, e.toString());
+                            });
+                          }
+                        }
+                        for (int i = 0; i < 1; i++) {
+                          autoValidateMode[i] = AutovalidateMode.disabled;
+                        }
                       }
-                      autovalidateMode1 = AutovalidateMode.always;
-                      setState(() {});
-                      autovalidateMode2 = AutovalidateMode.always;
-                      setState(() {});
+                      for (int i = 0; i < 1; i++) {
+                        autoValidateMode[i] = AutovalidateMode.always;
+                        setState(() {});
+                      }
                     },
-                    text: 'Log in',
                   ),
                 ),
                 const SignUpWord(),
@@ -126,6 +157,13 @@ class _SignInState extends State<SignIn> {
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> logIn() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email!,
+      password: password!,
     );
   }
 }

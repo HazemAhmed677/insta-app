@@ -69,7 +69,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                   const CustomStackWidget(),
                   SizedBox(
-                    height: hight * 0.025,
+                    height: hight * 0.028,
                   ),
                   CustomTextFormField(
                     autovalidateMode: autoValidMode[0],
@@ -167,19 +167,12 @@ class _SignUpState extends State<SignUp> {
                                 });
                               }
                             } on FirebaseAuthException catch (e) {
-                              if (e.code == 'weak-password') {
-                                if (mounted) {
-                                  setState(() {
-                                    isLoading = false;
-                                    getShowSnackBar(context, 'weak password');
-                                  });
-                                }
-                              } else if (e.code == 'email-already-in-use') {
+                              if (e.code == 'email-already-in-use') {
                                 if (mounted) {
                                   setState(() {
                                     isLoading = false;
                                     getShowSnackBar(
-                                        context, 'email already exists');
+                                        context, 'Email already exists');
                                   });
                                 }
                               }
