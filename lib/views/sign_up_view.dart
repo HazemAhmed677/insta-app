@@ -35,6 +35,7 @@ class _SignUpState extends State<SignUp> {
     double hight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: ModalProgressHudHelper(
+        isLoading: isLoading,
         child: Scaffold(
           backgroundColor: Colors.black,
           body: Padding(
@@ -155,6 +156,7 @@ class _SignUpState extends State<SignUp> {
                                   Navigator.pushNamed(
                                       context, HomeView.homeViewId);
                                 });
+                                formKey.currentState!.reset();
                               }
                             } on FirebaseAuthException catch (e) {
                               if (e.code == 'email-already-in-use') {

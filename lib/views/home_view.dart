@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:insta_app/constants.dart';
 import 'package:insta_app/helper/modal_progress_hud_helper.dart';
 import 'package:insta_app/helper/show_snack_bar_function.dart';
 import 'package:insta_app/views/sign_in_view.dart';
@@ -20,12 +21,13 @@ class _HomeViewState extends State<HomeView> {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const ModalProgressHudHelper(child: Scaffold());
+            return const CircularProgressIndicator(
+              color: kPink,
+            );
           }
           if (snapshot.hasError) {
             return getShowSnackBar(context, ' error occured');
           }
-
           if (snapshot.data == null) {
             return const SignIn();
           }
