@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
+import 'package:insta_app/helper/show_snack_bar_function.dart';
+import 'package:insta_app/views/home_view.dart';
 import 'package:insta_app/widgets/custom_ink_well.dart';
 import 'package:insta_app/widgets/custom_question_text.dart';
 import 'package:insta_app/widgets/custom_stack_widget.dart';
@@ -134,7 +136,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
                 SizedBox(
-                  height: hight * 0.024,
+                  height: hight * 0.020,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8),
@@ -145,20 +147,30 @@ class _SignUpState extends State<SignUp> {
                           formKey.currentState!.save();
                           // firebase code
                           try {
-                            final credential = await FirebaseAuth.instance
-                                .createUserWithEmailAndPassword(
-                              email: email!,
-                              password: password!,
-                            );
+                            await createUser();
+                            if (mounted) {
+                              setState(() {
+                                Navigator.pushNamed(
+                                    context, HomeView.homeViewId);
+                              });
+                            }
                           } on FirebaseAuthException catch (e) {
                             if (e.code == 'weak-password') {
-                              print('The password provided is too weak.');
+                              if (mounted) {
+                                setState(() {
+                                  getShowSnackBar(context, 'weak password');
+                                });
+                              }
                             } else if (e.code == 'email-already-in-use') {
-                              print(
-                                  'The account already exists for that email.');
+                              if (mounted) {
+                                setState(() {
+                                  getShowSnackBar(
+                                      context, 'email already exists');
+                                });
+                              }
                             }
                           } catch (e) {
-                            print(e);
+                            print(e.toString());
                           }
 
                           for (int i = 0; i < 3; i++) {
@@ -186,6 +198,13 @@ class _SignUpState extends State<SignUp> {
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> createUser() async {
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: email!,
+      password: password!,
     );
   }
 }
