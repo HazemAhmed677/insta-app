@@ -73,8 +73,16 @@ class _SignInState extends State<SignIn> {
                       if (input!.isEmpty) {
                         return 'please enter your email';
                       } else {
-                        email = input;
                         return null;
+                      }
+                    },
+                    onChange: (data) {
+                      if (data.isNotEmpty && data.contains('@')) {
+                        autoValidateMode[0] = AutovalidateMode.disabled;
+                        flag1 = true;
+                        email = data;
+                      } else if (flag1) {
+                        setState(() {});
                       }
                     },
                     label: 'email',
@@ -93,8 +101,17 @@ class _SignInState extends State<SignIn> {
                       if (input!.isEmpty) {
                         return 'please enter password';
                       } else {
-                        password = input;
                         return null;
+                      }
+                    },
+                    onChange: (data) {
+                      if (data.isNotEmpty && data.length >= 6) {
+                        autoValidateMode[1] = AutovalidateMode.disabled;
+                        flag2 = true;
+                        password = data;
+                      } else if (flag2) {
+                        autoValidateMode[1] = AutovalidateMode.disabled;
+                        setState(() {});
                       }
                     },
                     label: 'password',
@@ -107,7 +124,10 @@ class _SignInState extends State<SignIn> {
                       },
                       icon: (obsecure)
                           ? const Icon(Icons.visibility_off)
-                          : const Icon(Icons.visibility),
+                          : const Icon(
+                              Icons.visibility,
+                              color: kPink,
+                            ),
                     ),
                   ),
                   SizedBox(
@@ -183,13 +203,7 @@ class _SignInState extends State<SignIn> {
   }
 
   Future signInWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-    var credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-    await FirebaseAuth.instance.signInWithCredential(credential);
+    await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email!, password: password!);
   }
 }

@@ -14,6 +14,7 @@ class CustomTextFormField extends StatefulWidget {
     this.validator,
     required this.flag,
     required this.autovalidateMode,
+    this.onChange,
   });
   final String label;
   final String hint;
@@ -24,7 +25,7 @@ class CustomTextFormField extends StatefulWidget {
   final String? Function(String?)? validator;
   AutovalidateMode autovalidateMode;
   bool flag;
-
+  Function(String)? onChange;
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
 }
@@ -34,31 +35,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   Widget build(BuildContext context) {
     return TextFormField(
       autovalidateMode: widget.autovalidateMode,
-      onChanged: (input) {
-        if (widget.label == 'username') {
-          if (input.isNotEmpty && input.length >= 4) {
-            widget.autovalidateMode = AutovalidateMode.disabled;
-            widget.flag = true;
-          } else if (widget.flag) {
-            setState(() {});
-          }
-        } else if (widget.label == 'email') {
-          if (input.isNotEmpty && input.contains('@')) {
-            widget.autovalidateMode = AutovalidateMode.disabled;
-            widget.flag = true;
-          } else if (widget.flag) {
-            setState(() {});
-          }
-        } else {
-          if (input.isNotEmpty && input.length >= 8) {
-            widget.autovalidateMode = AutovalidateMode.disabled;
-            widget.flag = true;
-          } else if (widget.flag) {
-            widget.autovalidateMode = AutovalidateMode.disabled;
-            setState(() {});
-          }
-        }
-      },
+      onChanged: widget.onChange,
       validator: widget.validator,
       onTap: widget.onTap,
       autofocus: widget.autoFocus,
@@ -71,6 +48,10 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(6),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(6),
+          borderSide: const BorderSide(color: kPink),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Colors.white),

@@ -27,7 +27,7 @@ class _SignUpState extends State<SignUp> {
   List<AutovalidateMode> autoValidMode =
       List.filled(3, AutovalidateMode.disabled);
   bool flag1 = false, flag2 = false, flag3 = false;
-  String? email, password;
+  String? username, email, password;
   File? selectedImage;
   bool isLoading = false;
   @override
