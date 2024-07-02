@@ -140,37 +140,31 @@ class _SignInState extends State<SignIn> {
                             await signIn();
                             setState(() {
                               isLoading = false;
-                              Navigator.pushNamed(
-                                context,
-                                HomeView.homeViewId,
-                              );
-                              formKey.currentState!.reset();
                             });
+
+                            formKey.currentState!.reset();
                           } on FirebaseAuthException catch (e) {
                             if (e.code == 'user-not-found') {
-                              setState(() {
-                                isLoading = false;
-                                getShowSnackBar(context, 'No account found');
-                              });
+                              isLoading = false;
+                              setState(() {});
+                              getShowSnackBar(context, 'No account found');
                             } else if (e.code == 'wrong-password') {
-                              setState(() {
-                                isLoading = false;
-                                getShowSnackBar(context, 'Wrong password');
-                              });
+                              isLoading = false;
+                              setState(() {});
+                              getShowSnackBar(context, 'Wrong password');
                             } else {
                               setState(() {
                                 isLoading = false;
-                                getShowSnackBar(context, 'email not valid');
                               });
+                              getShowSnackBar(context, 'email not valid');
                             }
                           } catch (e) {
-                            setState(() {
-                              isLoading = false;
-                              getShowSnackBar(
-                                context,
-                                e.toString(),
-                              );
-                            });
+                            isLoading = false;
+                            setState(() {});
+                            getShowSnackBar(
+                              context,
+                              e.toString(),
+                            );
                           }
                           for (int i = 0; i < 1; i++) {
                             autoValidateMode[i] = AutovalidateMode.disabled;

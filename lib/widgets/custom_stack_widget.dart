@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insta_app/constants.dart';
+import 'package:insta_app/cubits/profile_image_cubit/profile_image_cubit.dart';
 
 class CustomStackWidget extends StatefulWidget {
   const CustomStackWidget({
@@ -12,19 +14,22 @@ class CustomStackWidget extends StatefulWidget {
   State<CustomStackWidget> createState() => _CustomStackWidgetState();
 }
 
-File? selectedImage;
-
 class _CustomStackWidgetState extends State<CustomStackWidget> {
-  Future<void> selectImage() async {
-    var image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      selectedImage = File(image.path);
-      setState(() {});
-    }
-  }
+  File? selectedImage;
 
   @override
   Widget build(BuildContext context) {
+    Future<void> selectImage() async {
+      var image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        setState(() {
+          BlocProvider.of<ProfileImageCubit>(context).selectedImage =
+              File(image.path);
+          selectedImage = File(image.path);
+        });
+      }
+    }
+
     double hight = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Align(

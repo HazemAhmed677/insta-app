@@ -12,7 +12,6 @@ import 'package:insta_app/views/sign_up_view.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
   runApp(const InstaApp());
 }
 
