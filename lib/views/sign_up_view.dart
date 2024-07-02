@@ -195,18 +195,7 @@ class _SignUpState extends State<SignUp> {
                                     if (selectedImage != null) {
                                       await uploadImageToCloud();
                                     }
-                                    UserModel userModel = UserModel(
-                                      username: username!,
-                                      email: email!,
-                                      password: password!,
-                                      profileImageURL: imageURL,
-                                      followers: [],
-                                      following: [],
-                                      uid: FirebaseAuth
-                                          .instance.currentUser!.uid,
-                                    );
-
-                                    await addUserToFireStore(userModel);
+                                    await addUserToFireStore();
                                     isLoading = false;
                                     setState(() {});
                                     Navigator.pushNamed(
@@ -266,14 +255,21 @@ class _SignUpState extends State<SignUp> {
 
   Future<void> uploadImageToCloud() async {
     uuid = FirebaseAuth.instance.currentUser!.uid;
-    var reff = FirebaseStorage.instance.ref('image').child(uuid);
-    reff.putFile(selectedImage!);
+    var reff = FirebaseStorage.instance.ref().child('images').child(uuid);
+    await reff.putFile(selectedImage!);
     imageURL = await reff.getDownloadURL();
   }
 
-  Future<void> addImageToStorage() async {}
-
-  Future<void> addUserToFireStore(UserModel userModel) async {
+  Future<void> addUserToFireStore() async {
+    UserModel userModel = UserModel(
+      username: username!,
+      email: email!,
+      password: password!,
+      profileImageURL: imageURL,
+      followers: [],
+      following: [],
+      uid: FirebaseAuth.instance.currentUser!.uid,
+    );
     Map<String, dynamic> userMap = userModel.convertToMap(userModel);
     await FirebaseFirestore.instance.collection(kCollection).add(userMap);
   }
