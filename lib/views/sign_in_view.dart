@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/helper/modal_progress_hud_helper.dart';
@@ -22,13 +21,7 @@ class _SignInState extends State<SignIn> {
   GlobalKey<FormState> formKey = GlobalKey();
   List<AutovalidateMode> autoValidateMode =
       List.filled(2, AutovalidateMode.disabled);
-  List<AutovalidateMode> autoValidateMode =
-      List.filled(2, AutovalidateMode.disabled);
   bool flag1 = false, flag2 = false;
-  String? email, password;
-  bool isLoading = false;
-  TextEditingController textEditing1 = TextEditingController(),
-      textEditing2 = TextEditingController();
   String? email, password;
   bool isLoading = false;
   TextEditingController textEditing1 = TextEditingController(),
@@ -36,96 +29,7 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     double hight = MediaQuery.of(context).size.height;
-    double hight = MediaQuery.of(context).size.height;
     return SafeArea(
-      child: ModalProgressHudHelper(
-        isLoading: isLoading,
-        child: Scaffold(
-          backgroundColor: Colors.black,
-          body: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
-            ),
-            child: Form(
-              key: formKey,
-              child: ListView(
-                physics: const BouncingScrollPhysics(
-                    decelerationRate: ScrollDecelerationRate.fast),
-                controller: controller,
-                children: [
-                  SizedBox(
-                    height: 0.25 * hight,
-                  ),
-                  const Center(
-                    child: Text(
-                      'Insta',
-                      style: TextStyle(
-                        fontSize: 44,
-                        fontFamily: 'PlaywriteMX',
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: hight * 0.017,
-                  ),
-                  CustomTextFormField(
-                    validator: (input) {
-                      if (input!.isEmpty) {
-                        return 'please enter your email';
-                      } else {
-                        return null;
-                      }
-                    },
-                    onChange: (data) {
-                      if (data.isNotEmpty && data.contains('@')) {
-                        autoValidateMode[0] = AutovalidateMode.disabled;
-                        flag1 = true;
-                        email = data;
-                      } else if (flag1) {
-                        setState(() {});
-                      }
-                    },
-                    label: 'email',
-                    hint: 'Enter email',
-                  ),
-                  SizedBox(
-                    height: hight * 0.022,
-                  ),
-                  CustomTextFormField(
-                    onTap: () async {
-                      await kAnimateTo(controller);
-                    },
-                    validator: (input) {
-                      if (input!.isEmpty) {
-                        return 'please enter password';
-                      } else {
-                        return null;
-                      }
-                    },
-                    onChange: (data) {
-                      if (data.isNotEmpty && data.length >= 6) {
-                        autoValidateMode[1] = AutovalidateMode.disabled;
-                        flag2 = true;
-                        password = data;
-                      } else if (flag2) {
-                        setState(() {});
-                      }
-                    },
-                    label: 'password',
-                    hint: 'Enter password',
-                    obsecure: obsecure,
-                    passwordIcon: IconButton(
-                      onPressed: () {
-                        obsecure = !obsecure;
-                        setState(() {});
-                      },
-                      icon: (obsecure)
-                          ? const Icon(Icons.visibility_off)
-                          : const Icon(
-                              Icons.visibility,
-                              color: kPink,
-                            ),
-                    ),
       child: ModalProgressHudHelper(
         isLoading: isLoading,
         child: Scaffold(
@@ -284,11 +188,6 @@ class _SignInState extends State<SignIn> {
         ),
       ),
     );
-  }
-
-  Future signIn() async {
-    await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email!, password: password!);
   }
 
   Future signIn() async {
