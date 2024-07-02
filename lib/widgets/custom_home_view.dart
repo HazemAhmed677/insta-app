@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/helper/post_widget.dart';
+import 'package:insta_app/views/sign_in_view.dart';
 
 class CustomHomeView extends StatefulWidget {
   const CustomHomeView({super.key});
