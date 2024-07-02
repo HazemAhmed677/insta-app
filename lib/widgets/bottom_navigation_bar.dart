@@ -51,6 +51,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           size: 40,
           color: kPink,
         ),
+        unselectedLabelStyle: const TextStyle(color: kBlack),
         type: BottomNavigationBarType.fixed,
         fixedColor: kWhite,
         items: [
