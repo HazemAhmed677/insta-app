@@ -9,24 +9,27 @@ import 'package:insta_app/cubits/profile_image_cubit/profile_image_cubit.dart';
 class CustomStackWidget extends StatefulWidget {
   const CustomStackWidget({
     super.key,
+    required this.email,
   });
+  final String? email;
   @override
   State<CustomStackWidget> createState() => _CustomStackWidgetState();
 }
 
 class _CustomStackWidgetState extends State<CustomStackWidget> {
   File? selectedImage;
-
+  String? imageURL;
   @override
   Widget build(BuildContext context) {
     Future<void> selectImage() async {
-      var image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      var image = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+      );
       if (image != null) {
-        setState(() {
-          BlocProvider.of<ProfileImageCubit>(context).selectedImage =
-              File(image.path);
-          selectedImage = File(image.path);
-        });
+        selectedImage = File(image.path);
+        await BlocProvider.of<ProfileImageCubit>(context)
+            .addImageToStorage(image: image.path, file: selectedImage!);
+        imageURL = BlocProvider.of<ProfileImageCubit>(context).imageURL;
       }
     }
 
@@ -39,8 +42,9 @@ class _CustomStackWidgetState extends State<CustomStackWidget> {
         children: [
           CircleAvatar(
             backgroundColor: Colors.grey.shade300,
-            backgroundImage:
-                (selectedImage != null) ? FileImage(selectedImage!) : null,
+            backgroundImage: (selectedImage != null && widget.email != null)
+                ? FileImage(selectedImage!)
+                : null,
             maxRadius: 48,
           ),
           Positioned(

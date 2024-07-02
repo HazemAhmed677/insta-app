@@ -36,17 +36,18 @@ class _SignUpState extends State<SignUp> {
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
-    // Future<void> createUserAndAddToFireStore() async {
-    //   File? selectedImage =
-    //       BlocProvider.of<ProfileImageCubit>(context).selectedImage;
-
-    //   if (selectedImage != null) {
-    //     BlocProvider.of<ProfileImageCubit>(context)
-    //         .addImageToStorage(selectedImage.path);
-    //   }
-
-    //
-    // }
+    Future<void> addUserToFireStore() async {
+      UserModel userModel = UserModel(
+        username: username!,
+        email: email!,
+        password: password!,
+        profileImageURL: BlocProvider.of<ProfileImageCubit>(context).imageURL,
+        followers: [],
+        following: [],
+      );
+      Map<String, dynamic> userMap = userModel.convertToMap(userModel);
+      await FirebaseFirestore.instance.collection(kCollection).add(userMap);
+    }
 
     double hight = MediaQuery.of(context).size.height;
     return SafeArea(
@@ -85,7 +86,9 @@ class _SignUpState extends State<SignUp> {
                           SizedBox(
                             height: hight * 0.024,
                           ),
-                          const CustomStackWidget(),
+                          CustomStackWidget(
+                            email: email,
+                          ),
                           SizedBox(
                             height: hight * 0.028,
                           ),
@@ -197,9 +200,9 @@ class _SignUpState extends State<SignUp> {
                                     // firebase code
                                     try {
                                       await signUp();
-                                      isLoading = false;
                                       await addUserToFireStore();
-
+                                      isLoading = false;
+                                      setState(() {});
                                       Navigator.pushNamed(
                                           context, HomeView.homeViewId);
                                       formKey.currentState!.reset();
@@ -255,18 +258,6 @@ class _SignUpState extends State<SignUp> {
         ),
       ),
     );
-  }
-
-  Future<void> addUserToFireStore() async {
-    UserModel userModel = UserModel(
-      username: username!,
-      email: email!,
-      password: password!,
-      followers: [],
-      following: [],
-    );
-    Map<String, dynamic> userMap = userModel.convertToMap(userModel);
-    await FirebaseFirestore.instance.collection(kCollection).add(userMap);
   }
 
   Future<void> signUp() async {

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/helper/modal_progress_hud_helper.dart';
 import 'package:insta_app/helper/show_snack_bar_function.dart';
-import 'package:insta_app/views/home_view.dart';
 import 'package:insta_app/widgets/custom_ink_well.dart';
 import 'package:insta_app/widgets/custom_text_form_field.dart';
 import 'package:insta_app/widgets/sign_up_word.dart';
@@ -175,9 +174,7 @@ class _SignInState extends State<SignIn> {
                         for (int i = 0; i < 1; i++) {
                           autoValidateMode[i] = AutovalidateMode.always;
                           setState(() {
-                            setState(() {
-                              isLoading = false;
-                            });
+                            isLoading = false;
                           });
                         }
                       },
