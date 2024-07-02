@@ -35,7 +35,12 @@ class _CustomHomeViewState extends State<CustomHomeView> {
                     AlertDialog alert = AlertDialog(
                       backgroundColor: Colors.black,
                       shadowColor: Colors.grey.shade800,
-                      title: const Text('Log out of you account?'),
+                      title: const Text(
+                        'Log out of you account?',
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
                       actions: [
                         TextButton(
                           onPressed: () {

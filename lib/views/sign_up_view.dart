@@ -150,7 +150,7 @@ class _SignUpState extends State<SignUp> {
                             });
                             // firebase code
                             try {
-                              await createUser();
+                              await signUp();
                               setState(() {
                                 isLoading = false;
                               });
@@ -207,7 +207,7 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  Future<void> createUser() async {
+  Future<void> signUp() async {
     await FirebaseAuth.instance.createUserWithEmailAndPassword(
       email: email!,
       password: password!,
