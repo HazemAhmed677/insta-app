@@ -1,7 +1,9 @@
 import 'package:firebase_storage/firebase_storage.dart';
 
 class StorageColudService {
-  Reference uploadImage(String image) {
-    return FirebaseStorage.instance.ref('images').child(image);
+  uploadImage(String? image) {
+    if (image != null) {
+      FirebaseStorage.instance.ref('images').child(image);
+    }
   }
 }

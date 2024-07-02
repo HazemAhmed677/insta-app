@@ -57,13 +57,10 @@ class _CustomHomeViewState extends State<CustomHomeView> {
                           onPressed: () async {
                             try {
                               await FirebaseAuth.instance.signOut();
-                              if (mounted) {
-                                setState(() {
-                                  Navigator.of(context)
-                                    ..pop()
-                                    ..pop();
-                                });
-                              }
+
+                              Navigator.of(context)
+                                ..pop()
+                                ..pop();
                             } catch (e) {
                               print(e.toString());
                             }
@@ -77,7 +74,7 @@ class _CustomHomeViewState extends State<CustomHomeView> {
                         ),
                       ],
                     );
-                    return await showDialog(
+                    await showDialog(
                       context: context,
                       builder: (context) => alert,
                     );
