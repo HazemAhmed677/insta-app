@@ -12,8 +12,9 @@ class CustomStackWidget extends StatefulWidget {
   State<CustomStackWidget> createState() => _CustomStackWidgetState();
 }
 
+File? selectedImage;
+
 class _CustomStackWidgetState extends State<CustomStackWidget> {
-  File? selectedImage;
   Future<void> selectImage() async {
     var image = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (image != null) {

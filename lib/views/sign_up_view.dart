@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/helper/modal_progress_hud_helper.dart';
 import 'package:insta_app/helper/show_snack_bar_function.dart';
+import 'package:insta_app/models/user_model.dart';
+import 'package:insta_app/services/firestore_service.dart';
+import 'package:insta_app/services/storage_cloud_service.dart';
 import 'package:insta_app/views/home_view.dart';
 import 'package:insta_app/widgets/custom_ink_well.dart';
 import 'package:insta_app/widgets/custom_question_text.dart';
@@ -78,6 +81,15 @@ class _SignUpState extends State<SignUp> {
                         return null;
                       }
                     },
+                    onChange: (data) {
+                      if (data.length >= 4) {
+                        username = data;
+                        flag1 = true;
+                        setState(() {});
+                      } else if (flag1) {
+                        setState(() {});
+                      }
+                    },
                     label: 'username',
                     hint: 'Enter username',
                     autoFocus: true,
@@ -92,8 +104,16 @@ class _SignUpState extends State<SignUp> {
                       } else if (!input.contains('@')) {
                         return 'enter a valid email';
                       } else {
-                        email = input;
                         return null;
+                      }
+                    },
+                    onChange: (data) {
+                      if (data.isNotEmpty && data.contains('@')) {
+                        autoValidMode[1] = AutovalidateMode.disabled;
+                        flag2 = true;
+                        email = data;
+                      } else if (flag2) {
+                        setState(() {});
                       }
                     },
                     onTap: () async {
@@ -109,13 +129,21 @@ class _SignUpState extends State<SignUp> {
                     onTap: () async {
                       await kAnimateTo(controller);
                     },
+                    onChange: (data) {
+                      if (data.isNotEmpty && data.length >= 6) {
+                        autoValidMode[2] = AutovalidateMode.disabled;
+                        flag3 = true;
+                        password = data;
+                      } else if (flag3) {
+                        setState(() {});
+                      }
+                    },
                     validator: (input) {
                       if (input!.isEmpty) {
                         return 'please enter password';
                       } else if (input.length < 8) {
-                        return 'enter 8 characters at least';
+                        return 'enter 6 characters at least';
                       } else {
-                        password = input;
                         return null;
                       }
                     },
@@ -151,16 +179,15 @@ class _SignUpState extends State<SignUp> {
                             // firebase code
                             try {
                               await signUp();
+                              isLoading = false;
+                              setState(() {});
                               setState(() {
-                                isLoading = false;
+                                Navigator.pushNamed(
+                                    context, HomeView.homeViewId);
                               });
-                              if (mounted) {
-                                setState(() {
-                                  Navigator.pushNamed(
-                                      context, HomeView.homeViewId);
-                                });
-                                formKey.currentState!.reset();
-                              }
+                              formKey.currentState!.reset();
+                              // firestore code
+                              await createUserAndAddToFireStore();
                             } on FirebaseAuthException catch (e) {
                               if (e.code == 'email-already-in-use') {
                                 setState(() {
@@ -205,6 +232,20 @@ class _SignUpState extends State<SignUp> {
         ),
       ),
     );
+  }
+
+  Future<void> createUserAndAddToFireStore() async {
+    UserModel userModel = UserModel(
+      username: username!,
+      email: email!,
+      password: password!,
+      followers: [],
+      following: [],
+    );
+    Map<String, dynamic> toJson = userModel.convertToMap(userModel);
+    await FirestoreService().addUserToFireStore(toJson);
+
+    // storage cloud
   }
 
   Future<void> signUp() async {
