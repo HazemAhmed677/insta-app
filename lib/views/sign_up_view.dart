@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/cubits/profile_image_cubit/profile_image_cubit.dart';
 import 'package:insta_app/cubits/profile_image_cubit/profile_image_cubit_state.dart';
@@ -34,8 +34,9 @@ class _SignUpState extends State<SignUp> {
   bool flag1 = false, flag2 = false, flag3 = false;
   String? username, email, password;
   File? selectedImage;
+  String? imageURL;
   bool isLoading = false;
-
+  var uuid;
   @override
   Widget build(BuildContext context) {
     double hight = MediaQuery.of(context).size.height;
@@ -187,13 +188,30 @@ class _SignUpState extends State<SignUp> {
                                   // firebase code
                                   try {
                                     await signUp();
-                                    await addUserToFireStore();
+                                    selectedImage =
+                                        BlocProvider.of<ProfileImageCubit>(
+                                                context)
+                                            .selectedImage;
+                                    if (selectedImage != null) {
+                                      await uploadImageToCloud();
+                                    }
+                                    UserModel userModel = UserModel(
+                                      username: username!,
+                                      email: email!,
+                                      password: password!,
+                                      profileImageURL: imageURL,
+                                      followers: [],
+                                      following: [],
+                                      uid: FirebaseAuth
+                                          .instance.currentUser!.uid,
+                                    );
+
+                                    await addUserToFireStore(userModel);
                                     isLoading = false;
                                     setState(() {});
                                     Navigator.pushNamed(
                                         context, HomeView.homeViewId);
                                     formKey.currentState!.reset();
-
                                     // firestore code
                                   } on FirebaseAuthException catch (e) {
                                     if (e.code == 'email-already-in-use') {
@@ -246,15 +264,16 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  Future<void> addUserToFireStore() async {
-    UserModel userModel = UserModel(
-      username: username!,
-      email: email!,
-      password: password!,
-      profileImageURL: BlocProvider.of<ProfileImageCubit>(context).imageURL,
-      followers: [],
-      following: [],
-    );
+  Future<void> uploadImageToCloud() async {
+    uuid = FirebaseAuth.instance.currentUser!.uid;
+    var reff = FirebaseStorage.instance.ref('image').child(uuid);
+    reff.putFile(selectedImage!);
+    imageURL = await reff.getDownloadURL();
+  }
+
+  Future<void> addImageToStorage() async {}
+
+  Future<void> addUserToFireStore(UserModel userModel) async {
     Map<String, dynamic> userMap = userModel.convertToMap(userModel);
     await FirebaseFirestore.instance.collection(kCollection).add(userMap);
   }

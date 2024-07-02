@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -18,7 +17,6 @@ class CustomStackWidget extends StatefulWidget {
 
 class _CustomStackWidgetState extends State<CustomStackWidget> {
   File? selectedImage;
-  String? imageURL;
   @override
   Widget build(BuildContext context) {
     Future<void> selectImage() async {
@@ -27,9 +25,9 @@ class _CustomStackWidgetState extends State<CustomStackWidget> {
       );
       if (image != null) {
         selectedImage = File(image.path);
-        await BlocProvider.of<ProfileImageCubit>(context)
-            .addImageToStorage(image: image.path, file: selectedImage!);
-        imageURL = BlocProvider.of<ProfileImageCubit>(context).imageURL;
+        setState(() {});
+        BlocProvider.of<ProfileImageCubit>(context).selectedImage =
+            selectedImage;
       }
     }
 
@@ -57,6 +55,7 @@ class _CustomStackWidgetState extends State<CustomStackWidget> {
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
               onPressed: () async {
+                setState(() {});
                 await selectImage();
               },
               highlightColor: Colors.grey.shade400,

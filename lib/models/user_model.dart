@@ -2,6 +2,7 @@ class UserModel {
   String username;
   String email;
   String password;
+  String uid;
   String? profileImageURL;
   List<dynamic>? followers;
   List<dynamic>? following;
@@ -9,6 +10,7 @@ class UserModel {
     required this.username,
     required this.email,
     required this.password,
+    required this.uid,
     this.profileImageURL,
     required this.followers,
     required this.following,
@@ -19,7 +21,8 @@ class UserModel {
         email: json['email'],
         password: json['password'],
         followers: json['followers'],
-        following: json['following']);
+        following: json['following'],
+        uid: json['uid']);
   }
   Map<String, dynamic> convertToMap(UserModel user) {
     return {
