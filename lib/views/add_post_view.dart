@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insta_app/constants.dart';
@@ -13,7 +12,6 @@ import 'package:insta_app/cubits/switch_screen_cubit/switch_screens_cubit.dart';
 import 'package:insta_app/helper/modal_progress_hud_helper.dart';
 import 'package:insta_app/helper/show_snack_bar_function.dart';
 import 'package:insta_app/models/post_model.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:uuid/uuid.dart';
 
 class AddPostView extends StatefulWidget {

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insta_app/cubits/fetch_user_data_cubit/fetch_user_data_cubit.dart';
 import 'package:insta_app/cubits/profile_image_cubit/profile_image_cubit.dart';
 import 'package:insta_app/cubits/switch_screen_cubit/switch_screens_cubit.dart';
+import 'package:insta_app/views/add_comment_view.dart';
 import 'package:insta_app/views/add_post_view.dart';
 import 'package:insta_app/views/home_view.dart';
 import 'package:insta_app/views/profile_view.dart';
@@ -43,7 +44,8 @@ class InstaApp extends StatelessWidget {
           HomeView.homeViewId: (context) => const HomeView(),
           SearchView.searchId: (context) => const SearchView(),
           AddPostView.addPostId: (context) => const AddPostView(),
-          ProfileView.profileId: (context) => const ProfileView()
+          ProfileView.profileId: (context) => const ProfileView(),
+          AddCommentView.addCommentView: (context) => const AddCommentView(),
         },
         initialRoute: HomeView.homeViewId,
       ),

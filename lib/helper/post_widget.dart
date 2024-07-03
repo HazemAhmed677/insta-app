@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
+import 'package:insta_app/views/add_comment_view.dart';
 
 class CustomPostWidget extends StatefulWidget {
   const CustomPostWidget({super.key});
@@ -101,7 +102,9 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
             minimumSize: const Size(50, 30),
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, AddCommentView.addCommentView);
+          },
           child: const Text(
             'Add comment',
             style: TextStyle(
