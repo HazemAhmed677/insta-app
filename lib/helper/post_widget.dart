@@ -28,18 +28,32 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
         Row(
           children: [
             CircleAvatar(
-              backgroundImage: NetworkImage(imageURL),
+              backgroundImage: (userModel.profileImageURL != null)
+                  ? NetworkImage(userModel.profileImageURL!)
+                  : null,
               maxRadius: 34,
             ),
             SizedBox(
               width: 0.035 * width,
             ),
-            Text(
-              userModel.username,
-              style: const TextStyle(
-                color: kWhite,
-                fontSize: 22,
-              ),
+            Row(
+              children: [
+                Text(
+                  userModel.username,
+                  style: const TextStyle(
+                    color: kWhite,
+                    fontSize: 22,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 4.0),
+                  child: const Icon(
+                    Icons.verified,
+                    size: 16,
+                    color: Colors.blue,
+                  ),
+                ),
+              ],
             )
           ],
         ),
@@ -47,85 +61,127 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
           height: 0.02 * hight,
         ),
         ClipRRect(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(14),
           child: Image.network(imageURL),
         ),
-        const SizedBox(
-          height: 20,
+        SizedBox(
+          height: hight * 0.025,
         ),
         Row(
           children: [
             IconButton(
-                style: TextButton.styleFrom(
-                  padding: EdgeInsets.zero,
-                  minimumSize: const Size(10, 10),
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
-                onPressed: () {
-                  isLiked = !isLiked;
-                  setState(() {});
-                },
-                icon: Icon(
-                  Icons.favorite,
-                  color: (isLiked) ? kPink : null,
-                  size: 28,
-                )),
-            const SizedBox(
-              width: 10,
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.zero,
+                minimumSize: const Size(10, 20),
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+              onPressed: () {
+                isLiked = !isLiked;
+                setState(() {});
+              },
+              icon: Icon(
+                Icons.favorite,
+                color: (isLiked) ? kPink : null,
+                size: 28,
+              ),
+            ),
+            SizedBox(
+              width: width * 0.03,
             ),
             IconButton(
-                style: TextButton.styleFrom(
-                  padding: EdgeInsets.zero,
-                  minimumSize: const Size(20, 10),
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.comment,
-                  size: 26,
-                ))
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.zero,
+                minimumSize: const Size(20, 10),
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+              onPressed: () {},
+              icon: const Icon(
+                Icons.comment,
+                size: 27,
+              ),
+            ),
           ],
         ),
         SizedBox(
-          height: 0.016 * hight,
+          height: 0.01 * hight,
         ),
         Text(
-          widget.postModel.likes?.length.toString() ?? '0',
+          (widget.postModel.likes.length != 1)
+              ? "${widget.postModel.likes.length.toString()} likes"
+              : "${widget.postModel.likes.length.toString()} like",
           style: const TextStyle(
-            fontSize: 20,
+            fontSize: 18,
           ),
         ),
-        (widget.postModel.desciption != null)
-            ? Text(
-                widget.postModel.desciption!,
-                style: const TextStyle(
-                  fontSize: 18,
-                ),
-              )
-            : const SizedBox(),
-        TextButton(
-          style: TextButton.styleFrom(
-            padding: const EdgeInsets.only(left: 1, right: 4),
-            minimumSize: const Size(50, 30),
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          ),
-          onPressed: () {
-            Navigator.push(
-              context,
-              PageRouteBuilder(
-                pageBuilder: (_, __, ___) =>
-                    const AddCommentView(), // Replace with your second screen widget
-                transitionDuration: const Duration(milliseconds: 40),
-                transitionsBuilder: (_, a, __, c) =>
-                    FadeTransition(opacity: a, child: c),
+        SizedBox(
+          height: 0.009 * hight,
+        ),
+        Row(
+          children: [
+            Text(
+              userModel.username,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
               ),
-            );
-          },
-          child: const Text(
-            'Add comment',
-            style: TextStyle(
-              color: Colors.grey,
-              fontSize: 14,
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 2.0),
+              child: Icon(
+                Icons.verified,
+                size: 16,
+                color: Colors.blue,
+              ),
+            ),
+            (widget.postModel.desciption != null)
+                ? Text(
+                    " ${widget.postModel.desciption!}",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 18,
+                    ),
+                  )
+                : const SizedBox(),
+          ],
+        ),
+        SizedBox(
+          height: 0.012 * hight,
+        ), ////
+        SizedBox(
+          height: hight * 0.04,
+          width: width * 0.29,
+          child: TextButton(
+            style: ButtonStyle(
+                foregroundColor: WidgetStateProperty.all<Color>(Colors.white),
+                backgroundColor:
+                    WidgetStateProperty.all<Color>(Colors.transparent),
+                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: const BorderRadius.all(Radius.circular(16)),
+                    side: BorderSide(
+                      color: Colors.grey.shade500,
+                    ), // White outline border
+                  ),
+                )),
+            onPressed: () {
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (_, __, ___) =>
+                      const AddCommentView(), // Replace with your second screen widget
+                  transitionDuration: const Duration(milliseconds: 40),
+                  transitionsBuilder: (_, a, __, c) =>
+                      FadeTransition(opacity: a, child: c),
+                ),
+              );
+            },
+            child: const Text(
+              'Add comment...',
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 13,
+              ),
             ),
           ),
         ),
