@@ -196,13 +196,16 @@ class _SignUpState extends State<SignUp> {
                                     if (selectedImage != null) {
                                       await uploadImageToCloud();
                                     }
+
                                     await addUserToFireStore();
-                                    isLoading = false;
-                                    setState(() {});
-                                    Navigator.pushNamed(
-                                      context,
-                                      HomeView.homeViewId,
-                                    );
+
+                                    setState(() {
+                                      isLoading = false;
+                                      Navigator.pushNamed(
+                                        context,
+                                        HomeView.homeViewId,
+                                      );
+                                    });
                                     formKey.currentState!.reset();
                                     // firestore code
                                   } on FirebaseAuthException catch (e) {
@@ -263,7 +266,8 @@ class _SignUpState extends State<SignUp> {
     imageURL = await reff.getDownloadURL();
   }
 
-  Future<void> addUserToFireStore() async {
+  Future<UserModel> addUserToFireStore() async {
+    var uid = FirebaseAuth.instance.currentUser!.uid;
     UserModel userModel = UserModel(
       username: username!,
       email: email!,
@@ -271,11 +275,16 @@ class _SignUpState extends State<SignUp> {
       profileImageURL: imageURL,
       followers: [],
       following: [],
-      uid: FirebaseAuth.instance.currentUser!.uid,
+      uid: uid,
     );
     FetchUserDataService();
     Map<String, dynamic> userMap = userModel.convertToMap(userModel);
-    await FirebaseFirestore.instance.collection(kCollection).add(userMap);
+    await FirebaseFirestore.instance
+        .collection(kCollection)
+        .doc(uid)
+        .set(userMap);
+
+    return userModel;
   }
 
   Future<void> signUp() async {

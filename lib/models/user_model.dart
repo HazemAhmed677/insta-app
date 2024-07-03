@@ -2,7 +2,7 @@ class UserModel {
   String username;
   String email;
   String password;
-  String uid;
+  String? uid;
   String? profileImageURL;
   List<dynamic>? followers;
   List<dynamic>? following;
@@ -10,7 +10,7 @@ class UserModel {
     required this.username,
     required this.email,
     required this.password,
-    required this.uid,
+    this.uid,
     this.profileImageURL,
     required this.followers,
     required this.following,
@@ -22,7 +22,6 @@ class UserModel {
       password: json['password'],
       followers: json['followers'],
       following: json['following'],
-      uid: json['id'],
       profileImageURL: json['profileImageURL'],
     );
   }
