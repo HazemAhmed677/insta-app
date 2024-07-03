@@ -11,6 +11,7 @@ import 'package:insta_app/helper/modal_progress_hud_helper.dart';
 import 'package:insta_app/helper/show_snack_bar_function.dart';
 import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/services/fetch_user_data_service.dart';
+import 'package:insta_app/services/upload_user_data.dart';
 import 'package:insta_app/views/home_view.dart';
 import 'package:insta_app/widgets/custom_ink_well.dart';
 import 'package:insta_app/widgets/custom_question_text.dart';
@@ -189,6 +190,7 @@ class _SignUpState extends State<SignUp> {
                                   // firebase code
                                   try {
                                     await signUp();
+                                    //hundled in stack widget
                                     selectedImage =
                                         BlocProvider.of<ProfileImageCubit>(
                                                 context)
@@ -197,7 +199,15 @@ class _SignUpState extends State<SignUp> {
                                       await uploadImageToCloud();
                                     }
 
-                                    await addUserToFireStore();
+                                    await UploadUserData()
+                                        .addUserDataInFireStore(
+                                      username: username!,
+                                      email: email!,
+                                      password: password!,
+                                      imageURL: imageURL,
+                                      followers: [],
+                                      following: [],
+                                    );
 
                                     setState(() {
                                       isLoading = false;
@@ -264,27 +274,6 @@ class _SignUpState extends State<SignUp> {
     var reff = FirebaseStorage.instance.ref().child('images').child(uuid);
     await reff.putFile(selectedImage!);
     imageURL = await reff.getDownloadURL();
-  }
-
-  Future<UserModel> addUserToFireStore() async {
-    var uid = FirebaseAuth.instance.currentUser!.uid;
-    UserModel userModel = UserModel(
-      username: username!,
-      email: email!,
-      password: password!,
-      profileImageURL: imageURL,
-      followers: [],
-      following: [],
-      uid: uid,
-    );
-    FetchUserDataService();
-    Map<String, dynamic> userMap = userModel.convertToMap(userModel);
-    await FirebaseFirestore.instance
-        .collection(kCollection)
-        .doc(uid)
-        .set(userMap);
-
-    return userModel;
   }
 
   Future<void> signUp() async {
