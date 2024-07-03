@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
 
-class CustomPostWidget extends StatelessWidget {
+class CustomPostWidget extends StatefulWidget {
   const CustomPostWidget({super.key});
 
+  @override
+  State<CustomPostWidget> createState() => _CustomPostWidgetState();
+}
+
+class _CustomPostWidgetState extends State<CustomPostWidget> {
+  bool isLiked = false;
   @override
   Widget build(BuildContext context) {
     double hight = MediaQuery.of(context).size.height;
@@ -41,17 +47,41 @@ class CustomPostWidget extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        const Row(
+        Row(
           children: [
-            Icon(Icons.favorite),
-            SizedBox(
+            IconButton(
+                style: TextButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  minimumSize: const Size(10, 10),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                onPressed: () {
+                  isLiked = !isLiked;
+                  setState(() {});
+                },
+                icon: Icon(
+                  Icons.favorite,
+                  color: (isLiked) ? kPink : null,
+                  size: 28,
+                )),
+            const SizedBox(
               width: 10,
             ),
-            Icon(Icons.comment)
+            IconButton(
+                style: TextButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  minimumSize: const Size(20, 10),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.comment,
+                  size: 26,
+                ))
           ],
         ),
         SizedBox(
-          height: 0.02 * hight,
+          height: 0.016 * hight,
         ),
         const Text(
           '677 Likes',

@@ -17,12 +17,14 @@ class UserModel {
   });
   factory UserModel.fromJson(json) {
     return UserModel(
-        username: json['username'],
-        email: json['email'],
-        password: json['password'],
-        followers: json['followers'],
-        following: json['following'],
-        uid: json['uid']);
+      username: json['username'],
+      email: json['email'],
+      password: json['password'],
+      followers: json['followers'],
+      following: json['following'],
+      uid: json['uid'],
+      profileImageURL: json['profileImageURL'],
+    );
   }
   Map<String, dynamic> convertToMap(UserModel user) {
     return {
