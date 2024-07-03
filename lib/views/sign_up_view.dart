@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +8,6 @@ import 'package:insta_app/cubits/profile_image_cubit/profile_image_cubit.dart';
 import 'package:insta_app/cubits/profile_image_cubit/profile_image_cubit_state.dart';
 import 'package:insta_app/helper/modal_progress_hud_helper.dart';
 import 'package:insta_app/helper/show_snack_bar_function.dart';
-import 'package:insta_app/models/user_model.dart';
-import 'package:insta_app/services/fetch_user_data_service.dart';
 import 'package:insta_app/services/upload_user_data.dart';
 import 'package:insta_app/views/home_view.dart';
 import 'package:insta_app/widgets/custom_ink_well.dart';

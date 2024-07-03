@@ -5,7 +5,6 @@ import 'package:insta_app/constants.dart';
 import 'package:insta_app/cubits/fetch_user_data_cubit/fetch_user_data_cubit.dart';
 import 'package:insta_app/cubits/fetch_user_data_cubit/fetch_user_data_states.dart';
 import 'package:insta_app/helper/post_widget.dart';
-import 'package:insta_app/models/user_model.dart';
 
 class CustomHomeView extends StatefulWidget {
   const CustomHomeView({super.key});

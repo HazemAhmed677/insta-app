@@ -1,9 +1,29 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:insta_app/constants.dart';
 
-class AddPostView extends StatelessWidget {
+class AddPostView extends StatefulWidget {
   const AddPostView({super.key});
   static String addPostId = 'Search page';
+
+  @override
+  State<AddPostView> createState() => _AddPostViewState();
+}
+
+class _AddPostViewState extends State<AddPostView> {
+  File? imagePost;
+  Future<void> selectImage() async {
+    var image = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+    );
+    if (image != null) {
+      imagePost = File(image.path);
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double hight = MediaQuery.of(context).size.height;
@@ -39,36 +59,67 @@ class AddPostView extends StatelessWidget {
                 onPressed: () {},
                 child: const Text(
                   'Next',
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: kPink,
+                  ),
                 ),
               ),
             ],
           ),
           SizedBox(
-            height: hight * 0.38,
+            height: hight * 0.028,
           ),
-          Center(
-            child: IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.upload,
-                size: 30,
+          (imagePost != null)
+              ? Column(
+                  children: [
+                    Center(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(14),
+                        child: Image.file(
+                          imagePost!,
+                          height: hight * 0.39,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: hight * 0.02,
+                    ),
+                  ],
+                )
+              : SizedBox(
+                  height: hight * 0.41,
+                ),
+          SizedBox(
+            height: hight * 0.058,
+            child: ElevatedButton(
+              onPressed: () async {
+                await selectImage();
+              },
+              child: const Center(
+                child: Icon(
+                  Icons.file_upload_sharp,
+                  size: 30,
+                ),
               ),
             ),
           ),
           SizedBox(
             height: hight * 0.018,
           ),
-          const TextField(
-            cursorColor: kPink,
-            maxLines: 12,
-            decoration: InputDecoration(
-              hintText: 'Add caption',
-              hintStyle: TextStyle(
-                fontSize: 16,
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 4.0),
+            child: TextField(
+              cursorColor: kPink,
+              maxLines: 12,
+              decoration: InputDecoration(
+                hintText: 'Add caption',
+                hintStyle: TextStyle(
+                  fontSize: 16,
+                ),
+                focusedBorder: InputBorder.none,
+                border: InputBorder.none,
               ),
-              focusedBorder: InputBorder.none,
-              border: InputBorder.none,
             ),
           )
         ],

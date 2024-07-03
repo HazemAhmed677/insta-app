@@ -1,11 +1,12 @@
 class PostModel {
-  String username;
-  String image;
-  int numberOfLikes;
+  String userID;
+  String imageURL;
+  List<Map<String, dynamic>>? numberOfLikes;
   String? desciption;
+  List<Map<String, dynamic>>? comments;
   PostModel(
-      {required this.username,
-      required this.image,
+      {required this.userID,
+      required this.imageURL,
       required this.numberOfLikes,
       this.desciption});
 }

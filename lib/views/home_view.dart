@@ -18,6 +18,7 @@ class _HomeViewState extends State<HomeView> {
   var future;
   @override
   void initState() {
+    super.initState();
     future = BlocProvider.of<FetchUserDataCubit>(context).fetchUserData();
   }
 
