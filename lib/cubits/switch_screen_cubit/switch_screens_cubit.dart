@@ -4,7 +4,7 @@ import 'package:insta_app/cubits/switch_screen_cubit/switch_screen_cubit_states.
 class SwitchScreensCubit extends Cubit<SwitchScreensStates> {
   SwitchScreensCubit() : super(HomeScreenState());
   int currentIndex = 0;
-  getScreen() {
+  void getScreen() {
     if (currentIndex == 0) {
       emit(HomeScreenState());
     } else if (currentIndex == 1) {
