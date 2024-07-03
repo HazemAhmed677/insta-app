@@ -5,12 +5,14 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insta_app/constants.dart';
+import 'package:insta_app/cubits/fetch_user_data_cubit/fetch_user_data_cubit.dart';
 import 'package:insta_app/cubits/profile_image_cubit/profile_image_cubit.dart';
 import 'package:insta_app/cubits/profile_image_cubit/profile_image_cubit_state.dart';
 import 'package:insta_app/helper/modal_progress_hud_helper.dart';
 import 'package:insta_app/helper/show_snack_bar_function.dart';
 import 'package:insta_app/services/upload_user_data.dart';
 import 'package:insta_app/views/home_view.dart';
+import 'package:insta_app/widgets/custom_home_view.dart';
 import 'package:insta_app/widgets/custom_ink_well.dart';
 import 'package:insta_app/widgets/custom_question_text.dart';
 import 'package:insta_app/widgets/custom_stack_widget.dart';
@@ -206,14 +208,12 @@ class _SignUpState extends State<SignUp> {
                                       followers: [],
                                       following: [],
                                     );
-
                                     setState(() {
+                                      selectedImage = null;
                                       isLoading = false;
-                                      Navigator.pushNamed(
-                                        context,
-                                        HomeView.homeViewId,
-                                      );
                                     });
+                                    Navigator.pushNamed(
+                                        context, HomeView.homeViewId);
                                     formKey.currentState!.reset();
                                     // firestore code
                                   } on FirebaseAuthException catch (e) {

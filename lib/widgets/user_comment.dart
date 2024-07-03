@@ -20,7 +20,9 @@ class UserComment extends StatelessWidget {
           children: [
             Text(
               'Name',
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(
+                fontSize: 20,
+              ),
             ),
             Text(
               'Connected',

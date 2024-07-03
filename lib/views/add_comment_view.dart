@@ -10,7 +10,7 @@ class AddCommentView extends StatelessWidget {
     double hight = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 18.0),
       child: SafeArea(
         child: Scaffold(
           backgroundColor: kBlack,
@@ -30,14 +30,16 @@ class AddCommentView extends StatelessWidget {
                       style: const ButtonStyle(
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                       icon: const Icon(Icons.arrow_back_ios),
                     ),
                     SizedBox(
                       width: width * 0.04,
                     ),
                     const Text(
-                      'Comment',
+                      'Comments',
                       style: TextStyle(
                         color: kWhite,
                         fontSize: 26,
@@ -47,20 +49,45 @@ class AddCommentView extends StatelessWidget {
                   ],
                 ),
                 SizedBox(
-                  height: hight * 0.03,
+                  height: hight * 0.02,
                 ),
-                const UserComment(),
-                SizedBox(
-                  height: hight * 0.022,
+                Expanded(
+                  child: ListView.builder(
+                      itemCount: 5,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding:
+                              EdgeInsets.symmetric(vertical: hight * 0.011),
+                          child: const UserComment(),
+                        );
+                      }),
                 ),
-                const UserComment(),
-                SizedBox(
-                  height: hight * 0.022,
-                ),
-                const UserComment(),
-                SizedBox(
-                  height: hight * 0.022,
-                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 12.0, top: 18),
+                  child: TextField(
+                    cursorColor: kPink,
+                    decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.send),
+                      ),
+                      hintText: 'Add comment',
+                      suffixIconColor: const Color.fromARGB(255, 62, 146, 214),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: const BorderSide(
+                          color: kWhite,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: const BorderSide(
+                          color: kPink,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
               ],
             ),
           ),

@@ -48,7 +48,9 @@ class _ProfileViewState extends State<ProfileView> {
                     Text(
                       user.username,
                       style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold),
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     )
                   ],
                 ),

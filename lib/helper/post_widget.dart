@@ -103,7 +103,16 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
           onPressed: () {
-            Navigator.pushNamed(context, AddCommentView.addCommentView);
+            Navigator.push(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (_, __, ___) =>
+                    const AddCommentView(), // Replace with your second screen widget
+                transitionDuration: const Duration(milliseconds: 40),
+                transitionsBuilder: (_, a, __, c) =>
+                    FadeTransition(opacity: a, child: c),
+              ),
+            );
           },
           child: const Text(
             'Add comment',

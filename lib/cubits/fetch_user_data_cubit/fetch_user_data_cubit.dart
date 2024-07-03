@@ -6,8 +6,9 @@ import 'package:insta_app/services/fetch_user_data_service.dart';
 class FetchUserDataCubit extends Cubit<FetchUserDataState> {
   FetchUserDataCubit() : super(FetchUserDataState());
   late UserModel userModel;
-  Future<void> fetchUserData() async {
+  Future<UserModel> fetchUserData() async {
     userModel = await FetchUserDataService().fetchUserData();
     emit(SuccedState());
+    return userModel;
   }
 }
