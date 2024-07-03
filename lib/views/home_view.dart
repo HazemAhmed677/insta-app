@@ -15,36 +15,26 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  var future;
-  @override
-  void initState() {
-    super.initState();
-    future = BlocProvider.of<FetchUserDataCubit>(context).fetchUserData();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: future,
-      builder: (context, snapshot) => StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator(
-                color: kPink,
-              );
-            }
-            if (snapshot.hasError) {
-              return getShowSnackBar(context, ' error occured');
-            }
-            if (snapshot.data == null) {
-              return const SignIn();
-            }
-            if (snapshot.hasData) {
-              return const TriggerSwitchCubit();
-            }
-            return const SizedBox();
-          }),
-    );
+    return StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator(
+              color: kPink,
+            );
+          }
+          if (snapshot.hasError) {
+            return getShowSnackBar(context, ' error occured');
+          }
+          if (snapshot.data == null) {
+            return const SignIn();
+          }
+          if (snapshot.hasData) {
+            return const TriggerSwitchCubit();
+          }
+          return const SizedBox();
+        });
   }
 }
