@@ -35,16 +35,13 @@ class _TriggerSwitchCubitState extends State<TriggerSwitchCubit> {
           return SafeArea(
             child: Scaffold(
               backgroundColor: kBlack,
-              body: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 14.0),
-                child: (state is HomeScreenState)
-                    ? const CustomHomeView()
-                    : (state is SearchScreenState)
-                        ? const SearchView()
-                        : (state is AddPostScreenState)
-                            ? const AddPostView()
-                            : const ProfileView(),
-              ),
+              body: (state is HomeScreenState)
+                  ? const CustomHomeView()
+                  : (state is SearchScreenState)
+                      ? const SearchView()
+                      : (state is AddPostScreenState)
+                          ? const AddPostView()
+                          : const ProfileView(),
               bottomNavigationBar: const CustomBottomNavigationBar(),
             ),
           );
