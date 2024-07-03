@@ -1,15 +1,15 @@
 class PostModel {
   String userID;
   String imageURL;
-  List<Map<String, dynamic>>? likes;
+  List<dynamic> likes;
   String? desciption;
-  List<Map<String, dynamic>>? comments;
+  List<dynamic> comments;
   PostModel(
       {required this.userID,
       required this.imageURL,
       required this.likes,
-      this.desciption,
-      this.comments});
+      this.desciption = '',
+      required this.comments});
   factory PostModel.fromJson(json) {
     return PostModel(
       userID: json['userID'],
@@ -23,7 +23,7 @@ class PostModel {
     return {
       'userID': post.userID,
       'imageURL': post.imageURL,
-      'numberOfLikes': post.likes,
+      'likes': post.likes,
       'desciption': post.desciption,
       'comments': post.comments,
     };
