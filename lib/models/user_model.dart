@@ -22,7 +22,7 @@ class UserModel {
       password: json['password'],
       followers: json['followers'],
       following: json['following'],
-      uid: json['uid'],
+      uid: json['id'],
       profileImageURL: json['profileImageURL'],
     );
   }
@@ -34,6 +34,7 @@ class UserModel {
       'profileImageURL': user.profileImageURL,
       'followers': user.followers,
       'following': user.following,
+      'uid': user.uid,
     };
   }
 }

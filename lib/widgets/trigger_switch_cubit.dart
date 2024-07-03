@@ -15,28 +15,25 @@ class TriggerSwitchCubit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => FetchUserDataCubit(),
-      child: BlocBuilder<SwitchScreensCubit, SwitchScreensStates>(
-        builder: (context, state) {
-          return SafeArea(
-            child: Scaffold(
-              backgroundColor: kBlack,
-              body: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 14.0),
-                child: (state is HomeScreenState)
-                    ? const CustomHomeView()
-                    : (state is SearchScreenState)
-                        ? const SearchView()
-                        : (state is AddPostScreenState)
-                            ? const AddPostView()
-                            : const ProfileView(),
-              ),
-              bottomNavigationBar: const CustomBottomNavigationBar(),
+    return BlocBuilder<SwitchScreensCubit, SwitchScreensStates>(
+      builder: (context, state) {
+        return SafeArea(
+          child: Scaffold(
+            backgroundColor: kBlack,
+            body: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14.0),
+              child: (state is HomeScreenState)
+                  ? const CustomHomeView()
+                  : (state is SearchScreenState)
+                      ? const SearchView()
+                      : (state is AddPostScreenState)
+                          ? const AddPostView()
+                          : const ProfileView(),
             ),
-          );
-        },
-      ),
+            bottomNavigationBar: const CustomBottomNavigationBar(),
+          ),
+        );
+      },
     );
   }
 }
