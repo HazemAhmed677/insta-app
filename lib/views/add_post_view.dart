@@ -1,8 +1,14 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insta_app/constants.dart';
+import 'package:insta_app/helper/show_snack_bar_function.dart';
+import 'package:insta_app/models/post_model.dart';
+import 'package:uuid/uuid.dart';
 
 class AddPostView extends StatefulWidget {
   const AddPostView({super.key});
@@ -14,6 +20,8 @@ class AddPostView extends StatefulWidget {
 
 class _AddPostViewState extends State<AddPostView> {
   File? imagePost;
+  String? description;
+  late String imageURL;
   Future<void> selectImage() async {
     var image = await ImagePicker().pickImage(
       source: ImageSource.gallery,
@@ -40,7 +48,11 @@ class _AddPostViewState extends State<AddPostView> {
                 style: const ButtonStyle(
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  imagePost = null;
+                  description = null;
+                  setState(() {});
+                },
                 icon: const Icon(Icons.cancel),
               ),
               const Padding(
@@ -56,7 +68,30 @@ class _AddPostViewState extends State<AddPostView> {
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   minimumSize: const Size(50, 30),
                 ),
-                onPressed: () {},
+                onPressed: () async {
+                  if (imagePost != null) {
+                    String generatedID = const Uuid().v4();
+                    var reff = FirebaseStorage.instance
+                        .ref(kPostsImages)
+                        .child(generatedID);
+                    await reff.putFile(imagePost!);
+                    imageURL = await reff.getDownloadURL();
+                    PostModel postModel = PostModel(
+                      userID: FirebaseAuth.instance.currentUser!.uid,
+                      imageURL: imageURL,
+                      likes: [],
+                      desciption: description,
+                      comments: [],
+                    );
+                    Map<String, dynamic> postMap =
+                        postModel.convertToMap(postModel);
+                    await FirebaseFirestore.instance
+                        .collection(kPosts)
+                        .add(postMap);
+                  } else {
+                    getShowSnackBar(context, 'upload an image');
+                  }
+                },
                 child: const Text(
                   'Next',
                   style: TextStyle(
@@ -105,15 +140,15 @@ class _AddPostViewState extends State<AddPostView> {
             ),
           ),
           SizedBox(
-            height: hight * 0.018,
+            height: hight * 0.014,
           ),
           const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 4.0),
+            padding: EdgeInsets.symmetric(horizontal: 8.0),
             child: TextField(
               cursorColor: kPink,
               maxLines: 12,
               decoration: InputDecoration(
-                hintText: 'Add caption',
+                hintText: 'Describtion...',
                 hintStyle: TextStyle(
                   fontSize: 16,
                 ),

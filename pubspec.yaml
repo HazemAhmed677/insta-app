@@ -43,6 +43,7 @@ dependencies:
   firebase_storage: ^12.1.0
   modal_progress_hud_nsn: ^0.5.1
   google_sign_in: ^6.2.1
+  uuid: ^4.4.0
 
 dev_dependencies:
   flutter_test:
