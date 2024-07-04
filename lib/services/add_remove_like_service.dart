@@ -4,7 +4,7 @@ import 'package:insta_app/constants.dart';
 import 'package:insta_app/models/post_model.dart';
 
 class AddRemoveLikeService {
-  addOrRemoeLike({required PostModel postModel}) async {
+  Future<bool> addOrRemoeLike({required PostModel postModel}) async {
     String currentUserID = FirebaseAuth.instance.currentUser!.uid;
     var postFromFireStore = await FirebaseFirestore.instance
         .collection(kPosts)
@@ -20,6 +20,8 @@ class AddRemoveLikeService {
           .update({
         'likes': FieldValue.arrayRemove([currentUserID]),
       });
+      postModel.likes.remove(currentUserID);
+      return false;
     } else {
       await FirebaseFirestore.instance
           .collection(kPosts)
@@ -27,6 +29,7 @@ class AddRemoveLikeService {
           .update({
         'likes': FieldValue.arrayUnion([currentUserID])
       });
+      postModel.likes.add(currentUserID);
       return true;
     }
   }

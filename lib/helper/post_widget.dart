@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/models/post_model.dart';
@@ -16,16 +17,23 @@ class CustomPostWidget extends StatefulWidget {
 class _CustomPostWidgetState extends State<CustomPostWidget> {
   bool isLiked = false;
   late List<String> likes;
+  var future;
+  @override
+  void initState() {
+    future = FirebaseFirestore.instance
+        .collection(kUsers)
+        .doc(widget.postModel.userID)
+        .get();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double hight = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     String imageURL = widget.postModel.imageURL;
     return FutureBuilder(
-      future: FirebaseFirestore.instance
-          .collection(kUsers)
-          .doc(widget.postModel.userID)
-          .get(),
+      future: future,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           UserModel userModel = UserModel.fromJson(snapshot.data);
@@ -83,11 +91,13 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
                     onPressed: () async {
-                      AddRemoveLikeService()
+                      await AddRemoveLikeService()
                           .addOrRemoeLike(postModel: widget.postModel);
+
                       setState(() {});
                     },
-                    icon: (isLiked)
+                    icon: (widget.postModel.likes
+                            .contains(FirebaseAuth.instance.currentUser!.uid))
                         ? const Icon(
                             Icons.favorite,
                             color: kPink,
@@ -162,8 +172,8 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
                 height: 0.012 * hight,
               ), ////
               SizedBox(
-                height: hight * 0.04,
-                width: width * 0.3,
+                height: hight * 0.038,
+                width: width * 0.28,
                 child: TextButton(
                   style: ButtonStyle(
                       foregroundColor:
@@ -172,8 +182,9 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
                           WidgetStateProperty.all<Color>(Colors.transparent),
                       shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(16)),
+                          borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(10),
+                              bottomLeft: Radius.circular(10)),
                           side: BorderSide(
                             color: Colors.grey.shade500,
                           ), // White outline border
@@ -195,7 +206,7 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
                     'Add comment...',
                     style: TextStyle(
                       color: Colors.grey,
-                      fontSize: 13,
+                      fontSize: 12,
                     ),
                   ),
                 ),

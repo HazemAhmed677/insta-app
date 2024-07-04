@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
-import 'package:insta_app/models/comment_model.dart';
 
 class UserComment extends StatefulWidget {
   const UserComment({super.key});
