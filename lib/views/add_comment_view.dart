@@ -5,7 +5,6 @@ import 'package:insta_app/constants.dart';
 import 'package:insta_app/cubits/fetch_all_comments_cubit/fetch_all_comments_cubit.dart';
 import 'package:insta_app/cubits/fetch_all_comments_cubit/fetch_all_comments_state.dart';
 import 'package:insta_app/cubits/fetch_user_data_cubit/fetch_user_data_cubit.dart';
-import 'package:insta_app/helper/modal_progress_hud_helper.dart';
 import 'package:insta_app/models/comment_model.dart';
 import 'package:insta_app/models/post_model.dart';
 import 'package:insta_app/models/user_model.dart';
@@ -78,28 +77,23 @@ class _AddCommentViewState extends State<AddCommentView> {
                           SizedBox(
                             height: hight * 0.02,
                           ),
-                          (snapshot.hasData)
-                              ? Expanded(
-                                  child: (snapshot.hasData)
-                                      ? ListView.builder(
-                                          itemCount: snapshot.data!.size,
-                                          itemBuilder: (context, index) {
-                                            return Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                vertical: hight * 0.009,
-                                              ),
-                                              child: UserComment(
-                                                commentQueryDoc:
-                                                    snapshot.data!.docs[index],
-                                              ),
-                                            );
-                                          },
-                                        )
-                                      : const SizedBox())
-                              : const Center(
-                                  child: Text(
-                                  '???',
-                                )),
+                          Expanded(
+                              child: (snapshot.hasData)
+                                  ? ListView.builder(
+                                      itemCount: snapshot.data!.size,
+                                      itemBuilder: (context, index) {
+                                        return Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: hight * 0.009,
+                                          ),
+                                          child: UserComment(
+                                            commentQueryDoc:
+                                                snapshot.data!.docs[index],
+                                          ),
+                                        );
+                                      },
+                                    )
+                                  : const SizedBox()),
                           Padding(
                             padding: const EdgeInsets.only(
                               bottom: 12.0,

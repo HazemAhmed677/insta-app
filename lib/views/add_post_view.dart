@@ -26,6 +26,7 @@ class _AddPostViewState extends State<AddPostView> {
   File? imagePost;
   String? description;
   late String imageURL;
+
   Future<void> selectImage() async {
     var image = await ImagePicker().pickImage(
       source: ImageSource.gallery,
@@ -90,6 +91,7 @@ class _AddPostViewState extends State<AddPostView> {
                             try {
                               isLoading = true;
                               setState(() {});
+
                               String generatedID = const Uuid().v4();
                               var reff = FirebaseStorage.instance
                                   .ref(kPostsImages)

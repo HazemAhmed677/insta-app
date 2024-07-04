@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
+import 'package:insta_app/helper/modal_progress_hud_helper.dart';
 import 'package:insta_app/models/post_model.dart';
 import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/services/add_remove_like_service.dart';
@@ -209,10 +210,12 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
             ],
           );
         } else {
-          return const Center(
-            child: Text(
-              'is loading...',
-              style: TextStyle(color: Colors.grey, fontSize: 18),
+          return const Padding(
+            padding: EdgeInsets.all(200.0),
+            child: Center(
+              child: CircularProgressIndicator(
+                color: kPink,
+              ),
             ),
           );
         }
