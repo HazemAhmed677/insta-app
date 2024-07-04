@@ -9,15 +9,18 @@ class FetchAllCommentsCubit extends Cubit<FetchAllCommentsState> {
   Stream<QuerySnapshot<Map<String, dynamic>>> fetchAllComments(
       PostModel postModel) async* {
     // code of get comments
+    emit(LoadingState());
     try {
-      yield await FirebaseFirestore.instance
+      var response = await FirebaseFirestore.instance
           .collection(kPosts)
           .doc(postModel.postID)
           .collection(kComments)
           .orderBy('date time')
           .get();
+      emit(SucceddState());
+      yield response;
     } catch (e) {
-      throw Exception(e.toString());
+      emit(FailuireState());
     }
   }
 }

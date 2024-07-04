@@ -5,6 +5,7 @@ import 'package:insta_app/constants.dart';
 import 'package:insta_app/cubits/fetch_all_comments_cubit/fetch_all_comments_cubit.dart';
 import 'package:insta_app/cubits/fetch_all_comments_cubit/fetch_all_comments_state.dart';
 import 'package:insta_app/cubits/fetch_user_data_cubit/fetch_user_data_cubit.dart';
+import 'package:insta_app/helper/modal_progress_hud_helper.dart';
 import 'package:insta_app/models/comment_model.dart';
 import 'package:insta_app/models/post_model.dart';
 import 'package:insta_app/models/user_model.dart';
@@ -28,11 +29,11 @@ class _AddCommentViewState extends State<AddCommentView> {
     double width = MediaQuery.of(context).size.width;
     UserModel userModel =
         BlocProvider.of<FetchUserDataCubit>(context).userModel;
-    return BlocBuilder<FetchAllCommentsCubit, FetchAllCommentsState>(
-      builder: (context, state) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18.0),
-          child: SafeArea(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 18.0),
+      child: BlocBuilder<FetchAllCommentsCubit, FetchAllCommentsState>(
+        builder: (context, state) {
+          return SafeArea(
             child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                 stream: BlocProvider.of<FetchAllCommentsCubit>(context)
                     .fetchAllComments(postModel),
@@ -77,23 +78,30 @@ class _AddCommentViewState extends State<AddCommentView> {
                           SizedBox(
                             height: hight * 0.02,
                           ),
-                          Expanded(
-                              child: (snapshot.hasData)
-                                  ? ListView.builder(
-                                      itemCount: snapshot.data!.size,
-                                      itemBuilder: (context, index) {
-                                        return Padding(
-                                          padding: EdgeInsets.symmetric(
-                                            vertical: hight * 0.009,
-                                          ),
-                                          child: UserComment(
-                                            commentQueryDoc:
-                                                snapshot.data!.docs[index],
-                                          ),
-                                        );
-                                      },
-                                    )
-                                  : const SizedBox()),
+                          (state is LoadingState)
+                              ? const Center(
+                                  child: Text(
+                                    'Loading',
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                )
+                              : Expanded(
+                                  child: (snapshot.hasData)
+                                      ? ListView.builder(
+                                          itemCount: snapshot.data!.size,
+                                          itemBuilder: (context, index) {
+                                            return Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                vertical: hight * 0.009,
+                                              ),
+                                              child: UserComment(
+                                                commentQueryDoc:
+                                                    snapshot.data!.docs[index],
+                                              ),
+                                            );
+                                          },
+                                        )
+                                      : const SizedBox()),
                           Padding(
                             padding: const EdgeInsets.only(
                               bottom: 12.0,
@@ -151,9 +159,9 @@ class _AddCommentViewState extends State<AddCommentView> {
                     ),
                   );
                 }),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
