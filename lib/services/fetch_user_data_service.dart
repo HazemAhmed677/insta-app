@@ -8,7 +8,7 @@ class FetchUserDataService {
     try {
       DocumentSnapshot<Map<String, dynamic>> userJson = await FirebaseFirestore
           .instance
-          .collection(kCollection)
+          .collection(kUsers)
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .get();
       UserModel user = UserModel.fromJson(userJson);

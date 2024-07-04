@@ -24,9 +24,6 @@ class UploadUserData {
     );
     FetchUserDataService();
     Map<String, dynamic> userMap = userModel.convertToMap(userModel);
-    await FirebaseFirestore.instance
-        .collection(kCollection)
-        .doc(uid)
-        .set(userMap);
+    await FirebaseFirestore.instance.collection(kUsers).doc(uid).set(userMap);
   }
 }
