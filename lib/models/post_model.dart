@@ -2,7 +2,7 @@ class PostModel {
   String userID;
   String imageURL;
   String postID;
-  List<dynamic> likes;
+  List<String> likes;
   String? desciption;
   List<dynamic> comments;
   PostModel(
@@ -16,7 +16,9 @@ class PostModel {
     return PostModel(
         userID: json['userID'],
         imageURL: json['imageURL'],
-        likes: json['likes'],
+        likes: (json['likes'] as List)
+            .map((element) => element as String)
+            .toList(),
         desciption: json['desciption'],
         comments: json['comments'],
         postID: json['postID']);

@@ -157,8 +157,8 @@ class _SignInState extends State<SignIn> {
                               getShowSnackBar(context, 'email not valid');
                             }
                           } catch (e) {
-                            isLoading = false;
-                            setState(() {});
+                            // isLoading = false;
+                            // setState(() {});
                             getShowSnackBar(
                               context,
                               e.toString(),

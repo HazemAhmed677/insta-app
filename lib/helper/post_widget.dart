@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/models/post_model.dart';
 import 'package:insta_app/models/user_model.dart';
+import 'package:insta_app/services/add_remove_like_service.dart';
 import 'package:insta_app/views/add_comment_view.dart';
 
 class CustomPostWidget extends StatefulWidget {
@@ -14,6 +15,7 @@ class CustomPostWidget extends StatefulWidget {
 
 class _CustomPostWidgetState extends State<CustomPostWidget> {
   bool isLiked = false;
+  late List<String> likes;
   @override
   Widget build(BuildContext context) {
     double hight = MediaQuery.of(context).size.height;
@@ -81,13 +83,8 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
                     onPressed: () async {
-                      isLiked = !isLiked;
-
-                      var list = await FirebaseFirestore.instance
-                          .collection(kPosts)
-                          .where('likes')
-                          .get();
-
+                      AddRemoveLikeService()
+                          .addOrRemoeLike(postModel: widget.postModel);
                       setState(() {});
                     },
                     icon: (isLiked)
