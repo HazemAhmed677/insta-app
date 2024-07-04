@@ -71,7 +71,7 @@ class _AddCommentViewState extends State<AddCommentView> {
                                   fontSize: 26,
                                   fontWeight: FontWeight.bold,
                                 ),
-                              )
+                              ),
                             ],
                           ),
                           SizedBox(
@@ -112,7 +112,7 @@ class _AddCommentViewState extends State<AddCommentView> {
                                         imageProfile: userModel.profileImageURL,
                                         comment: textEditingController.text,
                                         likes: [],
-                                        dataTime: DateTime.now(),
+                                        dataTime: Timestamp.now(),
                                       );
                                       Map<String, dynamic> commentMap =
                                           commentModel

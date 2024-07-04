@@ -14,6 +14,7 @@ class FetchAllCommentsCubit extends Cubit<FetchAllCommentsState> {
           .collection(kPosts)
           .doc(postModel.postID)
           .collection(kComments)
+          .orderBy('date time')
           .get();
     } catch (e) {
       throw Exception(e.toString());

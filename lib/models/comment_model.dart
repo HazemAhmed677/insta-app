@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class CommentModel {
   String username;
   String? imageProfile;
   String comment;
   List? likes;
-  final DateTime dataTime;
+  final Timestamp dataTime;
   CommentModel({
     required this.username,
     required this.comment,
@@ -27,7 +29,7 @@ class CommentModel {
       'imageProfile': commentModel.imageProfile,
       'likes': commentModel.likes,
       'comment': commentModel.comment,
-      'data time': commentModel.dataTime,
+      'date time': commentModel.dataTime,
     };
   }
 }
