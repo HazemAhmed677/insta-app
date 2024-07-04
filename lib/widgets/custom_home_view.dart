@@ -19,7 +19,10 @@ class _CustomHomeViewState extends State<CustomHomeView> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14.0),
       child: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection(kPosts).snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection(kPosts)
+            .orderBy('date time', descending: true)
+            .snapshots(),
         builder: (context, snapshot) {
           return CustomScrollView(
             slivers: [

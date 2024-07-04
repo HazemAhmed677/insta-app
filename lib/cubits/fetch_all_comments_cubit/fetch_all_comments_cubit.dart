@@ -15,7 +15,7 @@ class FetchAllCommentsCubit extends Cubit<FetchAllCommentsState> {
           .collection(kPosts)
           .doc(postModel.postID)
           .collection(kComments)
-          .orderBy('date time')
+          .orderBy('date time', descending: false)
           .get();
       emit(SucceddState());
       yield response;

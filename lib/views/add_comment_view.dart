@@ -29,11 +29,11 @@ class _AddCommentViewState extends State<AddCommentView> {
     double width = MediaQuery.of(context).size.width;
     UserModel userModel =
         BlocProvider.of<FetchUserDataCubit>(context).userModel;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 18.0),
-      child: BlocBuilder<FetchAllCommentsCubit, FetchAllCommentsState>(
-        builder: (context, state) {
-          return SafeArea(
+    return BlocBuilder<FetchAllCommentsCubit, FetchAllCommentsState>(
+      builder: (context, state) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18.0),
             child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                 stream: BlocProvider.of<FetchAllCommentsCubit>(context)
                     .fetchAllComments(postModel),
@@ -78,14 +78,8 @@ class _AddCommentViewState extends State<AddCommentView> {
                           SizedBox(
                             height: hight * 0.02,
                           ),
-                          (state is LoadingState)
-                              ? const Center(
-                                  child: Text(
-                                    'Loading',
-                                    style: TextStyle(color: Colors.grey),
-                                  ),
-                                )
-                              : Expanded(
+                          (snapshot.hasData)
+                              ? Expanded(
                                   child: (snapshot.hasData)
                                       ? ListView.builder(
                                           itemCount: snapshot.data!.size,
@@ -101,7 +95,11 @@ class _AddCommentViewState extends State<AddCommentView> {
                                             );
                                           },
                                         )
-                                      : const SizedBox()),
+                                      : const SizedBox())
+                              : const Center(
+                                  child: Text(
+                                  '???',
+                                )),
                           Padding(
                             padding: const EdgeInsets.only(
                               bottom: 12.0,
@@ -159,9 +157,9 @@ class _AddCommentViewState extends State<AddCommentView> {
                     ),
                   );
                 }),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

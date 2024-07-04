@@ -103,6 +103,7 @@ class _AddPostViewState extends State<AddPostView> {
                                 likes: [],
                                 desciption: description,
                                 postID: generatedID,
+                                timestamp: Timestamp.now(),
                               );
                               Map<String, dynamic> postMap =
                                   postModel.convertToMap(postModel);
