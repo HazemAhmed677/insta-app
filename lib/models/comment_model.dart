@@ -1,29 +1,29 @@
 class CommentModel {
   String username;
   String? imageProfile;
-  String uid;
-  int? numOfLikes;
+  String comment;
+  List? usersliked;
   CommentModel({
     required this.username,
-    required this.uid,
+    required this.comment,
     this.imageProfile,
-    this.numOfLikes,
+    this.usersliked,
   });
 
   factory CommentModel.fromJson(json) {
     return CommentModel(
       username: json['username'],
-      uid: json['uid'],
       imageProfile: json['imageProfile'],
-      numOfLikes: json['numOfLikes'],
+      usersliked: json['likes'],
+      comment: json['comment'],
     );
   }
   Map<String, dynamic> convetToMap(CommentModel commentModel) {
     return {
       'userneme': commentModel.username,
-      'uid': commentModel.uid,
       'imageProfile': commentModel.imageProfile,
-      'numOfLikes': commentModel.numOfLikes,
+      'likes': commentModel.usersliked,
+      'comment': commentModel.comment,
     };
   }
 }

@@ -1,14 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insta_app/constants.dart';
+import 'package:insta_app/cubits/fetch_user_data_cubit/fetch_user_data_cubit.dart';
+import 'package:insta_app/models/comment_model.dart';
+import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/widgets/user_comment.dart';
 
-class AddCommentView extends StatelessWidget {
+class AddCommentView extends StatefulWidget {
   const AddCommentView({super.key});
   static String addCommentView = 'Add comment screen';
+
+  @override
+  State<AddCommentView> createState() => _AddCommentViewState();
+}
+
+class _AddCommentViewState extends State<AddCommentView> {
+  TextEditingController textEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     double hight = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    UserModel userModel =
+        BlocProvider.of<FetchUserDataCubit>(context).userModel;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 18.0),
       child: SafeArea(
@@ -56,23 +69,37 @@ class AddCommentView extends StatelessWidget {
                       itemCount: 5,
                       itemBuilder: (context, index) {
                         return Padding(
-                          padding:
-                              EdgeInsets.symmetric(vertical: hight * 0.011),
+                          padding: EdgeInsets.symmetric(
+                            vertical: hight * 0.009,
+                          ),
                           child: const UserComment(),
                         );
                       }),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 12.0, top: 18),
+                  padding: const EdgeInsets.only(
+                    bottom: 12.0,
+                    top: 18,
+                  ),
                   child: TextField(
+                    controller: textEditingController,
                     cursorColor: kPink,
                     decoration: InputDecoration(
                       suffixIcon: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          // store in firebase
+                          if (textEditingController.text != '') {
+                            CommentModel commentModel = CommentModel(
+                              username: userModel.username,
+                              imageProfile: userModel.profileImageURL,
+                              comment: textEditingController.text,
+                            );
+                          }
+                        },
                         icon: const Icon(Icons.send),
                       ),
                       hintText: 'Add comment',
-                      suffixIconColor: const Color.fromARGB(255, 62, 146, 214),
+                      suffixIconColor: const Color.fromARGB(255, 49, 122, 183),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
                         borderSide: const BorderSide(

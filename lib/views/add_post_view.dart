@@ -103,12 +103,14 @@ class _AddPostViewState extends State<AddPostView> {
                                 likes: [],
                                 desciption: description,
                                 comments: [],
+                                postID: generatedID,
                               );
                               Map<String, dynamic> postMap =
                                   postModel.convertToMap(postModel);
                               await FirebaseFirestore.instance
                                   .collection(kPosts)
-                                  .add(postMap);
+                                  .doc(generatedID)
+                                  .set(postMap);
                               isLoading = false;
                               textEditingController.clear();
                               imagePost = null;

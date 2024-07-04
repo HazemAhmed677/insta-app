@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insta_app/constants.dart';
@@ -31,10 +32,10 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
               backgroundImage: (userModel.profileImageURL != null)
                   ? NetworkImage(userModel.profileImageURL!)
                   : null,
-              maxRadius: 34,
+              radius: 30,
             ),
             SizedBox(
-              width: 0.035 * width,
+              width: 0.03 * width,
             ),
             Row(
               children: [
@@ -42,12 +43,12 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
                   userModel.username,
                   style: const TextStyle(
                     color: kWhite,
-                    fontSize: 22,
+                    fontSize: 18,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 4.0),
-                  child: const Icon(
+                const Padding(
+                  padding: EdgeInsets.only(left: 4.0),
+                  child: Icon(
                     Icons.verified,
                     size: 16,
                     color: Colors.blue,
@@ -58,7 +59,7 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
           ],
         ),
         SizedBox(
-          height: 0.02 * hight,
+          height: 0.025 * hight,
         ),
         ClipRRect(
           borderRadius: BorderRadius.circular(14),
@@ -75,15 +76,26 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
                 minimumSize: const Size(10, 20),
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
-              onPressed: () {
+              onPressed: () async {
                 isLiked = !isLiked;
+
+                var list = await FirebaseFirestore.instance
+                    .collection(kPosts)
+                    .where('likes')
+                    .get();
+
                 setState(() {});
               },
-              icon: Icon(
-                Icons.favorite,
-                color: (isLiked) ? kPink : null,
-                size: 28,
-              ),
+              icon: (isLiked)
+                  ? const Icon(
+                      Icons.favorite,
+                      color: kPink,
+                      size: 28,
+                    )
+                  : const Icon(
+                      Icons.favorite_outline,
+                      size: 28,
+                    ),
             ),
             SizedBox(
               width: width * 0.03,
@@ -150,7 +162,7 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
         ), ////
         SizedBox(
           height: hight * 0.04,
-          width: width * 0.29,
+          width: width * 0.3,
           child: TextButton(
             style: ButtonStyle(
                 foregroundColor: WidgetStateProperty.all<Color>(Colors.white),
@@ -186,7 +198,7 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
           ),
         ),
         SizedBox(
-          height: 0.02 * hight,
+          height: 0.032 * hight,
         ),
       ],
     );

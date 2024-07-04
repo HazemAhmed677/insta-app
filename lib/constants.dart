@@ -8,6 +8,7 @@ const kWhite = Colors.white;
 const kCollection = 'users';
 const kImages = 'images';
 const kPosts = 'posts';
+const kComments = 'comments';
 const kPostsImages = 'posts_images';
 Future<void> kAnimateTo(ScrollController controller) async {
   return await controller.animateTo(
