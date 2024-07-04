@@ -3,11 +3,13 @@ class CommentModel {
   String? imageProfile;
   String comment;
   List? likes;
+  final DateTime dataTime;
   CommentModel({
     required this.username,
     required this.comment,
     this.imageProfile,
     this.likes,
+    required this.dataTime,
   });
 
   factory CommentModel.fromJson(json) {
@@ -16,14 +18,16 @@ class CommentModel {
       imageProfile: json['imageProfile'],
       likes: json['likes'],
       comment: json['comment'],
+      dataTime: json['date time'],
     );
   }
   Map<String, dynamic> convetToMap(CommentModel commentModel) {
     return {
-      'userneme': commentModel.username,
+      'username': commentModel.username,
       'imageProfile': commentModel.imageProfile,
       'likes': commentModel.likes,
       'comment': commentModel.comment,
+      'data time': commentModel.dataTime,
     };
   }
 }

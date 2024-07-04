@@ -1,9 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:insta_app/constants.dart';
+import 'package:insta_app/models/comment_model.dart';
 
 class UserComment extends StatefulWidget {
-  const UserComment({super.key});
-
+  const UserComment({super.key, required this.commentQueryDoc});
+  final QueryDocumentSnapshot<Map<String, dynamic>> commentQueryDoc;
   @override
   State<UserComment> createState() => _UserCommentState();
 }
@@ -11,28 +12,31 @@ class UserComment extends StatefulWidget {
 class _UserCommentState extends State<UserComment> {
   @override
   Widget build(BuildContext context) {
+    CommentModel commentModel = CommentModel.fromJson(widget.commentQueryDoc);
     double width = MediaQuery.of(context).size.width;
     return Row(
       children: [
-        const CircleAvatar(
+        CircleAvatar(
           radius: 28,
-          backgroundImage: AssetImage(kImage),
+          backgroundImage: (commentModel.imageProfile != null)
+              ? NetworkImage(commentModel.imageProfile!)
+              : null,
         ),
         SizedBox(
           width: width * 0.025,
         ),
-        const Column(
+        Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Name',
-              style: TextStyle(
+              commentModel.username,
+              style: const TextStyle(
                 fontSize: 18,
               ),
             ),
             Text(
-              'Connected',
-              style: TextStyle(
+              commentModel.comment,
+              style: const TextStyle(
                 color: Colors.grey,
                 fontSize: 16,
               ),
@@ -54,8 +58,10 @@ class _UserCommentState extends State<UserComment> {
                   Icons.favorite_border,
                 )),
             Text(
-              '49',
-              style: TextStyle(fontSize: 15),
+              commentModel.likes!.length.toString(),
+              style: const TextStyle(
+                fontSize: 15,
+              ),
             )
           ],
         )
