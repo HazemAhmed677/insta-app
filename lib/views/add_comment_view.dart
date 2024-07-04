@@ -78,22 +78,30 @@ class _AddCommentViewState extends State<AddCommentView> {
                             height: hight * 0.02,
                           ),
                           Expanded(
-                              child: (snapshot.hasData)
-                                  ? ListView.builder(
-                                      itemCount: snapshot.data!.size,
-                                      itemBuilder: (context, index) {
-                                        return Padding(
-                                          padding: EdgeInsets.symmetric(
-                                            vertical: hight * 0.009,
-                                          ),
-                                          child: UserComment(
-                                            commentQueryDoc:
-                                                snapshot.data!.docs[index],
-                                          ),
-                                        );
-                                      },
-                                    )
-                                  : const SizedBox()),
+                            child: (snapshot.hasData)
+                                ? ListView.builder(
+                                    itemCount: snapshot.data!.size,
+                                    itemBuilder: (context, index) {
+                                      return Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: hight * 0.009,
+                                        ),
+                                        child: UserComment(
+                                          commentQueryDoc:
+                                              snapshot.data!.docs[index],
+                                        ),
+                                      );
+                                    },
+                                  )
+                                : (snapshot.connectionState ==
+                                        ConnectionState.waiting)
+                                    ? const Center(
+                                        child: CircularProgressIndicator(
+                                          color: kPink,
+                                        ),
+                                      )
+                                    : const SizedBox(),
+                          ),
                           Padding(
                             padding: const EdgeInsets.only(
                               bottom: 12.0,

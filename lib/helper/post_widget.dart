@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:insta_app/constants.dart';
-import 'package:insta_app/helper/modal_progress_hud_helper.dart';
 import 'package:insta_app/models/post_model.dart';
 import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/services/add_remove_like_service.dart';
@@ -177,15 +177,16 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
                 width: width * 0.28,
                 child: TextButton(
                   style: ButtonStyle(
-                      foregroundColor:
-                          WidgetStateProperty.all<Color>(Colors.white),
+                      foregroundColor: WidgetStateProperty.all<Color>(
+                        Colors.white,
+                      ),
                       backgroundColor:
                           WidgetStateProperty.all<Color>(Colors.transparent),
                       shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: const BorderRadius.only(
-                              topRight: Radius.circular(10),
-                              bottomLeft: Radius.circular(10)),
+                              topRight: Radius.circular(14),
+                              bottomLeft: Radius.circular(16)),
                           side: BorderSide(
                             color: Colors.grey.shade500,
                           ), // White outline border
@@ -196,7 +197,7 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
                         arguments: widget.postModel);
                   },
                   child: const Text(
-                    'Add comment...',
+                    'Add Comment...',
                     style: TextStyle(
                       color: Colors.grey,
                       fontSize: 12,
@@ -210,11 +211,13 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
             ],
           );
         } else {
-          return const Padding(
-            padding: EdgeInsets.all(200.0),
-            child: Center(
-              child: CircularProgressIndicator(
-                color: kPink,
+          return Padding(
+            padding: EdgeInsets.symmetric(
+                vertical: 0.2 * MediaQuery.of(context).size.height),
+            child: const Center(
+              child: Text(
+                'Loading...',
+                style: TextStyle(fontFamily: 'PlaywriteMX'),
               ),
             ),
           );
