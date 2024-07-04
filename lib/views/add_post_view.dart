@@ -102,7 +102,6 @@ class _AddPostViewState extends State<AddPostView> {
                                 imageURL: imageURL,
                                 likes: [],
                                 desciption: description,
-                                comments: [],
                                 postID: generatedID,
                               );
                               Map<String, dynamic> postMap =

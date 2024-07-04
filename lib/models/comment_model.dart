@@ -2,19 +2,19 @@ class CommentModel {
   String username;
   String? imageProfile;
   String comment;
-  List? usersliked;
+  List? likes;
   CommentModel({
     required this.username,
     required this.comment,
     this.imageProfile,
-    this.usersliked,
+    this.likes,
   });
 
   factory CommentModel.fromJson(json) {
     return CommentModel(
       username: json['username'],
       imageProfile: json['imageProfile'],
-      usersliked: json['likes'],
+      likes: json['likes'],
       comment: json['comment'],
     );
   }
@@ -22,7 +22,7 @@ class CommentModel {
     return {
       'userneme': commentModel.username,
       'imageProfile': commentModel.imageProfile,
-      'likes': commentModel.usersliked,
+      'likes': commentModel.likes,
       'comment': commentModel.comment,
     };
   }
