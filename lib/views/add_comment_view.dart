@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,6 +30,27 @@ class _AddCommentViewState extends State<AddCommentView> {
     double width = MediaQuery.of(context).size.width;
     UserModel userModel =
         BlocProvider.of<FetchUserDataCubit>(context).userModel;
+    Future<void> addComment() async {
+      if (textEditingController.text != '') {
+        CommentModel commentModel = CommentModel(
+          username: userModel.username,
+          imageProfile: userModel.profileImageURL,
+          comment: textEditingController.text,
+          likes: [],
+          dataTime: Timestamp.now(),
+        );
+        Map<String, dynamic> commentMap =
+            commentModel.convetToMap(commentModel);
+        // firestore code
+        await FirebaseFirestore.instance
+            .collection(kPosts)
+            .doc(postModel.postID)
+            .collection(kComments)
+            .add(commentMap);
+        textEditingController.clear();
+      }
+    }
+
     return BlocBuilder<FetchAllCommentsCubit, FetchAllCommentsState>(
       builder: (context, state) {
         return SafeArea(
@@ -110,29 +133,13 @@ class _AddCommentViewState extends State<AddCommentView> {
                             child: TextField(
                               controller: textEditingController,
                               cursorColor: kPink,
+                              onSubmitted: (value) async {
+                                await addComment();
+                              },
                               decoration: InputDecoration(
                                 suffixIcon: IconButton(
                                   onPressed: () async {
-                                    // store in firebase
-                                    if (textEditingController.text != '') {
-                                      CommentModel commentModel = CommentModel(
-                                        username: userModel.username,
-                                        imageProfile: userModel.profileImageURL,
-                                        comment: textEditingController.text,
-                                        likes: [],
-                                        dataTime: Timestamp.now(),
-                                      );
-                                      Map<String, dynamic> commentMap =
-                                          commentModel
-                                              .convetToMap(commentModel);
-                                      // firestore code
-                                      await FirebaseFirestore.instance
-                                          .collection(kPosts)
-                                          .doc(postModel.postID)
-                                          .collection(kComments)
-                                          .add(commentMap);
-                                      textEditingController.clear();
-                                    }
+                                    await addComment();
                                   },
                                   icon: const Icon(Icons.send),
                                 ),

@@ -1,0 +1,3 @@
+class AddRemoveLikeCommentService {
+  fetchAllLikesComment() {}
+}
