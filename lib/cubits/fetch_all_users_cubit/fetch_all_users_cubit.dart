@@ -8,6 +8,14 @@ class FetchSearchedUsersCubit extends Cubit<FetchSearchedUsersStates> {
 
   Future<QuerySnapshot<Map<String, dynamic>>> fetchSearchedUsers(
       String input) async {
-    return await FetchSearchedUsers().fetchSearchedUsers(input);
+    try {
+      emit(LoadingState());
+      var res = FetchSearchedUsers().fetchSearchedUsers(input);
+      emit(SucceedState());
+      return res;
+    } catch (e) {
+      emit(FailuireState());
+      throw Exception('Error');
+    }
   }
 }

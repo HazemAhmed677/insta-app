@@ -68,6 +68,7 @@ class _CustomHomeViewState extends State<CustomHomeView> {
                                 onPressed: () async {
                                   try {
                                     await signOut();
+                                    Get.back();
                                   } catch (e) {
                                     print(e.toString());
                                   }

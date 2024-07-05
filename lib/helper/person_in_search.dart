@@ -20,7 +20,9 @@ class PersonInSearch extends StatelessWidget {
           user.username,
           style: const TextStyle(fontSize: 18),
         ),
-        const Spacer(),
+        SizedBox(
+          width: width * 0.5,
+        ),
         IconButton(
           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
           constraints: const BoxConstraints(),
