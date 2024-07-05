@@ -115,6 +115,7 @@ class _AddCommentViewState extends State<AddCommentView> {
                                           vertical: hight * 0.009,
                                         ),
                                         child: UserComment(
+                                          postID: postModel.postID,
                                           commentQueryDoc:
                                               snapshot.data!.docs[index],
                                         ),

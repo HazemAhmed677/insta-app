@@ -161,7 +161,7 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
                   (widget.postModel.desciption != null)
                       ? Text(
                           " ${widget.postModel.desciption!}",
-                          maxLines: 1,
+                          maxLines: 3,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                             fontSize: 18,

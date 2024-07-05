@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/helper/post_widget.dart';
 import 'package:insta_app/models/post_model.dart';
@@ -54,7 +55,7 @@ class _CustomHomeViewState extends State<CustomHomeView> {
                             actions: [
                               TextButton(
                                 onPressed: () {
-                                  Navigator.pop(context);
+                                  Get.back();
                                 },
                                 child: const Text(
                                   'Cancel',
@@ -66,7 +67,6 @@ class _CustomHomeViewState extends State<CustomHomeView> {
                               TextButton(
                                 onPressed: () async {
                                   try {
-                                    Navigator.pop(context);
                                     await signOut();
                                   } catch (e) {
                                     print(e.toString());

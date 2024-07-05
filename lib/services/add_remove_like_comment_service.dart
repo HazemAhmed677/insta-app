@@ -22,7 +22,7 @@ class AddRemoveLikeCommentService {
           .update({
         'likes': FieldValue.arrayRemove([currentUserID]),
       });
-      commentModel.likes!.remove(currentUserID);
+      commentModel.likes.remove(currentUserID);
     } else {
       FirebaseFirestore.instance
           .collection(kPosts)
@@ -32,7 +32,7 @@ class AddRemoveLikeCommentService {
           .update({
         'likes': FieldValue.arrayUnion([currentUserID]),
       });
-      commentModel.likes!.add(currentUserID);
+      commentModel.likes.add(currentUserID);
     }
   }
 }
