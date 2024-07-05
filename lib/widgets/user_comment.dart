@@ -25,23 +25,31 @@ class _UserCommentState extends State<UserComment> {
         SizedBox(
           width: width * 0.025,
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              commentModel.username,
-              style: const TextStyle(
-                fontSize: 18,
-              ),
+        SizedBox(
+          width: width * 0.6,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  commentModel.username,
+                  style: const TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+                Text(
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 5,
+                  commentModel.comment,
+                  style: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
             ),
-            Text(
-              commentModel.comment,
-              style: const TextStyle(
-                color: Colors.grey,
-                fontSize: 16,
-              ),
-            ),
-          ],
+          ),
         ),
         const Spacer(),
         Column(

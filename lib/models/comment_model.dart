@@ -4,15 +4,18 @@ class CommentModel {
   String username;
   String? imageProfile;
   String comment;
-  List? likes;
+  String commentID;
+  String uid;
+  List likes;
   final Timestamp dataTime;
-  CommentModel({
-    required this.username,
-    required this.comment,
-    this.imageProfile,
-    this.likes,
-    required this.dataTime,
-  });
+  CommentModel(
+      {required this.username,
+      required this.comment,
+      this.imageProfile,
+      required this.likes,
+      required this.dataTime,
+      required this.commentID,
+      required this.uid});
 
   factory CommentModel.fromJson(json) {
     return CommentModel(
@@ -21,6 +24,8 @@ class CommentModel {
       likes: json['likes'],
       comment: json['comment'],
       dataTime: json['date time'],
+      commentID: json['commentID'],
+      uid: json['uid'],
     );
   }
   Map<String, dynamic> convetToMap(CommentModel commentModel) {
@@ -30,6 +35,8 @@ class CommentModel {
       'likes': commentModel.likes,
       'comment': commentModel.comment,
       'date time': commentModel.dataTime,
+      'commentID': commentModel.commentID,
+      'uid': commentModel.uid,
     };
   }
 }

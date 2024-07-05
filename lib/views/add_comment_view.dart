@@ -11,6 +11,7 @@ import 'package:insta_app/models/comment_model.dart';
 import 'package:insta_app/models/post_model.dart';
 import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/widgets/user_comment.dart';
+import 'package:uuid/uuid.dart';
 
 class AddCommentView extends StatefulWidget {
   const AddCommentView({super.key});
@@ -30,15 +31,19 @@ class _AddCommentViewState extends State<AddCommentView> {
     double width = MediaQuery.of(context).size.width;
     UserModel userModel =
         BlocProvider.of<FetchUserDataCubit>(context).userModel;
-    Future<void> addComment() async {
+    String generatedCommentId;
+    Future<void> addComment(String generatedCommentId) async {
       if (textEditingController.text != '') {
         CommentModel commentModel = CommentModel(
           username: userModel.username,
           imageProfile: userModel.profileImageURL,
           comment: textEditingController.text,
           likes: [],
+          commentID: generatedCommentId,
           dataTime: Timestamp.now(),
+          uid: userModel.uid,
         );
+        textEditingController.clear();
         Map<String, dynamic> commentMap =
             commentModel.convetToMap(commentModel);
         // firestore code
@@ -46,8 +51,8 @@ class _AddCommentViewState extends State<AddCommentView> {
             .collection(kPosts)
             .doc(postModel.postID)
             .collection(kComments)
-            .add(commentMap);
-        textEditingController.clear();
+            .doc(generatedCommentId)
+            .set(commentMap);
       }
     }
 
@@ -134,12 +139,14 @@ class _AddCommentViewState extends State<AddCommentView> {
                               controller: textEditingController,
                               cursorColor: kPink,
                               onSubmitted: (value) async {
-                                await addComment();
+                                generatedCommentId = const Uuid().v4();
+                                await addComment(generatedCommentId);
                               },
                               decoration: InputDecoration(
                                 suffixIcon: IconButton(
                                   onPressed: () async {
-                                    await addComment();
+                                    generatedCommentId = const Uuid().v4();
+                                    await addComment(generatedCommentId);
                                   },
                                   icon: const Icon(Icons.send),
                                 ),
