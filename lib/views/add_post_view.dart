@@ -28,9 +28,13 @@ class _AddPostViewState extends State<AddPostView> {
   late String imageURL;
 
   Future<void> selectImage() async {
-    var image = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-    );
+    XFile? image;
+    try {
+      image = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+      );
+    } catch (e) {}
+
     if (image != null) {
       imagePost = File(image.path);
       setState(() {});

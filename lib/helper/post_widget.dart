@@ -2,10 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/models/post_model.dart';
 import 'package:insta_app/models/user_model.dart';
-import 'package:insta_app/services/add_remove_like_service.dart';
+import 'package:insta_app/services/add_remove_like_post_service.dart';
 import 'package:insta_app/views/add_comment_view.dart';
 
 class CustomPostWidget extends StatefulWidget {
@@ -92,7 +93,7 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
                     onPressed: () async {
-                      await AddRemoveLikeService()
+                      await AddRemoveLikePostService()
                           .addOrRemoeLike(postModel: widget.postModel);
 
                       setState(() {});
@@ -177,24 +178,30 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
                 width: width * 0.28,
                 child: TextButton(
                   style: ButtonStyle(
-                      foregroundColor: WidgetStateProperty.all<Color>(
-                        Colors.white,
+                    foregroundColor: WidgetStateProperty.all<Color>(
+                      Colors.white,
+                    ),
+                    backgroundColor:
+                        WidgetStateProperty.all<Color>(Colors.transparent),
+                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(14),
+                            bottomLeft: Radius.circular(16)),
+                        side: BorderSide(
+                          color: Colors.grey.shade500,
+                        ), // White outline border
                       ),
-                      backgroundColor:
-                          WidgetStateProperty.all<Color>(Colors.transparent),
-                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: const BorderRadius.only(
-                              topRight: Radius.circular(14),
-                              bottomLeft: Radius.circular(16)),
-                          side: BorderSide(
-                            color: Colors.grey.shade500,
-                          ), // White outline border
-                        ),
-                      )),
+                    ),
+                  ),
                   onPressed: () {
-                    Navigator.pushNamed(context, AddCommentView.addCommentView,
-                        arguments: widget.postModel);
+                    Get.to(
+                      () => const AddCommentView(),
+                      arguments: widget.postModel,
+                      transition: Transition.rightToLeftWithFade,
+                    );
+                    // Navigator.pushNamed(context, AddCommentView.addCommentView,
+                    //     arguments: widget.postModel);
                   },
                   child: const Text(
                     'Add Comment...',

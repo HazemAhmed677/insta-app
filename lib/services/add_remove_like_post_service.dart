@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/models/post_model.dart';
 
-class AddRemoveLikeService {
+class AddRemoveLikePostService {
   Future<bool> addOrRemoeLike({required PostModel postModel}) async {
     String currentUserID = FirebaseAuth.instance.currentUser!.uid;
     var postFromFireStore = await FirebaseFirestore.instance
