@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/cubits/profile_image_cubit/profile_image_cubit.dart';
+import 'package:insta_app/helper/show_snack_bar_function.dart';
 
 class CustomStackWidget extends StatefulWidget {
   const CustomStackWidget({
@@ -20,9 +21,16 @@ class _CustomStackWidgetState extends State<CustomStackWidget> {
   @override
   Widget build(BuildContext context) {
     Future<void> selectImage() async {
-      var image = await ImagePicker().pickImage(
-        source: ImageSource.gallery,
-      );
+      XFile? image;
+      try {
+        image = await ImagePicker().pickImage(
+          source: ImageSource.gallery,
+        );
+      } catch (e) {
+        image = await ImagePicker().pickImage(
+          source: ImageSource.gallery,
+        );
+      }
       if (image != null) {
         selectedImage = File(image.path);
         setState(() {});

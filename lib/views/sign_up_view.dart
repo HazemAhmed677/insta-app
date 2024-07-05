@@ -187,7 +187,11 @@ class _SignUpState extends State<SignUp> {
                                   setState(() {});
                                   // firebase code
                                   try {
-                                    await signUp();
+                                    await FirebaseAuth.instance
+                                        .createUserWithEmailAndPassword(
+                                      email: email!,
+                                      password: password!,
+                                    );
                                     //hundled in stack widget
                                     selectedImage =
                                         BlocProvider.of<ProfileImageCubit>(
@@ -270,12 +274,5 @@ class _SignUpState extends State<SignUp> {
     var reff = FirebaseStorage.instance.ref().child('images').child(uuid);
     await reff.putFile(selectedImage!);
     imageURL = await reff.getDownloadURL();
-  }
-
-  Future<void> signUp() async {
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(
-      email: email!,
-      password: password!,
-    );
   }
 }
