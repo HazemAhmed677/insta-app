@@ -22,7 +22,7 @@ class _SearchViewState extends State<SearchView> {
     double hight = MediaQuery.of(context).size.height;
     String? input;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 14.0),
+      padding: const EdgeInsets.symmetric(horizontal: 22.0),
       child: SizedBox(
         height: hight,
         child: Column(
@@ -70,8 +70,10 @@ class _SearchViewState extends State<SearchView> {
                             child: const Center(
                               child: Text(
                                 'user not found',
-                                style:
-                                    TextStyle(fontSize: 18, color: Colors.grey),
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.grey,
+                                ),
                               ),
                             ),
                           )
@@ -81,10 +83,11 @@ class _SearchViewState extends State<SearchView> {
                               itemBuilder: (context, index) {
                                 return Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      vertical: 18.0),
+                                      vertical: 22.0),
                                   child: PersonInSearch(
                                     user: UserModel.fromJson(
-                                        fetchedPersons!.docs[index]),
+                                      fetchedPersons!.docs[index],
+                                    ),
                                   ),
                                 );
                               },
