@@ -11,6 +11,7 @@ class FetchAndPushSearchedPeopleService {
           .doc(currentUid)
           .get();
       currentUser.serachedPeople = userDoc['searched people'];
+      return currentUser.serachedPeople;
     } catch (e) {
       print(e.toString());
     }
@@ -21,8 +22,8 @@ class FetchAndPushSearchedPeopleService {
     try {
       String currentUid = currentUser.uid;
       if (!currentUser.serachedPeople!
-          .map((ele) => ele.uid)
-          .contains(searchedOne.uid)) {
+          .map((ele) => ele)
+          .contains(searchedOne.username)) {
         await FirebaseFirestore.instance
             .collection(kUsers)
             .doc(currentUid)

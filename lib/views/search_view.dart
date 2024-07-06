@@ -58,9 +58,10 @@ class _SearchViewState extends State<SearchView> {
                               i++) {
                             await FetchAndPushSearchedPeopleService()
                                 .pushSerached(
-                                    currentUser: userModel,
-                                    searchedOne: UserModel.fromJson(
-                                        fetchedPersons!.docs[i]));
+                              currentUser: userModel,
+                              searchedOne:
+                                  UserModel.fromJson(fetchedPersons!.docs[i]),
+                            );
                           }
                         }
                         setState(() {});
