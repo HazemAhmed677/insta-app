@@ -21,9 +21,7 @@ class FetchAndPushSearchedPeopleService {
       {required UserModel currentUser, required UserModel searchedOne}) async {
     try {
       String currentUid = currentUser.uid;
-      if (!currentUser.serachedPeople!
-          .map((ele) => ele)
-          .contains(searchedOne.username)) {
+      if (!(currentUser.serachedPeople!.contains(searchedOne.serachedPeople))) {
         await FirebaseFirestore.instance
             .collection(kUsers)
             .doc(currentUid)
@@ -32,6 +30,7 @@ class FetchAndPushSearchedPeopleService {
             {
               'username': searchedOne.username,
               'profile image': searchedOne.profileImageURL,
+              'uid': searchedOne.uid,
             },
           ])
         });

@@ -21,8 +21,8 @@ class UploadUserData {
       profileImageURL: imageURL,
       followers: [],
       following: [],
-      serachedPeople: [],
       uid: uid,
+      serachedPeople: [],
     );
     FetchUserDataService();
     Map<String, dynamic> userMap = userModel.convertToMap(userModel);

@@ -16,89 +16,94 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     double hight = MediaQuery.of(context).size.height;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 14.0),
-      child: CustomScrollView(
-        physics: const BouncingScrollPhysics(
-            decelerationRate: ScrollDecelerationRate.fast),
-        slivers: [
-          SliverToBoxAdapter(
-              child: SizedBox(
-            height: 0.045 * hight,
-          )),
-          SliverToBoxAdapter(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: kBlack,
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14.0),
+          child: CustomScrollView(
+            physics: const BouncingScrollPhysics(
+                decelerationRate: ScrollDecelerationRate.fast),
+            slivers: [
+              SliverToBoxAdapter(
+                  child: SizedBox(
+                height: 0.045 * hight,
+              )),
+              SliverToBoxAdapter(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CircleAvatar(
-                      backgroundImage:
-                          (widget.userModel!.profileImageURL != null)
+                    Column(
+                      children: [
+                        CircleAvatar(
+                          backgroundImage: (widget.userModel!.profileImageURL !=
+                                  null)
                               ? NetworkImage(widget.userModel!.profileImageURL!)
                               : null,
-                      radius: 40,
+                          radius: 40,
+                        ),
+                        SizedBox(
+                          height: 0.01 * hight,
+                        ),
+                        Text(
+                          widget.userModel!.username,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      ],
                     ),
-                    SizedBox(
-                      height: 0.01 * hight,
+                    const ProfileHelper(
+                      number: '5',
+                      text: 'posts',
                     ),
-                    Text(
-                      widget.userModel!.username,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )
+                    const ProfileHelper(
+                      number: '11',
+                      text: 'Followers',
+                    ),
+                    const ProfileHelper(
+                      number: '26',
+                      text: 'Following',
+                    ),
                   ],
                 ),
-                const ProfileHelper(
-                  number: '5',
-                  text: 'posts',
+              ),
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: 0.02 * hight,
                 ),
-                const ProfileHelper(
-                  number: '11',
-                  text: 'Followers',
-                ),
-                const ProfileHelper(
-                  number: '26',
-                  text: 'Following',
-                ),
-              ],
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: SizedBox(
-              height: 0.02 * hight,
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: SizedBox(
-              height: 0.062 * hight,
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: kPink,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                onPressed: () {},
-                child: const Text(
-                  'Edit profile',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: kWhite,
+              ),
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: 0.062 * hight,
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: kPink,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    onPressed: () {},
+                    child: const Text(
+                      'Edit profile',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: kWhite,
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: 0.02 * hight,
+                ),
+              ),
+              const ProfileGridView()
+            ],
           ),
-          SliverToBoxAdapter(
-            child: SizedBox(
-              height: 0.02 * hight,
-            ),
-          ),
-          const ProfileGridView()
-        ],
+        ),
       ),
     );
   }
