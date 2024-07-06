@@ -1,25 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insta_app/constants.dart';
-import 'package:insta_app/cubits/fetch_user_data_cubit/fetch_user_data_cubit.dart';
 import 'package:insta_app/helper/profile_grid_view.dart';
 import 'package:insta_app/helper/profile_helper.dart';
 import 'package:insta_app/models/user_model.dart';
 
 class ProfileView extends StatefulWidget {
-  const ProfileView({super.key});
+  const ProfileView({super.key, this.userModel});
   static String profileId = 'Search page';
-
+  final UserModel? userModel;
   @override
   State<ProfileView> createState() => _ProfileViewState();
 }
 
 class _ProfileViewState extends State<ProfileView> {
-  late UserModel user;
   @override
   Widget build(BuildContext context) {
     double hight = MediaQuery.of(context).size.height;
-    user = BlocProvider.of<FetchUserDataCubit>(context).userModel;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14.0),
       child: CustomScrollView(
@@ -37,16 +33,17 @@ class _ProfileViewState extends State<ProfileView> {
                 Column(
                   children: [
                     CircleAvatar(
-                      backgroundImage: (user.profileImageURL != null)
-                          ? NetworkImage(user.profileImageURL!)
-                          : null,
+                      backgroundImage:
+                          (widget.userModel!.profileImageURL != null)
+                              ? NetworkImage(widget.userModel!.profileImageURL!)
+                              : null,
                       radius: 40,
                     ),
                     SizedBox(
                       height: 0.01 * hight,
                     ),
                     Text(
-                      user.username,
+                      widget.userModel!.username,
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,

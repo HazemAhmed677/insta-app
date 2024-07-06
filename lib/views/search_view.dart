@@ -61,6 +61,9 @@ class _SearchViewState extends State<SearchView> {
               ),
               cursorColor: kPuple,
             ),
+            SizedBox(
+              height: hight * 0.025,
+            ),
             BlocBuilder<FetchSearchedUsersCubit, FetchSearchedUsersStates>(
               builder: (context, state) {
                 return (state is SucceedState)
@@ -82,11 +85,26 @@ class _SearchViewState extends State<SearchView> {
                               itemCount: fetchedPersons?.docs.length ?? 0,
                               itemBuilder: (context, index) {
                                 return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 22.0),
-                                  child: PersonInSearch(
-                                    user: UserModel.fromJson(
-                                      fetchedPersons!.docs[index],
+                                  padding: const EdgeInsets.only(
+                                    bottom: 10.0,
+                                  ),
+                                  child: Dismissible(
+                                    key: UniqueKey(),
+                                    direction: DismissDirection.endToStart,
+                                    onDismissed: (direction) {},
+                                    child: SizedBox(
+                                      height: hight * 0.08,
+                                      child: InkWell(
+                                        highlightColor: kBlack,
+                                        borderRadius: BorderRadius.circular(21),
+                                        radius: 16,
+                                        onTap: () {},
+                                        child: PersonInSearch(
+                                          user: UserModel.fromJson(
+                                            fetchedPersons!.docs[index],
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 );

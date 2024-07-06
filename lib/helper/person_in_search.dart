@@ -7,28 +7,23 @@ class PersonInSearch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    return Dismissible(
-      key: UniqueKey(),
-      direction: DismissDirection.endToStart,
-      onDismissed: (direction) {},
-      child: Row(
-        children: [
-          CircleAvatar(
-            backgroundImage: (user.profileImageURL != null)
-                ? NetworkImage(user.profileImageURL!)
-                : null,
-            radius: 26,
-          ),
-          SizedBox(width: width * 0.03),
-          Text(
-            user.username,
-            style: const TextStyle(fontSize: 18),
-          ),
-          SizedBox(
-            width: width * 0.5,
-          ),
-        ],
-      ),
+    return Row(
+      children: [
+        CircleAvatar(
+          backgroundImage: (user.profileImageURL != null)
+              ? NetworkImage(user.profileImageURL!)
+              : null,
+          radius: 26,
+        ),
+        SizedBox(width: width * 0.03),
+        Text(
+          user.username,
+          style: const TextStyle(fontSize: 18),
+        ),
+        SizedBox(
+          width: width * 0.5,
+        ),
+      ],
     );
   }
 }

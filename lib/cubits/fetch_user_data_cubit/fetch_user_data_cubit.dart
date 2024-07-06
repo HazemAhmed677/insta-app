@@ -8,8 +8,8 @@ class FetchUserDataCubit extends Cubit<FetchUserDataState> {
   FetchUserDataCubit() : super(FetchUserDataState());
   late UserModel userModel;
   NetworkImage? networkImage;
-  Future<UserModel> fetchUserData() async {
-    userModel = await FetchUserDataService().fetchUserData();
+  Future<UserModel> fetchUserData(String id) async {
+    userModel = await FetchUserDataService().fetchUserData(id: id);
     networkImage = (userModel.profileImageURL != null)
         ? NetworkImage(userModel.profileImageURL!)
         : null;

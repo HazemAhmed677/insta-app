@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/models/post_model.dart';
@@ -122,7 +121,7 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
                     onPressed: () {},
                     icon: const Icon(
                       Icons.comment,
-                      size: 27,
+                      size: 26,
                     ),
                   ),
                 ],

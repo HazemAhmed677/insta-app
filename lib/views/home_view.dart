@@ -35,7 +35,7 @@ class _HomeViewState extends State<HomeView> {
           if (snapshot.hasData) {
             return FutureBuilder(
                 future: BlocProvider.of<FetchUserDataCubit>(context)
-                    .fetchUserData(),
+                    .fetchUserData(FirebaseAuth.instance.currentUser!.uid),
                 builder: (context, snapshot) {
                   return (snapshot.hasData)
                       ? const TriggerSwitchCubit()
