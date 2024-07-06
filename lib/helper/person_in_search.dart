@@ -23,16 +23,18 @@ class PersonInSearch extends StatelessWidget {
         SizedBox(
           width: width * 0.5,
         ),
-        IconButton(
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-          constraints: const BoxConstraints(),
-          style: const ButtonStyle(
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          ),
-          onPressed: () {},
-          icon: const Icon(
-            Icons.cancel_outlined,
-            color: Colors.grey,
+        Align(
+          child: IconButton(
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            style: const ButtonStyle(
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+            onPressed: () {},
+            icon: const Icon(
+              Icons.cancel_outlined,
+              color: Colors.grey,
+            ),
           ),
         ),
       ],

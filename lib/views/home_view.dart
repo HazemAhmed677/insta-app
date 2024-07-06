@@ -6,6 +6,7 @@ import 'package:insta_app/cubits/fetch_user_data_cubit/fetch_user_data_cubit.dar
 import 'package:insta_app/helper/modal_progress_hud_helper.dart';
 import 'package:insta_app/helper/show_snack_bar_function.dart';
 import 'package:insta_app/views/sign_in_view.dart';
+import 'package:insta_app/views/sign_up_view.dart';
 import 'package:insta_app/widgets/trigger_switch_cubit.dart';
 
 class HomeView extends StatefulWidget {

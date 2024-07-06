@@ -96,35 +96,15 @@ class _AddPostViewState extends State<AddPostView> {
                               isLoading = true;
                               setState(() {});
 
-                              String generatedID = const Uuid().v4();
-                              var reff = FirebaseStorage.instance
-                                  .ref(kPostsImages)
-                                  .child(generatedID);
-                              await reff.putFile(imagePost!);
-                              imageURL = await reff.getDownloadURL();
-                              description = textEditingController.text;
-                              PostModel postModel = PostModel(
-                                userID: FirebaseAuth.instance.currentUser!.uid,
-                                imageURL: imageURL,
-                                likes: [],
-                                desciption: description,
-                                postID: generatedID,
-                                timestamp: Timestamp.now(),
-                              );
-                              Map<String, dynamic> postMap =
-                                  postModel.convertToMap(postModel);
-                              await FirebaseFirestore.instance
-                                  .collection(kPosts)
-                                  .doc(generatedID)
-                                  .set(postMap);
-                              isLoading = false;
-                              textEditingController.clear();
-                              imagePost = null;
-                              setState(() {});
-                              BlocProvider.of<SwitchScreensCubit>(context)
-                                  .currentIndex = 0;
-                              BlocProvider.of<SwitchScreensCubit>(context)
-                                  .getScreen();
+                              await uploadPostToFirebase();
+                              if (mounted) {
+                                setState(() {
+                                  BlocProvider.of<SwitchScreensCubit>(context)
+                                      .currentIndex = 0;
+                                  BlocProvider.of<SwitchScreensCubit>(context)
+                                      .getScreen();
+                                });
+                              }
                             } catch (e) {
                               print(e.toString());
                             }
@@ -205,5 +185,29 @@ class _AddPostViewState extends State<AddPostView> {
         ),
       ),
     );
+  }
+
+  Future<void> uploadPostToFirebase() async {
+    String generatedID = const Uuid().v4();
+    var reff = FirebaseStorage.instance.ref(kPostsImages).child(generatedID);
+    await reff.putFile(imagePost!);
+    imageURL = await reff.getDownloadURL();
+    description = textEditingController.text;
+    PostModel postModel = PostModel(
+      userID: FirebaseAuth.instance.currentUser!.uid,
+      imageURL: imageURL,
+      likes: [],
+      desciption: description,
+      postID: generatedID,
+      timestamp: Timestamp.now(),
+    );
+    Map<String, dynamic> postMap = postModel.convertToMap(postModel);
+    await FirebaseFirestore.instance
+        .collection(kPosts)
+        .doc(generatedID)
+        .set(postMap);
+    isLoading = false;
+    textEditingController.clear();
+    imagePost = null;
   }
 }

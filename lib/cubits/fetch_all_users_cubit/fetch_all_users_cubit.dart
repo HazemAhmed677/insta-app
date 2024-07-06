@@ -10,8 +10,10 @@ class FetchSearchedUsersCubit extends Cubit<FetchSearchedUsersStates> {
       String input) async {
     try {
       emit(LoadingState());
-      var res = FetchSearchedUsers().fetchSearchedUsers(input);
+      var res = await FetchSearchedUsers().fetchSearchedUsers(input);
+
       emit(SucceedState());
+
       return res;
     } catch (e) {
       emit(FailuireState());
