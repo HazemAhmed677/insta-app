@@ -62,7 +62,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               getBNBItem(Icons.home, 'Home', 0, HomeView.homeViewId),
               getBNBItem(Icons.search, 'Search', 1, SearchView.searchId),
               getBNBItem(Icons.add, 'Post', 2, AddPostView.addPostId),
-              getBNBItem(Icons.person, 'Profile', 3, ProfileView.profileId),
+              getBNBItem(Icons.person, 'Profile', 3, ProfileView.profileId!),
             ],
             onTap: (value) {
               BlocProvider.of<SwitchScreensCubit>(context).currentIndex = value;

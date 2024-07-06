@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/cubits/fetch_all_users_cubit/fetch_all_users_cubit.dart';
 import 'package:insta_app/cubits/fetch_all_users_cubit/fetch_all_users_states.dart';
@@ -24,13 +23,14 @@ class SearchView extends StatefulWidget {
 class _SearchViewState extends State<SearchView> {
   QuerySnapshot<Map<String, dynamic>>? fetchedPersons;
   bool flag = false;
+  bool flag2 = true;
   @override
   Widget build(BuildContext context) {
     double hight = MediaQuery.of(context).size.height;
     String? input;
     UserModel userModel =
         BlocProvider.of<FetchUserDataCubit>(context).userModel;
-    return FutureBuilder(
+    return FutureBuilder<List<dynamic>?>(
         future: FetchAndPushSearchedPeopleService()
             .fetchAllSearched(currentUser: userModel),
         builder: (context, snapshot) {
@@ -102,7 +102,7 @@ class _SearchViewState extends State<SearchView> {
                             )),
                           ),
                         )
-                      : (!flag && snapshot.hasData)
+                      : (!flag && snapshot.hasData && snapshot.data!.isNotEmpty)
                           ? Expanded(
                               child: Column(
                                 children: [
@@ -145,10 +145,13 @@ class _SearchViewState extends State<SearchView> {
                                                 TextButton(
                                                   onPressed: () async {
                                                     try {
+                                                      Get.back();
                                                       await FetchAndPushSearchedPeopleService()
                                                           .removeSearchHistory(
                                                               currentUser:
                                                                   userModel);
+
+                                                      setState(() {});
                                                     } catch (e) {
                                                       print(e.toString());
                                                     }
@@ -208,7 +211,9 @@ class _SearchViewState extends State<SearchView> {
                                                   );
                                                   Get.to(
                                                       () => ProfileView(
-                                                          userModel: user),
+                                                            userModel: user,
+                                                            bar: "Follow",
+                                                          ),
                                                       curve: Curves
                                                           .easeInOutQuint);
                                                 },
@@ -288,10 +293,15 @@ class _SearchViewState extends State<SearchView> {
                                                                   () =>
                                                                       ProfileView(
                                                                         userModel:
-                                                                            UserModel.fromJson(fetchedPersons!.docs[index]),
+                                                                            UserModel.fromJson(
+                                                                          fetchedPersons!
+                                                                              .docs[index],
+                                                                        ),
+                                                                        bar:
+                                                                            "Follow",
                                                                       ),
                                                                   curve: Curves
-                                                                      .easeInOutQuint);
+                                                                      .easeIn);
                                                             },
                                                             child:
                                                                 PersonInSearch(

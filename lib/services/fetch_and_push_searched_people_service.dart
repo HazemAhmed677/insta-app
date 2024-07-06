@@ -3,7 +3,8 @@ import 'package:insta_app/constants.dart';
 import 'package:insta_app/models/user_model.dart';
 
 class FetchAndPushSearchedPeopleService {
-  Future fetchAllSearched({required UserModel currentUser}) async {
+  Future<List<dynamic>?> fetchAllSearched(
+      {required UserModel currentUser}) async {
     String currentUid = currentUser.uid;
     try {
       var userDoc = await FirebaseFirestore.instance
@@ -14,6 +15,7 @@ class FetchAndPushSearchedPeopleService {
       return currentUser.serachedPeople;
     } catch (e) {
       print(e.toString());
+      return null;
     }
   }
 

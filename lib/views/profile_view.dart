@@ -5,9 +5,10 @@ import 'package:insta_app/helper/profile_helper.dart';
 import 'package:insta_app/models/user_model.dart';
 
 class ProfileView extends StatefulWidget {
-  const ProfileView({super.key, this.userModel});
+  const ProfileView({super.key, this.userModel, this.bar});
   static String profileId = 'Search page';
   final UserModel? userModel;
+  final String? bar;
   @override
   State<ProfileView> createState() => _ProfileViewState();
 }
@@ -85,9 +86,9 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                     ),
                     onPressed: () {},
-                    child: const Text(
-                      'Edit profile',
-                      style: TextStyle(
+                    child: Text(
+                      widget.bar!,
+                      style: const TextStyle(
                         fontSize: 20,
                         color: kWhite,
                       ),
@@ -100,7 +101,9 @@ class _ProfileViewState extends State<ProfileView> {
                   height: 0.02 * hight,
                 ),
               ),
-              const ProfileGridView()
+              ProfileGridView(
+                uid: widget.userModel!.uid,
+              ),
             ],
           ),
         ),

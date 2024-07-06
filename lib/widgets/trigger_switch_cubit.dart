@@ -35,6 +35,7 @@ class _TriggerSwitchCubitState extends State<TriggerSwitchCubit> {
                       : (state is AddPostScreenState)
                           ? const AddPostView()
                           : ProfileView(
+                              bar: "Edit profile",
                               userModel:
                                   BlocProvider.of<FetchUserDataCubit>(context)
                                       .userModel),
