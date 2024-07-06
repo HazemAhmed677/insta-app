@@ -27,6 +27,7 @@ class _SearchViewState extends State<SearchView> {
   @override
   Widget build(BuildContext context) {
     double hight = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     String? input;
     UserModel userModel =
         BlocProvider.of<FetchUserDataCubit>(context).userModel;
@@ -108,13 +109,13 @@ class _SearchViewState extends State<SearchView> {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 2.0),
+                                        vertical: 6.0),
                                     child: Align(
                                       alignment: Alignment.centerRight,
                                       child: TextButton(
                                           style: TextButton.styleFrom(
                                               padding: const EdgeInsets.only(
-                                                  right: 6, left: 6),
+                                                  right: 14, left: 14),
                                               minimumSize: const Size(30, 30),
                                               tapTargetSize:
                                                   MaterialTapTargetSize
@@ -170,12 +171,26 @@ class _SearchViewState extends State<SearchView> {
                                               builder: (context) => alert,
                                             );
                                           },
-                                          child: const Text(
-                                            'clear history',
-                                            style: TextStyle(
-                                              color: kPink,
-                                              fontSize: 15,
-                                            ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              const Text(
+                                                'Clear history',
+                                                style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: width * 0.01,
+                                              ),
+                                              const Icon(
+                                                Icons.cancel_outlined,
+                                                color: kPink,
+                                                size: 20,
+                                              )
+                                            ],
                                           )),
                                     ),
                                   ),
