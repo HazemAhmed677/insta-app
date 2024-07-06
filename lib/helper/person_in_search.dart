@@ -12,7 +12,7 @@ class PersonInSearch extends StatelessWidget {
       children: [
         CircleAvatar(
           backgroundImage: (imageURL != null) ? NetworkImage(imageURL!) : null,
-          radius: 26,
+          radius: 28,
         ),
         SizedBox(width: width * 0.03),
         Text(

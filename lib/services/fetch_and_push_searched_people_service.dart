@@ -47,7 +47,7 @@ class FetchAndPushSearchedPeopleService {
       await FirebaseFirestore.instance
           .collection(kUsers)
           .doc(currentUid)
-          .update({'searched people': FieldValue.delete()});
+          .update({'searched people': []});
       currentUser.serachedPeople!.clear();
     } catch (e) {
       print(e.toString());

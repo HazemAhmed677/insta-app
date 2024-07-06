@@ -91,11 +91,11 @@ class _SearchViewState extends State<SearchView> {
                     cursorColor: kPuple,
                   ),
                   SizedBox(
-                    height: hight * 0.025,
+                    height: hight * 0.01,
                   ),
                   (snapshot.connectionState == ConnectionState.waiting)
                       ? const Padding(
-                          padding: EdgeInsets.only(top: 10.0),
+                          padding: EdgeInsets.only(top: 18.0),
                           child: Center(
                             child: (CircularProgressIndicator(
                               color: kPink,
@@ -104,138 +104,234 @@ class _SearchViewState extends State<SearchView> {
                         )
                       : (!flag && snapshot.hasData)
                           ? Expanded(
-                              child: ListView.builder(
-                                itemCount:
-                                    userModel.serachedPeople?.length ?? 0,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(
-                                      bottom: 10.0,
-                                    ),
-                                    child: Dismissible(
-                                      key: UniqueKey(),
-                                      direction: DismissDirection.endToStart,
-                                      onDismissed: (direction) {},
-                                      child: SizedBox(
-                                        height: hight * 0.08,
-                                        child: InkWell(
-                                          // highlightColor: kBlack,
-                                          borderRadius:
-                                              BorderRadius.circular(21),
-                                          radius: 16,
-                                          onTap: () async {
-                                            var user =
-                                                await FetchUserDataService()
-                                                    .fetchUserData(
-                                              id: userModel
-                                                      .serachedPeople![index]
-                                                  ['uid'],
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 2.0),
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: TextButton(
+                                          style: TextButton.styleFrom(
+                                              padding: const EdgeInsets.only(
+                                                  right: 6, left: 6),
+                                              minimumSize: const Size(30, 30),
+                                              tapTargetSize:
+                                                  MaterialTapTargetSize
+                                                      .shrinkWrap),
+                                          onPressed: () async {
+                                            AlertDialog alert = AlertDialog(
+                                              backgroundColor:
+                                                  const Color.fromARGB(
+                                                      255, 20, 20, 20),
+                                              title: const Text(
+                                                'Are you sure ?',
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                ),
+                                              ),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Get.back();
+                                                  },
+                                                  child: const Text(
+                                                    'Cancel',
+                                                    style: TextStyle(
+                                                      color: kWhite,
+                                                    ),
+                                                  ),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () async {
+                                                    try {
+                                                      await FetchAndPushSearchedPeopleService()
+                                                          .removeSearchHistory(
+                                                              currentUser:
+                                                                  userModel);
+                                                    } catch (e) {
+                                                      print(e.toString());
+                                                    }
+                                                  },
+                                                  child: const Text(
+                                                    'Delete',
+                                                    style: TextStyle(
+                                                      color: kPink,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             );
-                                            Get.to(
-                                                () => ProfileView(
-                                                    userModel: user),
-                                                curve: Curves.easeInOutQuint);
+                                            await showDialog(
+                                              context: context,
+                                              builder: (context) => alert,
+                                            );
                                           },
-                                          child: PersonInSearch(
-                                            username:
-                                                userModel.serachedPeople![index]
-                                                    ['username'],
-                                            imageURL:
-                                                userModel.serachedPeople![index]
-                                                    ['profile image'],
-                                          ),
-                                        ),
-                                      ),
+                                          child: const Text(
+                                            'clear history',
+                                            style: TextStyle(
+                                              color: kPink,
+                                              fontSize: 15,
+                                            ),
+                                          )),
                                     ),
-                                  );
-                                },
+                                  ),
+                                  Expanded(
+                                    child: ListView.builder(
+                                      clipBehavior: Clip.none,
+                                      itemCount:
+                                          userModel.serachedPeople?.length ?? 0,
+                                      itemBuilder: (context, index) {
+                                        return Padding(
+                                          padding: const EdgeInsets.only(
+                                            bottom: 10.0,
+                                          ),
+                                          child: Dismissible(
+                                            key: UniqueKey(),
+                                            direction:
+                                                DismissDirection.endToStart,
+                                            onDismissed: (direction) {},
+                                            child: SizedBox(
+                                              height: hight * 0.08,
+                                              child: InkWell(
+                                                // highlightColor: kBlack,
+                                                borderRadius:
+                                                    BorderRadius.circular(21),
+                                                radius: 16,
+                                                onTap: () async {
+                                                  var user =
+                                                      await FetchUserDataService()
+                                                          .fetchUserData(
+                                                    id: userModel
+                                                            .serachedPeople![
+                                                        index]['uid'],
+                                                  );
+                                                  Get.to(
+                                                      () => ProfileView(
+                                                          userModel: user),
+                                                      curve: Curves
+                                                          .easeInOutQuint);
+                                                },
+                                                child: PersonInSearch(
+                                                  username:
+                                                      userModel.serachedPeople![
+                                                          index]['username'],
+                                                  imageURL: userModel
+                                                          .serachedPeople![
+                                                      index]['profile image'],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
                             )
                           : BlocBuilder<FetchSearchedUsersCubit,
                               FetchSearchedUsersStates>(
                               builder: (context, state) {
-                                return (state is SucceedState)
-                                    ? (fetchedPersons?.docs.isEmpty ?? false)
-                                        ? Padding(
-                                            padding: EdgeInsets.only(
-                                                top: hight * 0.38),
-                                            child: const Center(
-                                              child: Text(
-                                                'user not found',
-                                                style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.grey,
-                                                ),
+                                if ((state is SucceedState)) {
+                                  return (fetchedPersons?.docs.isEmpty ?? false)
+                                      ? Padding(
+                                          padding: EdgeInsets.only(
+                                              top: hight * 0.38),
+                                          child: const Center(
+                                            child: Text(
+                                              'user not found',
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.grey,
                                               ),
                                             ),
-                                          )
-                                        : Expanded(
-                                            child: ListView.builder(
-                                              itemCount:
-                                                  fetchedPersons?.docs.length ??
+                                          ),
+                                        )
+                                      : Expanded(
+                                          child: Column(
+                                            children: [
+                                              SizedBox(
+                                                height: hight * 0.015,
+                                              ),
+                                              Expanded(
+                                                child: ListView.builder(
+                                                  itemCount: fetchedPersons
+                                                          ?.docs.length ??
                                                       0,
-                                              itemBuilder: (context, index) {
-                                                return Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                    bottom: 10.0,
-                                                  ),
-                                                  child: Dismissible(
-                                                    key: UniqueKey(),
-                                                    direction: DismissDirection
-                                                        .endToStart,
-                                                    onDismissed: (direction) {},
-                                                    child: SizedBox(
-                                                      height: hight * 0.08,
-                                                      child: InkWell(
-                                                        highlightColor: kBlack,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(21),
-                                                        radius: 16,
-                                                        onTap: () {
-                                                          Get.to(
-                                                              () => ProfileView(
-                                                                    userModel: UserModel.fromJson(
-                                                                        fetchedPersons!
-                                                                            .docs[index]),
-                                                                  ),
-                                                              curve: Curves
-                                                                  .easeInOutQuint);
-                                                        },
-                                                        child: PersonInSearch(
-                                                          username:
-                                                              fetchedPersons!
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    return Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                        bottom: 10.0,
+                                                      ),
+                                                      child: Dismissible(
+                                                        key: UniqueKey(),
+                                                        direction:
+                                                            DismissDirection
+                                                                .endToStart,
+                                                        onDismissed:
+                                                            (direction) {},
+                                                        child: SizedBox(
+                                                          height: hight * 0.08,
+                                                          child: InkWell(
+                                                            highlightColor:
+                                                                kBlack,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        21),
+                                                            radius: 16,
+                                                            onTap: () {
+                                                              Get.to(
+                                                                  () =>
+                                                                      ProfileView(
+                                                                        userModel:
+                                                                            UserModel.fromJson(fetchedPersons!.docs[index]),
+                                                                      ),
+                                                                  curve: Curves
+                                                                      .easeInOutQuint);
+                                                            },
+                                                            child:
+                                                                PersonInSearch(
+                                                              username: fetchedPersons!
                                                                           .docs[
                                                                       index]
                                                                   ['username'],
-                                                          imageURL: fetchedPersons!
-                                                                  .docs[index][
-                                                              'profileImageURL'],
+                                                              imageURL: fetchedPersons!
+                                                                          .docs[
+                                                                      index][
+                                                                  'profileImageURL'],
+                                                            ),
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  ),
-                                                );
-                                              },
-                                            ),
-                                          )
-                                    : (state is LoadingState)
-                                        ? Padding(
-                                            padding: EdgeInsets.only(
-                                              top: hight * 0.38,
-                                            ),
-                                            child:
-                                                const CircularProgressIndicator(
-                                              color: kPuple,
-                                            ),
-                                          )
-                                        : (state is FailuireState)
-                                            ? const Center(
-                                                child: Text(
-                                                    'oops, there somthing wrong'),
-                                              )
-                                            : const SizedBox();
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                } else {
+                                  return (state is LoadingState)
+                                      ? Padding(
+                                          padding: EdgeInsets.only(
+                                            top: hight * 0.38,
+                                          ),
+                                          child:
+                                              const CircularProgressIndicator(
+                                            color: kPuple,
+                                          ),
+                                        )
+                                      : (state is FailuireState)
+                                          ? const Center(
+                                              child: Text(
+                                                  'oops, there somthing wrong'),
+                                            )
+                                          : const SizedBox();
+                                }
                               },
                             ),
                 ],
