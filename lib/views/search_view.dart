@@ -1,11 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+import 'package:get/get.dart';
+import 'package:get/route_manager.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/cubits/fetch_all_users_cubit/fetch_all_users_cubit.dart';
 import 'package:insta_app/cubits/fetch_all_users_cubit/fetch_all_users_states.dart';
 import 'package:insta_app/helper/person_in_search.dart';
 import 'package:insta_app/models/user_model.dart';
+import 'package:insta_app/views/profile_view.dart';
 
 class SearchView extends StatefulWidget {
   const SearchView({super.key});
@@ -98,7 +102,16 @@ class _SearchViewState extends State<SearchView> {
                                         highlightColor: kBlack,
                                         borderRadius: BorderRadius.circular(21),
                                         radius: 16,
-                                        onTap: () {},
+                                        onTap: () {
+                                          Get.to(
+                                              () => ProfileView(
+                                                    userModel:
+                                                        UserModel.fromJson(
+                                                            fetchedPersons!
+                                                                .docs[index]),
+                                                  ),
+                                              curve: Curves.easeInOutQuint);
+                                        },
                                         child: PersonInSearch(
                                           user: UserModel.fromJson(
                                             fetchedPersons!.docs[index],
