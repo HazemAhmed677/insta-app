@@ -105,7 +105,9 @@ class _CustomHomeViewState extends State<CustomHomeView> {
                 itemCount: snapshot.data?.size ?? 0,
                 itemBuilder: (context, index) {
                   return CustomPostWidget(
-                    postModel: PostModel.fromJson(snapshot.data!.docs[index]),
+                    postModel: PostModel.fromJson(
+                      snapshot.data!.docs[index],
+                    ),
                   );
                 },
               ),

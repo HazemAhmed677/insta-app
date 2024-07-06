@@ -151,7 +151,7 @@ class _SignUpState extends State<SignUp> {
                           validator: (input) {
                             if (input!.isEmpty) {
                               return 'please enter password';
-                            } else if (input.length < 8) {
+                            } else if (input.length < 6) {
                               return 'enter 6 characters at least';
                             } else {
                               return null;

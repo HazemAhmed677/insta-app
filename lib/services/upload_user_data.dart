@@ -11,7 +11,8 @@ class UploadUserData {
       required String password,
       String? imageURL,
       List? followers,
-      List? following}) async {
+      List? following,
+      List? searchedPeople}) async {
     var uid = FirebaseAuth.instance.currentUser!.uid;
     UserModel userModel = UserModel(
       username: username,
@@ -20,6 +21,7 @@ class UploadUserData {
       profileImageURL: imageURL,
       followers: [],
       following: [],
+      serachedPeople: [],
       uid: uid,
     );
     FetchUserDataService();

@@ -6,6 +6,7 @@ class UserModel {
   String? profileImageURL;
   List<dynamic>? followers;
   List<dynamic>? following;
+  List<dynamic>? serachedPeople;
   UserModel({
     required this.username,
     required this.email,
@@ -14,17 +15,18 @@ class UserModel {
     this.profileImageURL,
     required this.followers,
     required this.following,
+    required this.serachedPeople,
   });
   factory UserModel.fromJson(json) {
     return UserModel(
-      username: json['username'],
-      email: json['email'],
-      password: json['password'],
-      followers: json['followers'],
-      following: json['following'],
-      profileImageURL: json['profileImageURL'],
-      uid: json['uid'],
-    );
+        username: json['username'],
+        email: json['email'],
+        password: json['password'],
+        followers: json['followers'],
+        following: json['following'],
+        profileImageURL: json['profileImageURL'],
+        uid: json['uid'],
+        serachedPeople: json['searched people']);
   }
   Map<String, dynamic> convertToMap(UserModel user) {
     return {
@@ -35,6 +37,7 @@ class UserModel {
       'followers': user.followers,
       'following': user.following,
       'uid': user.uid,
+      'searched people': user.serachedPeople,
     };
   }
 }

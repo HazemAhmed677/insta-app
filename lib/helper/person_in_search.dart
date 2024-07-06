@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:insta_app/models/user_model.dart';
 
 class PersonInSearch extends StatelessWidget {
-  const PersonInSearch({super.key, required this.user});
-  final UserModel user;
+  const PersonInSearch(
+      {super.key, required this.username, required this.imageURL});
+  final String username;
+  final String? imageURL;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Row(
       children: [
         CircleAvatar(
-          backgroundImage: (user.profileImageURL != null)
-              ? NetworkImage(user.profileImageURL!)
-              : null,
+          backgroundImage: (imageURL != null) ? NetworkImage(imageURL!) : null,
           radius: 26,
         ),
         SizedBox(width: width * 0.03),
         Text(
-          user.username,
+          username,
           style: const TextStyle(fontSize: 18),
         ),
         SizedBox(
