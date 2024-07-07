@@ -104,9 +104,12 @@ class _CustomHomeViewState extends State<CustomHomeView> {
               SliverList.builder(
                 itemCount: snapshot.data?.size ?? 0,
                 itemBuilder: (context, index) {
-                  return CustomPostWidget(
-                    postModel: PostModel.fromJson(
-                      snapshot.data!.docs[index],
+                  return SizedBox(
+                    height: hight * 0.77,
+                    child: CustomPostWidget(
+                      postModel: PostModel.fromJson(
+                        snapshot.data!.docs[index],
+                      ),
                     ),
                   );
                 },

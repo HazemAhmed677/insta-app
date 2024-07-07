@@ -187,7 +187,6 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
               ), ////
               SizedBox(
                 height: hight * 0.038,
-                width: width * 0.28,
                 child: TextButton(
                   style: ButtonStyle(
                     foregroundColor: WidgetStateProperty.all<Color>(
@@ -223,9 +222,6 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
                     ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 0.032 * hight,
               ),
             ],
           );

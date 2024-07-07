@@ -129,7 +129,20 @@ class _AddCommentViewState extends State<AddCommentView> {
                                           color: kPink,
                                         ),
                                       )
-                                    : const SizedBox(),
+                                    : (snapshot.data == null)
+                                        ? const Padding(
+                                            padding: EdgeInsets.only(top: 100),
+                                            child: Center(
+                                              child: Text(
+                                                'No comments yet',
+                                                style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 220,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        : const SizedBox(),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(
