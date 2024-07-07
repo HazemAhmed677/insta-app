@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -17,8 +18,8 @@ class ProfileGridView extends StatelessWidget {
       ),
       itemBuilder: (context, index) {
         return ClipRRect(
-            child: Image.network(
-          posts!.docs[index]['imageURL'],
+            child: CachedNetworkImage(
+          imageUrl: posts!.docs[index]['imageURL'],
           fit: BoxFit.cover,
         ));
       },

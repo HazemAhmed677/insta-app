@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class PersonInSearch extends StatelessWidget {
@@ -11,7 +12,8 @@ class PersonInSearch extends StatelessWidget {
     return Row(
       children: [
         CircleAvatar(
-          backgroundImage: (imageURL != null) ? NetworkImage(imageURL!) : null,
+          backgroundImage:
+              (imageURL != null) ? CachedNetworkImageProvider(imageURL!) : null,
           radius: 28,
         ),
         SizedBox(width: width * 0.03),

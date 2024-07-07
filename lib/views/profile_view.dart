@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
@@ -5,7 +6,6 @@ import 'package:insta_app/helper/profile_grid_view.dart';
 import 'package:insta_app/helper/profile_helper.dart';
 import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/services/fetch_user_posts_fo_profile.dart';
-import 'package:insta_app/services/follower_and_followeing_service.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView(
@@ -49,7 +49,7 @@ class _ProfileViewState extends State<ProfileView> {
                               CircleAvatar(
                                 backgroundImage:
                                     (widget.userModel!.profileImageURL != null)
-                                        ? NetworkImage(
+                                        ? CachedNetworkImageProvider(
                                             widget.userModel!.profileImageURL!)
                                         : null,
                                 radius: 40,
@@ -89,7 +89,7 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                     SliverToBoxAdapter(
                       child: SizedBox(
-                        height: 0.06 * hight,
+                        height: 0.055 * hight,
                         child: TextButton(
                           style: TextButton.styleFrom(
                             backgroundColor: (widget.bar == 'Follow')

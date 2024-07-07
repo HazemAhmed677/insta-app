@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/models/post_model.dart';
@@ -79,12 +80,17 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
               ),
               ClipRRect(
                 borderRadius: BorderRadius.circular(14),
-                child: CachedNetworkImage(
-                  imageUrl: imageURL,
-                  placeholder: (context, url) =>
-                      const CircularProgressIndicator(), // Show loading indicator
-                  errorWidget: (context, url, error) =>
-                      const Icon(Icons.error), // Show error icon
+                child: SafeArea(
+                  child: CachedNetworkImage(
+                    imageUrl: imageURL,
+                    fit: BoxFit.cover,
+                    placeholder: (context, imageURL) =>
+                        const CircularProgressIndicator(
+                      color: kPink,
+                    ), // Show loading indicator
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error), // Show error icon
+                  ),
                 ),
               ),
               SizedBox(
@@ -228,11 +234,9 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
             padding: EdgeInsets.symmetric(
                 vertical: 0.2 * MediaQuery.of(context).size.height),
             child: const Center(
-              child: Text(
-                'Loading...',
-                style: TextStyle(fontFamily: 'PlaywriteMX'),
-              ),
-            ),
+                child: CircularProgressIndicator(
+              color: kPink,
+            )),
           );
         }
       },

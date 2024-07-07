@@ -43,144 +43,150 @@ class _AddPostViewState extends State<AddPostView> {
 
   TextEditingController textEditingController = TextEditingController();
   bool isLoading = false;
+  bool isAbsorb = false;
   @override
   Widget build(BuildContext context) {
     double hight = MediaQuery.of(context).size.height;
     return ModalProgressHudHelper(
       isLoading: isLoading,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 14.0),
-        child: SingleChildScrollView(
-          child: BlocBuilder<SwitchScreensCubit, SwitchScreensStates>(
-            builder: (context, state) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        padding: EdgeInsets.zero,
-                        constraints: const BoxConstraints(),
-                        style: const ButtonStyle(
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        ),
-                        onPressed: () {
-                          imagePost = null;
-                          textEditingController.clear();
-                          setState(() {});
-                        },
-                        icon: const Icon(
-                          Icons.cancel,
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 12.0),
-                        child: Text(
-                          'New Post',
-                          style: TextStyle(fontSize: 24),
-                        ),
-                      ),
-                      TextButton(
-                        style: TextButton.styleFrom(
+      child: AbsorbPointer(
+        absorbing: isAbsorb,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14.0),
+          child: SingleChildScrollView(
+            child: BlocBuilder<SwitchScreensCubit, SwitchScreensStates>(
+              builder: (context, state) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
                           padding: EdgeInsets.zero,
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          minimumSize: const Size(
-                            50,
-                            30,
+                          constraints: const BoxConstraints(),
+                          style: const ButtonStyle(
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                          onPressed: () {
+                            imagePost = null;
+                            textEditingController.clear();
+                            setState(() {});
+                          },
+                          icon: const Icon(
+                            Icons.cancel,
                           ),
                         ),
-                        onPressed: () async {
-                          if (imagePost != null) {
-                            try {
-                              isLoading = true;
-                              setState(() {});
+                        const Padding(
+                          padding: EdgeInsets.only(left: 12.0),
+                          child: Text(
+                            'New Post',
+                            style: TextStyle(fontSize: 24),
+                          ),
+                        ),
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            minimumSize: const Size(
+                              50,
+                              30,
+                            ),
+                          ),
+                          onPressed: () async {
+                            if (imagePost != null) {
+                              try {
+                                isAbsorb = true;
+                                isLoading = true;
+                                setState(() {});
 
-                              await uploadPostToFirebase();
-                              if (mounted) {
-                                setState(() {
-                                  BlocProvider.of<SwitchScreensCubit>(context)
-                                      .currentIndex = 0;
-                                  BlocProvider.of<SwitchScreensCubit>(context)
-                                      .getScreen();
-                                });
+                                await uploadPostToFirebase();
+                                if (mounted) {
+                                  setState(() {
+                                    BlocProvider.of<SwitchScreensCubit>(context)
+                                        .currentIndex = 0;
+                                    BlocProvider.of<SwitchScreensCubit>(context)
+                                        .getScreen();
+                                  });
+                                }
+                              } catch (e) {
+                                print(e.toString());
                               }
-                            } catch (e) {
-                              print(e.toString());
-                            }
 
-                            getShowSnackBar(context, 'Post added successfully');
-                          } else {
-                            getShowSnackBar(context, 'upload an image');
-                          }
-                        },
-                        child: const Text(
-                          'Next',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: kPink,
+                              getShowSnackBar(
+                                  context, 'Post added successfully');
+                            } else {
+                              getShowSnackBar(context, 'upload an image');
+                            }
+                          },
+                          child: const Text(
+                            'Next',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: kPink,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: hight * 0.028,
-                  ),
-                  (imagePost != null)
-                      ? Column(
-                          children: [
-                            Center(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(14),
-                                child: Image.file(
-                                  imagePost!,
-                                  height: hight * 0.38,
+                      ],
+                    ),
+                    SizedBox(
+                      height: hight * 0.028,
+                    ),
+                    (imagePost != null)
+                        ? Column(
+                            children: [
+                              Center(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(14),
+                                  child: Image.file(
+                                    imagePost!,
+                                    height: hight * 0.38,
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: hight * 0.01,
-                            ),
-                          ],
-                        )
-                      : SizedBox(height: hight * 0.39),
-                  SizedBox(
-                    height: hight * 0.058,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        await selectImage();
-                      },
-                      child: const Center(
-                        child: Icon(
-                          Icons.file_upload_sharp,
-                          size: 30,
+                              SizedBox(
+                                height: hight * 0.01,
+                              ),
+                            ],
+                          )
+                        : SizedBox(height: hight * 0.39),
+                    SizedBox(
+                      height: hight * 0.058,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          await selectImage();
+                        },
+                        child: const Center(
+                          child: Icon(
+                            Icons.file_upload_sharp,
+                            size: 30,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: hight * 0.014,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: TextField(
-                      controller: textEditingController,
-                      cursorColor: kPink,
-                      maxLines: 10,
-                      decoration: const InputDecoration(
-                        hintText: 'Describtion...',
-                        hintStyle: TextStyle(
-                          fontSize: 16,
-                        ),
-                        focusedBorder: InputBorder.none,
-                        border: InputBorder.none,
-                      ),
+                    SizedBox(
+                      height: hight * 0.014,
                     ),
-                  )
-                ],
-              );
-            },
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: TextField(
+                        controller: textEditingController,
+                        cursorColor: kPink,
+                        maxLines: 10,
+                        decoration: const InputDecoration(
+                          hintText: 'Describtion...',
+                          hintStyle: TextStyle(
+                            fontSize: 16,
+                          ),
+                          focusedBorder: InputBorder.none,
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    )
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),
