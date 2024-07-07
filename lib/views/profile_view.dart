@@ -5,13 +5,16 @@ import 'package:insta_app/helper/profile_grid_view.dart';
 import 'package:insta_app/helper/profile_helper.dart';
 import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/services/fetch_user_posts_fo_profile.dart';
+import 'package:insta_app/services/follower_and_followeing_service.dart';
 
 class ProfileView extends StatefulWidget {
-  const ProfileView({super.key, this.userModel, this.bar, this.onPressed});
+  const ProfileView(
+      {super.key, this.userModel, this.bar, this.onPressed, this.noFollowers});
   static String profileId = 'Search page';
   final UserModel? userModel;
   final String? bar;
   final void Function()? onPressed;
+  final int? noFollowers;
   @override
   State<ProfileView> createState() => _ProfileViewState();
 }
@@ -68,8 +71,7 @@ class _ProfileViewState extends State<ProfileView> {
                             text: 'posts',
                           ),
                           ProfileHelper(
-                            number:
-                                widget.userModel!.followers!.length.toString(),
+                            number: widget.noFollowers.toString(),
                             text: 'Followers',
                           ),
                           ProfileHelper(

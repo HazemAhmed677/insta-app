@@ -230,6 +230,11 @@ class _SearchViewState extends State<SearchView> {
                                                       () => ProfileView(
                                                             userModel: user,
                                                             bar: "Follow",
+                                                            noFollowers:
+                                                                FollowerAndFolloweingService()
+                                                                    .getFollowers(
+                                                                        user:
+                                                                            userModel),
                                                             onPressed:
                                                                 () async {
                                                               await FollowerAndFolloweingService()
@@ -325,12 +330,18 @@ class _SearchViewState extends State<SearchView> {
                                                                         ),
                                                                         onPressed:
                                                                             () async {
-                                                                          await FollowerAndFolloweingService().followAndUnfollowPerson(
-                                                                              user: UserModel.fromJson(
-                                                                                fetchedPersons!.docs[index],
-                                                                              ),
-                                                                              currentUser: userModel);
+                                                                          await FollowerAndFolloweingService()
+                                                                              .followAndUnfollowPerson(
+                                                                            user:
+                                                                                UserModel.fromJson(
+                                                                              fetchedPersons!.docs[index],
+                                                                            ),
+                                                                            currentUser:
+                                                                                userModel,
+                                                                          );
                                                                         },
+                                                                        noFollowers:
+                                                                            FollowerAndFolloweingService().getFollowers(user: userModel),
                                                                         bar:
                                                                             "Follow",
                                                                       ),

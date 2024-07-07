@@ -38,4 +38,8 @@ class FollowerAndFolloweingService {
       currentUser.following!.add(user.uid);
     }
   }
+
+  getFollowers({required UserModel user}) {
+    return user.followers!.length;
+  }
 }

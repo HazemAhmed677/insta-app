@@ -170,11 +170,15 @@ class _SignInState extends State<SignIn> {
                         }
                         flag1 = false;
                         flag2 = false;
-                        for (int i = 0; i < 1; i++) {
-                          autoValidateMode[i] = AutovalidateMode.always;
-                          setState(() {
-                            isLoading = false;
-                          });
+                        try {
+                          for (int i = 0; i < 1; i++) {
+                            autoValidateMode[i] = AutovalidateMode.always;
+                            setState(() {
+                              isLoading = false;
+                            });
+                          }
+                        } catch (e) {
+                          print(e.toString());
                         }
                       },
                     ),

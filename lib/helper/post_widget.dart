@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -44,10 +45,10 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
               Row(
                 children: [
                   CircleAvatar(
-                    backgroundImage: (userModel.profileImageURL != null)
-                        ? NetworkImage(userModel.profileImageURL!)
-                        : null,
                     radius: 30,
+                    backgroundImage: (userModel.profileImageURL != null)
+                        ? CachedNetworkImageProvider(userModel.profileImageURL!)
+                        : null,
                   ),
                   SizedBox(
                     width: 0.03 * width,
@@ -78,7 +79,13 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
               ),
               ClipRRect(
                 borderRadius: BorderRadius.circular(14),
-                child: Image.network(imageURL),
+                child: CachedNetworkImage(
+                  imageUrl: imageURL,
+                  placeholder: (context, url) =>
+                      const CircularProgressIndicator(), // Show loading indicator
+                  errorWidget: (context, url, error) =>
+                      const Icon(Icons.error), // Show error icon
+                ),
               ),
               SizedBox(
                 height: hight * 0.025,
