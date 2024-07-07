@@ -99,11 +99,8 @@ class _SearchViewState extends State<SearchView> {
                       ? Padding(
                           padding: EdgeInsets.only(top: hight * 0.03),
                           child: const Center(
-                              child: Text(
-                            'Loading',
-                            style: TextStyle(
-                              fontFamily: 'PlaywriteMX',
-                            ),
+                              child: CircularProgressIndicator(
+                            color: kPink,
                           )),
                         )
                       : (!flag && snapshot.hasData && snapshot.data!.isNotEmpty)
@@ -370,22 +367,12 @@ class _SearchViewState extends State<SearchView> {
                                           ),
                                         );
                                 } else {
-                                  return (state is LoadingState)
-                                      ? Padding(
-                                          padding: EdgeInsets.only(
-                                            top: hight * 0.38,
-                                          ),
-                                          child:
-                                              const CircularProgressIndicator(
-                                            color: kPuple,
-                                          ),
+                                  return (state is FailuireState)
+                                      ? const Center(
+                                          child: Text(
+                                              'oops, there somthing wrong'),
                                         )
-                                      : (state is FailuireState)
-                                          ? const Center(
-                                              child: Text(
-                                                  'oops, there somthing wrong'),
-                                            )
-                                          : const SizedBox();
+                                      : const SizedBox();
                                 }
                               },
                             ),
