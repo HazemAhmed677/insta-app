@@ -73,9 +73,8 @@ class _ProfileViewState extends State<ProfileView> {
                             text: 'Followers',
                           ),
                           ProfileHelper(
-                            number: widget.userModel!.following?.length
-                                    .toString() ??
-                                '0',
+                            number:
+                                widget.userModel!.following!.length.toString(),
                             text: 'Following',
                           ),
                         ],
@@ -91,7 +90,9 @@ class _ProfileViewState extends State<ProfileView> {
                         height: 0.06 * hight,
                         child: TextButton(
                           style: TextButton.styleFrom(
-                            backgroundColor: kPink,
+                            backgroundColor: (widget.bar == 'Follow')
+                                ? Colors.blue.shade800
+                                : kPink,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),

@@ -95,13 +95,15 @@ class _SearchViewState extends State<SearchView> {
                     height: hight * 0.01,
                   ),
                   (snapshot.connectionState == ConnectionState.waiting)
-                      ? const Padding(
-                          padding: EdgeInsets.only(top: 18.0),
-                          child: Center(
-                            child: (CircularProgressIndicator(
-                              color: kPink,
-                            )),
-                          ),
+                      ? Padding(
+                          padding: EdgeInsets.only(top: hight * 0.03),
+                          child: const Center(
+                              child: Text(
+                            'Loading',
+                            style: TextStyle(
+                              fontFamily: 'PlaywriteMX',
+                            ),
+                          )),
                         )
                       : (!flag && snapshot.hasData && snapshot.data!.isNotEmpty)
                           ? Expanded(
