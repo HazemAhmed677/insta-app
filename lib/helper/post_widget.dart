@@ -28,7 +28,6 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
   @override
   Widget build(BuildContext context) {
     double hight = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
     String imageURL = widget.postModel.imageURL;
     return FutureBuilder(
       future: future,

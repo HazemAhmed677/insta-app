@@ -74,7 +74,7 @@ class _PostTileState extends State<PostTile> {
             borderRadius: BorderRadius.circular(14),
             child: CachedNetworkImage(
               imageUrl: widget.imageURL,
-              fit: BoxFit.fill,
+              fit: BoxFit.cover,
               placeholder: (context, imageURL) =>
                   const Text(''), // Show loading indicator
               errorWidget: (context, url, error) =>

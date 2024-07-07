@@ -6,11 +6,12 @@ import 'package:insta_app/constants.dart';
 import 'package:insta_app/cubits/fetch_all_users_cubit/fetch_all_users_cubit.dart';
 import 'package:insta_app/cubits/fetch_all_users_cubit/fetch_all_users_states.dart';
 import 'package:insta_app/cubits/fetch_user_data_cubit/fetch_user_data_cubit.dart';
+import 'package:insta_app/cubits/follow_and_unfollow_cubit/follow_and_unfollow_cubit.dart';
+import 'package:insta_app/cubits/follow_and_unfollow_cubit/follow_and_unfollow_states.dart';
 import 'package:insta_app/helper/person_in_search.dart';
 import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/services/fetch_and_push_searched_people_service.dart';
 import 'package:insta_app/services/fetch_user_data_service.dart';
-import 'package:insta_app/services/follower_and_followeing_service.dart';
 import 'package:insta_app/views/profile_view.dart';
 
 class SearchView extends StatefulWidget {
@@ -32,6 +33,7 @@ class _SearchViewState extends State<SearchView> {
     String? input;
     UserModel userModel =
         BlocProvider.of<FetchUserDataCubit>(context).userModel;
+
     return FutureBuilder<List<dynamic>?>(
         future: FetchAndPushSearchedPeopleService()
             .fetchAllSearched(currentUser: userModel),
@@ -223,25 +225,22 @@ class _SearchViewState extends State<SearchView> {
                                                             .serachedPeople![
                                                         index]['uid'],
                                                   );
+
                                                   Get.to(
-                                                      () => ProfileView(
-                                                            userModel: user,
-                                                            bar: "Follow",
-                                                            noFollowers:
-                                                                FollowerAndFolloweingService()
-                                                                    .getFollowers(
-                                                                        user:
-                                                                            userModel),
-                                                            onPressed:
-                                                                () async {
-                                                              await FollowerAndFolloweingService()
-                                                                  .followAndUnfollowPerson(
-                                                                      user:
-                                                                          user,
-                                                                      currentUser:
-                                                                          userModel);
-                                                            },
-                                                          ),
+                                                      ProfileView(
+                                                        userModel: user,
+                                                        bar: "Follow",
+                                                        onPressed: () async {
+                                                          await BlocProvider.of<
+                                                                      FollowAndUnfollowCubit>(
+                                                                  context)
+                                                              .followAndUnfollowLogic(
+                                                                  currentUser:
+                                                                      userModel,
+                                                                  searchedOne:
+                                                                      user!);
+                                                        },
+                                                      ),
                                                       curve: Curves
                                                           .easeInOutQuint);
                                                 },
@@ -316,7 +315,7 @@ class _SearchViewState extends State<SearchView> {
                                                                     .circular(
                                                                         21),
                                                             radius: 16,
-                                                            onTap: () {
+                                                            onTap: () async {
                                                               Get.to(
                                                                   () =>
                                                                       ProfileView(
@@ -327,18 +326,15 @@ class _SearchViewState extends State<SearchView> {
                                                                         ),
                                                                         onPressed:
                                                                             () async {
-                                                                          await FollowerAndFolloweingService()
-                                                                              .followAndUnfollowPerson(
-                                                                            user:
-                                                                                UserModel.fromJson(
-                                                                              fetchedPersons!.docs[index],
-                                                                            ),
-                                                                            currentUser:
-                                                                                userModel,
-                                                                          );
+                                                                          {
+                                                                            await BlocProvider.of<FollowAndUnfollowCubit>(context).followAndUnfollowLogic(
+                                                                              currentUser: userModel,
+                                                                              searchedOne: UserModel.fromJson(
+                                                                                fetchedPersons!.docs[index],
+                                                                              ),
+                                                                            );
+                                                                          }
                                                                         },
-                                                                        noFollowers:
-                                                                            FollowerAndFolloweingService().getFollowers(user: userModel),
                                                                         bar:
                                                                             "Follow",
                                                                       ),
