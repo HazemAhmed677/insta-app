@@ -10,6 +10,7 @@ import 'package:insta_app/helper/person_in_search.dart';
 import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/services/fetch_and_push_searched_people_service.dart';
 import 'package:insta_app/services/fetch_user_data_service.dart';
+import 'package:insta_app/services/follower_and_followeing_service.dart';
 import 'package:insta_app/views/profile_view.dart';
 
 class SearchView extends StatefulWidget {
@@ -153,7 +154,6 @@ class _SearchViewState extends State<SearchView> {
                                                           .removeSearchHistory(
                                                               currentUser:
                                                                   userModel);
-
                                                       setState(() {});
                                                     } catch (e) {
                                                       print(e.toString());
@@ -230,6 +230,15 @@ class _SearchViewState extends State<SearchView> {
                                                       () => ProfileView(
                                                             userModel: user,
                                                             bar: "Follow",
+                                                            onPressed:
+                                                                () async {
+                                                              await FollowerAndFolloweingService()
+                                                                  .followAndUnfollowPerson(
+                                                                      user:
+                                                                          user,
+                                                                      currentUser:
+                                                                          userModel);
+                                                            },
                                                           ),
                                                       curve: Curves
                                                           .easeInOutQuint);
@@ -314,6 +323,14 @@ class _SearchViewState extends State<SearchView> {
                                                                           fetchedPersons!
                                                                               .docs[index],
                                                                         ),
+                                                                        onPressed:
+                                                                            () async {
+                                                                          await FollowerAndFolloweingService().followAndUnfollowPerson(
+                                                                              user: UserModel.fromJson(
+                                                                                fetchedPersons!.docs[index],
+                                                                              ),
+                                                                              currentUser: userModel);
+                                                                        },
                                                                         bar:
                                                                             "Follow",
                                                                       ),

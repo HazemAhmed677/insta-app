@@ -7,10 +7,11 @@ import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/services/fetch_user_posts_fo_profile.dart';
 
 class ProfileView extends StatefulWidget {
-  const ProfileView({super.key, this.userModel, this.bar});
+  const ProfileView({super.key, this.userModel, this.bar, this.onPressed});
   static String profileId = 'Search page';
   final UserModel? userModel;
   final String? bar;
+  final void Function()? onPressed;
   @override
   State<ProfileView> createState() => _ProfileViewState();
 }
@@ -67,9 +68,8 @@ class _ProfileViewState extends State<ProfileView> {
                             text: 'posts',
                           ),
                           ProfileHelper(
-                            number: widget.userModel!.followers?.length
-                                    .toString() ??
-                                '0',
+                            number:
+                                widget.userModel!.followers!.length.toString(),
                             text: 'Followers',
                           ),
                           ProfileHelper(
@@ -97,7 +97,7 @@ class _ProfileViewState extends State<ProfileView> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: widget.onPressed,
                           child: Text(
                             widget.bar!,
                             style: const TextStyle(
