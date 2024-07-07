@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -107,16 +108,29 @@ class _ProfileViewState extends State<ProfileView> {
                             height: 0.055 * hight,
                             child: TextButton(
                               style: TextButton.styleFrom(
-                                backgroundColor: (widget.bar == 'Follow')
-                                    ? kPink
-                                    : Colors.blue,
+                                backgroundColor:
+                                    (FirebaseAuth.instance.currentUser!.uid ==
+                                            widget.userModel!.uid)
+                                        ? Colors.blue
+                                        : (widget.userModel!.followers!
+                                                .contains(FirebaseAuth
+                                                    .instance.currentUser!.uid))
+                                            ? Colors.grey
+                                            : kPink,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
                               onPressed: widget.onPressed,
                               child: Text(
-                                widget.bar!,
+                                (FirebaseAuth.instance.currentUser!.uid ==
+                                        widget.userModel!.uid)
+                                    ? 'Edit profile'
+                                    : (widget.userModel!.followers!.contains(
+                                            FirebaseAuth
+                                                .instance.currentUser!.uid))
+                                        ? 'Unfollow'
+                                        : 'Follow',
                                 style: const TextStyle(
                                   fontSize: 20,
                                   color: kWhite,

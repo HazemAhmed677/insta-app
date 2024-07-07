@@ -26,6 +26,7 @@ class _SearchViewState extends State<SearchView> {
   QuerySnapshot<Map<String, dynamic>>? fetchedPersons;
   bool flag = false;
   bool flag2 = true;
+  String bar = 'Follow';
   @override
   Widget build(BuildContext context) {
     double hight = MediaQuery.of(context).size.height;
@@ -33,7 +34,6 @@ class _SearchViewState extends State<SearchView> {
     String? input;
     UserModel userModel =
         BlocProvider.of<FetchUserDataCubit>(context).userModel;
-
     return FutureBuilder<List<dynamic>?>(
         future: FetchAndPushSearchedPeopleService()
             .fetchAllSearched(currentUser: userModel),
@@ -229,16 +229,18 @@ class _SearchViewState extends State<SearchView> {
                                                   Get.to(
                                                       ProfileView(
                                                         userModel: user,
-                                                        bar: "Follow",
+                                                        bar: 'Follow',
                                                         onPressed: () async {
-                                                          await BlocProvider.of<
-                                                                      FollowAndUnfollowCubit>(
-                                                                  context)
-                                                              .followAndUnfollowLogic(
-                                                                  currentUser:
-                                                                      userModel,
-                                                                  searchedOne:
-                                                                      user!);
+                                                          if (mounted) {
+                                                            await BlocProvider
+                                                                    .of<FollowAndUnfollowCubit>(
+                                                                        context)
+                                                                .followAndUnfollowLogic(
+                                                                    currentUser:
+                                                                        userModel,
+                                                                    searchedOne:
+                                                                        user!);
+                                                          }
                                                         },
                                                       ),
                                                       curve: Curves
@@ -336,7 +338,7 @@ class _SearchViewState extends State<SearchView> {
                                                                           }
                                                                         },
                                                                         bar:
-                                                                            "Follow",
+                                                                            'Follow',
                                                                       ),
                                                                   curve: Curves
                                                                       .easeIn);
