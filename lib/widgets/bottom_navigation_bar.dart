@@ -29,7 +29,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           style: const ButtonStyle(
             tapTargetSize: MaterialTapTargetSize.shrinkWrap, // the '2023' part
           ),
-          onPressed: () async {
+          onPressed: () {
             BlocProvider.of<SwitchScreensCubit>(context).currentIndex = current;
             BlocProvider.of<SwitchScreensCubit>(context).getScreen();
             setState(() {});

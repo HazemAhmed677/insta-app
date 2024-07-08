@@ -105,24 +105,33 @@ class _AddCommentViewState extends State<AddCommentView> {
                           SizedBox(
                             height: hight * 0.02,
                           ),
-                          (snapshot.data?.docs.isEmpty ?? true)
-                              ? Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(top: hight * 0.01),
-                                    child: const Center(
-                                      child: Text(
-                                        'No comments yet',
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 18,
-                                        ),
-                                      ),
+                          (snapshot.data == null)
+                              ? const Expanded(
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      color: kPink,
                                     ),
                                   ),
                                 )
-                              : Expanded(
-                                  child: (snapshot.hasData)
-                                      ? ListView.builder(
+                              : (snapshot.data!.size == 0)
+                                  ? Expanded(
+                                      child: Padding(
+                                        padding:
+                                            EdgeInsets.only(top: hight * 0.01),
+                                        child: const Center(
+                                          child: Text(
+                                            'No comments yet',
+                                            style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : (snapshot.hasData)
+                                      ? Expanded(
+                                          child: ListView.builder(
                                           itemCount: snapshot.data!.size,
                                           itemBuilder: (context, index) {
                                             return Padding(
@@ -136,16 +145,8 @@ class _AddCommentViewState extends State<AddCommentView> {
                                               ),
                                             );
                                           },
-                                        )
-                                      : (snapshot.connectionState ==
-                                              ConnectionState.waiting)
-                                          ? const Center(
-                                              child: CircularProgressIndicator(
-                                                color: kPink,
-                                              ),
-                                            )
-                                          : const SizedBox(),
-                                ),
+                                        ))
+                                      : const SizedBox(),
                           Padding(
                             padding: const EdgeInsets.only(
                               bottom: 12.0,
