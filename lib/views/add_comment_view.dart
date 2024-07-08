@@ -105,45 +105,47 @@ class _AddCommentViewState extends State<AddCommentView> {
                           SizedBox(
                             height: hight * 0.02,
                           ),
-                          Expanded(
-                            child: (snapshot.hasData)
-                                ? ListView.builder(
-                                    itemCount: snapshot.data!.size,
-                                    itemBuilder: (context, index) {
-                                      return Padding(
-                                        padding: EdgeInsets.symmetric(
-                                          vertical: hight * 0.009,
+                          (snapshot.data?.docs.isEmpty ?? true)
+                              ? Expanded(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: hight * 0.01),
+                                    child: const Center(
+                                      child: Text(
+                                        'No comments yet',
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 18,
                                         ),
-                                        child: UserComment(
-                                          postID: postModel.postID,
-                                          commentQueryDoc:
-                                              snapshot.data!.docs[index],
-                                        ),
-                                      );
-                                    },
-                                  )
-                                : (snapshot.connectionState ==
-                                        ConnectionState.waiting)
-                                    ? const Center(
-                                        child: CircularProgressIndicator(
-                                          color: kPink,
-                                        ),
-                                      )
-                                    : (snapshot.data == null)
-                                        ? const Padding(
-                                            padding: EdgeInsets.only(top: 100),
-                                            child: Center(
-                                              child: Text(
-                                                'No comments yet',
-                                                style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 220,
-                                                ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : Expanded(
+                                  child: (snapshot.hasData)
+                                      ? ListView.builder(
+                                          itemCount: snapshot.data!.size,
+                                          itemBuilder: (context, index) {
+                                            return Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                vertical: hight * 0.009,
                                               ),
-                                            ),
-                                          )
-                                        : const SizedBox(),
-                          ),
+                                              child: UserComment(
+                                                postID: postModel.postID,
+                                                commentQueryDoc:
+                                                    snapshot.data!.docs[index],
+                                              ),
+                                            );
+                                          },
+                                        )
+                                      : (snapshot.connectionState ==
+                                              ConnectionState.waiting)
+                                          ? const Center(
+                                              child: CircularProgressIndicator(
+                                                color: kPink,
+                                              ),
+                                            )
+                                          : const SizedBox(),
+                                ),
                           Padding(
                             padding: const EdgeInsets.only(
                               bottom: 12.0,

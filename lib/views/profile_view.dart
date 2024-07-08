@@ -85,10 +85,7 @@ class _ProfileViewState extends State<ProfileView> {
                               ),
                               ProfileHelper(
                                 number: (flag)
-                                    ? BlocProvider.of<FollowAndUnfollowCubit>(
-                                            context)
-                                        .followerrs
-                                        .length
+                                    ? widget.userModel!.followers!.length
                                         .toString()
                                     : widget.userModel!.followers!.length
                                         .toString(),
@@ -115,7 +112,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 backgroundColor:
                                     (FirebaseAuth.instance.currentUser!.uid ==
                                             widget.userModel!.uid)
-                                        ? Colors.blue
+                                        ? Colors.blue.shade800
                                         : (widget.userModel!.followers!
                                                 .contains(FirebaseAuth
                                                     .instance.currentUser!.uid))

@@ -7,8 +7,6 @@ import 'package:insta_app/models/user_model.dart';
 class FollowAndUnfollowCubit extends Cubit<FollowAndUnfollowStates> {
   FollowAndUnfollowCubit() : super(InitalFollowAndUnfollowState());
 
-  late List followerrs;
-
   Future<void> followAndUnfollowLogic(
       {required UserModel currentUser, required UserModel searchedOne}) async {
     String currentUID = currentUser.uid;
@@ -36,7 +34,6 @@ class FollowAndUnfollowCubit extends Cubit<FollowAndUnfollowStates> {
           'following': FieldValue.arrayRemove([searchedOne.uid])
         });
         searchedOne.followers!.remove(currentUID);
-        followerrs = doc['followers'];
         currentUser.following!.remove(searchedOne.uid);
       } else {
         await FirebaseFirestore.instance
@@ -52,29 +49,11 @@ class FollowAndUnfollowCubit extends Cubit<FollowAndUnfollowStates> {
           'following': FieldValue.arrayUnion([searchedOne.uid])
         });
         searchedOne.followers!.add(currentUID);
-        followerrs = doc['followers'];
         currentUser.following!.add(searchedOne.uid);
       }
       emit(SuccessFollowAndUnfollowState());
     } catch (e) {
       emit(FailuireFollowAndUnfollowState());
     }
-  }
-
-  Future<int> setFollowers(UserModel searchedOne) async {
-    var doc = await FirebaseFirestore.instance
-        .collection(kUsers)
-        .doc(searchedOne.uid)
-        .get();
-    followerrs = doc['followers'];
-    return followerrs.length;
-  }
-
-  int incrementFollowers(UserModel searchedOne) {
-    return followerrs.length + 1;
-  }
-
-  int decrementFollowers(UserModel searchedOne) {
-    return followerrs.length - 1;
   }
 }

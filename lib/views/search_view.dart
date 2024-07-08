@@ -6,8 +6,6 @@ import 'package:insta_app/constants.dart';
 import 'package:insta_app/cubits/fetch_all_users_cubit/fetch_all_users_cubit.dart';
 import 'package:insta_app/cubits/fetch_all_users_cubit/fetch_all_users_states.dart';
 import 'package:insta_app/cubits/fetch_user_data_cubit/fetch_user_data_cubit.dart';
-import 'package:insta_app/cubits/follow_and_unfollow_cubit/follow_and_unfollow_cubit.dart';
-import 'package:insta_app/cubits/follow_and_unfollow_cubit/follow_and_unfollow_states.dart';
 import 'package:insta_app/helper/person_in_search.dart';
 import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/services/fetch_and_push_searched_people_service.dart';
@@ -225,10 +223,7 @@ class _SearchViewState extends State<SearchView> {
                                                             .serachedPeople![
                                                         index]['uid'],
                                                   );
-                                                  await BlocProvider.of<
-                                                              FollowAndUnfollowCubit>(
-                                                          context)
-                                                      .setFollowers(user);
+
                                                   Get.to(
                                                       ProfileView(
                                                         userModel: user,
@@ -309,17 +304,6 @@ class _SearchViewState extends State<SearchView> {
                                                                         21),
                                                             radius: 16,
                                                             onTap: () async {
-                                                              await BlocProvider
-                                                                      .of<FollowAndUnfollowCubit>(
-                                                                          context)
-                                                                  .setFollowers(
-                                                                UserModel
-                                                                    .fromJson(
-                                                                  fetchedPersons!
-                                                                          .docs[
-                                                                      index],
-                                                                ),
-                                                              );
                                                               Get.to(
                                                                   () =>
                                                                       ProfileView(
