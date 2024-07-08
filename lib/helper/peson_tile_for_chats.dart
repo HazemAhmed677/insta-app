@@ -12,7 +12,8 @@ class PersonTileForChats extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 24.0),
       child: InkWell(
-        borderRadius: BorderRadius.circular(21),
+        borderRadius: BorderRadius.circular(28),
+        splashColor: kBlack,
         onTap: () {
           Navigator.pushNamed(context, ChatView.chatViewID);
         },
@@ -62,7 +63,7 @@ class PersonTileForChats extends StatelessWidget {
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeInOut),
               elevation: 20,
-              onSelected: (String text) {
+              onSelected: (text) {
                 if (text == 'Delete') {
                 } else if (text == 'Block') {}
               },

@@ -45,14 +45,19 @@ class _CustomCNBBState extends State<CustomCNBB> {
           letIndexChange: (index) => true,
         ),
         body: Container(
-          color: Color.fromARGB(255, 0, 0, 0),
+          color: const Color.fromARGB(255, 0, 0, 0),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(_page.toString(), style: TextStyle(fontSize: 160)),
+                Text(
+                  _page.toString(),
+                  style: const TextStyle(
+                    fontSize: 160,
+                  ),
+                ),
                 ElevatedButton(
-                  child: Text('Go To Page of index 1'),
+                  child: const Text('Go To Page of index 1'),
                   onPressed: () {
                     final CurvedNavigationBarState? navBarState =
                         _bottomNavigationKey.currentState;

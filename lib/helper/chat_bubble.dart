@@ -20,7 +20,7 @@ class ChatBubbleFromMe extends StatelessWidget {
           color: Color.fromARGB(255, 52, 96, 137),
         ),
         child: const Text(
-          'From my friend',
+          'This is from me, HZM',
           style: TextStyle(
             color: Colors.white,
             fontSize: 16,
@@ -50,7 +50,7 @@ class ChatBubbleFromFriend extends StatelessWidget {
             ),
             color: Colors.grey.shade800),
         child: const Text(
-          'This is from me, HZM',
+          'From my friend',
           style: TextStyle(
             color: Colors.white,
             fontSize: 16,
