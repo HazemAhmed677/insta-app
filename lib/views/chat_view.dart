@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:insta_app/constants.dart';
+import 'package:insta_app/helper/chat_bubble.dart';
 
 class ChatView extends StatelessWidget {
   const ChatView({super.key});
@@ -42,23 +43,25 @@ class ChatView extends StatelessWidget {
                       children: [
                         const CircleAvatar(
                           backgroundImage: AssetImage(kImage),
-                          radius: 28,
+                          radius: 26,
                         ),
                         SizedBox(width: width * 0.03),
                         const Text(
                           'name',
-                          style: TextStyle(fontSize: 22),
+                          style: TextStyle(fontSize: 18),
                         ),
                       ],
                     ),
                   ],
                 ),
               ),
-              SizedBox(
-                height: hight * 0.02,
-              ),
+
               Expanded(
-                child: ListView.builder(itemBuilder: (context, index) {}),
+                child: ListView.builder(
+                    itemCount: 5,
+                    itemBuilder: (context, index) {
+                      return const ChatBubbleFromMe();
+                    }),
               ),
               // *************************
               // *************************
@@ -74,12 +77,24 @@ class ChatView extends StatelessWidget {
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(
                         horizontal: 14, vertical: 16),
+                    prefixIcon: IconButton(
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                      style: const ButtonStyle(
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap),
+                      onPressed: () {},
+                      icon: const Icon(
+                        FontAwesomeIcons.image,
+                      ),
+                    ),
                     suffixIcon: IconButton(
                       onPressed: () {},
-                      icon: const Icon(Icons.send),
+                      icon: const Icon(
+                        Icons.send,
+                        color: Colors.blue,
+                      ),
                     ),
                     hintText: 'Messege',
-                    suffixIconColor: const Color.fromARGB(255, 0, 140, 255),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                       borderSide: const BorderSide(
@@ -89,7 +104,7 @@ class ChatView extends StatelessWidget {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                       borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 0, 140, 255),
+                        color: Colors.blue,
                       ),
                     ),
                   ),
