@@ -61,7 +61,12 @@ class FollowAndUnfollowCubit extends Cubit<FollowAndUnfollowStates> {
     }
   }
 
-  int setFollowers(UserModel searchedOne) {
+  Future<int> setFollowers(UserModel searchedOne) async {
+    var doc = await FirebaseFirestore.instance
+        .collection(kUsers)
+        .doc(searchedOne.uid)
+        .get();
+    followerrs = doc['followers'];
     return followerrs.length;
   }
 

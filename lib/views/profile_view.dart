@@ -14,24 +14,22 @@ import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/services/fetch_user_posts_fo_profile.dart';
 
 class ProfileView extends StatefulWidget {
-  ProfileView({
+  const ProfileView({
     super.key,
     this.userModel,
+    this.currentUser,
     this.bar,
-    this.onPressed,
-    this.flag,
   });
   static String profileId = 'Search page';
   final UserModel? userModel;
+  final UserModel? currentUser;
   final String? bar;
-  final void Function()? onPressed;
-  bool? flag;
-
   @override
   State<ProfileView> createState() => _ProfileViewState();
 }
 
 class _ProfileViewState extends State<ProfileView> {
+  bool flag = false;
   @override
   Widget build(BuildContext context) {
     double hight = MediaQuery.of(context).size.height;
@@ -86,8 +84,14 @@ class _ProfileViewState extends State<ProfileView> {
                                 text: 'posts',
                               ),
                               ProfileHelper(
-                                number: widget.userModel!.followers!.length
-                                    .toString(),
+                                number: (flag)
+                                    ? BlocProvider.of<FollowAndUnfollowCubit>(
+                                            context)
+                                        .followerrs
+                                        .length
+                                        .toString()
+                                    : widget.userModel!.followers!.length
+                                        .toString(),
                                 text: 'Followers',
                               ),
                               ProfileHelper(
@@ -115,20 +119,30 @@ class _ProfileViewState extends State<ProfileView> {
                                         : (widget.userModel!.followers!
                                                 .contains(FirebaseAuth
                                                     .instance.currentUser!.uid))
-                                            ? Colors.grey
+                                            ? Colors.grey.shade900
                                             : kPink,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                              onPressed: widget.onPressed,
+                              onPressed: (FirebaseAuth
+                                          .instance.currentUser!.uid ==
+                                      widget.userModel!.uid)
+                                  ? () {}
+                                  : () async {
+                                      await BlocProvider.of<
+                                              FollowAndUnfollowCubit>(context)
+                                          .followAndUnfollowLogic(
+                                              currentUser: widget.currentUser!,
+                                              searchedOne: widget.userModel!);
+                                    },
                               child: Text(
                                 (FirebaseAuth.instance.currentUser!.uid ==
                                         widget.userModel!.uid)
                                     ? 'Edit profile'
-                                    : (widget.userModel!.followers!.contains(
+                                    : widget.userModel!.followers!.contains(
                                             FirebaseAuth
-                                                .instance.currentUser!.uid))
+                                                .instance.currentUser!.uid)
                                         ? 'Unfollow'
                                         : 'Follow',
                                 style: const TextStyle(

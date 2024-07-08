@@ -225,23 +225,14 @@ class _SearchViewState extends State<SearchView> {
                                                             .serachedPeople![
                                                         index]['uid'],
                                                   );
-
+                                                  await BlocProvider.of<
+                                                              FollowAndUnfollowCubit>(
+                                                          context)
+                                                      .setFollowers(user);
                                                   Get.to(
                                                       ProfileView(
                                                         userModel: user,
-                                                        bar: 'Follow',
-                                                        onPressed: () async {
-                                                          if (mounted) {
-                                                            await BlocProvider
-                                                                    .of<FollowAndUnfollowCubit>(
-                                                                        context)
-                                                                .followAndUnfollowLogic(
-                                                                    currentUser:
-                                                                        userModel,
-                                                                    searchedOne:
-                                                                        user!);
-                                                          }
-                                                        },
+                                                        currentUser: userModel,
                                                       ),
                                                       curve: Curves
                                                           .easeInOutQuint);
@@ -318,6 +309,17 @@ class _SearchViewState extends State<SearchView> {
                                                                         21),
                                                             radius: 16,
                                                             onTap: () async {
+                                                              await BlocProvider
+                                                                      .of<FollowAndUnfollowCubit>(
+                                                                          context)
+                                                                  .setFollowers(
+                                                                UserModel
+                                                                    .fromJson(
+                                                                  fetchedPersons!
+                                                                          .docs[
+                                                                      index],
+                                                                ),
+                                                              );
                                                               Get.to(
                                                                   () =>
                                                                       ProfileView(
@@ -326,19 +328,8 @@ class _SearchViewState extends State<SearchView> {
                                                                           fetchedPersons!
                                                                               .docs[index],
                                                                         ),
-                                                                        onPressed:
-                                                                            () async {
-                                                                          {
-                                                                            await BlocProvider.of<FollowAndUnfollowCubit>(context).followAndUnfollowLogic(
-                                                                              currentUser: userModel,
-                                                                              searchedOne: UserModel.fromJson(
-                                                                                fetchedPersons!.docs[index],
-                                                                              ),
-                                                                            );
-                                                                          }
-                                                                        },
-                                                                        bar:
-                                                                            'Follow',
+                                                                        currentUser:
+                                                                            userModel,
                                                                       ),
                                                                   curve: Curves
                                                                       .easeIn);
