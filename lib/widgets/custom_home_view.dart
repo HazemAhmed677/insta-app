@@ -6,7 +6,6 @@ import 'package:insta_app/constants.dart';
 import 'package:insta_app/helper/post_widget.dart';
 import 'package:insta_app/models/post_model.dart';
 import 'package:insta_app/views/all_chats_view.dart';
-import 'package:insta_app/views/curved_navigation_bottom_bar.dart';
 
 class CustomHomeView extends StatefulWidget {
   const CustomHomeView({super.key});
