@@ -20,6 +20,7 @@ class _ChatViewState extends State<ChatView> {
   TextEditingController textEditingController = TextEditingController();
   String messege = '';
   ScrollController controller = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     double hight = MediaQuery.of(context).size.height;
@@ -60,7 +61,7 @@ class _ChatViewState extends State<ChatView> {
                               (widget.recieverUser!.profileImageURL != null)
                                   ? CachedNetworkImageProvider(
                                       widget.recieverUser!.profileImageURL!)
-                                  : null,
+                                  : const AssetImage(kNullImage),
                           radius: 26,
                         ),
                         SizedBox(width: width * 0.03),
@@ -77,36 +78,48 @@ class _ChatViewState extends State<ChatView> {
               ),
               // *********************** ListView
               StreamBuilder<QuerySnapshot>(
-                  stream: ChatOneToOneService().fetchAllMesseges(
-                      currentUserID: widget.currentUserID!,
-                      reciever: widget.recieverUser!),
-                  builder: (context, snapshot) {
-                    return Expanded(
-                      child: (snapshot.hasData)
-                          ? ListView.builder(
-                              reverse: true,
-                              controller: controller,
-                              itemCount: snapshot.data!.size,
-                              itemBuilder: (context, index) {
-                                return ChatBubbleFromMe(
-                                  messege: snapshot.data!.docs[index]
-                                      ['messege'],
-                                );
-                              })
-                          : (snapshot.connectionState ==
-                                  ConnectionState.waiting)
-                              ? const Center(
-                                  child: CircularProgressIndicator(
-                                    color: kPink,
-                                  ),
-                                )
-                              : (snapshot.data == null)
-                                  ? const Center(child: Text('No messeges yet'))
-                                  : (snapshot.hasError)
-                                      ? const Text('error')
-                                      : const SizedBox(),
-                    );
-                  }),
+                stream: ChatOneToOneService().fetchAllMesseges(
+                    currentUserID: widget.currentUserID!,
+                    reciever: widget.recieverUser!),
+                builder: (context, snapshot) {
+                  return Expanded(
+                    child: (snapshot.hasData && snapshot.data!.size != 0)
+                        ? ListView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            reverse: true,
+                            controller: controller,
+                            itemCount: snapshot.data!.size,
+                            itemBuilder: (context, index) {
+                              return (snapshot.data!.docs[index]['content']
+                                          ['userID'] ==
+                                      widget.currentUserID)
+                                  ? ChatBubbleFromMe(
+                                      messege: snapshot.data!.docs[index]
+                                          ['content']['messege'],
+                                    )
+                                  : ChatBubbleFromFriend(
+                                      messege: snapshot.data!.docs[index]
+                                          ['content']['messege']);
+                            })
+                        : (snapshot.connectionState == ConnectionState.waiting)
+                            ? const Center(
+                                child: CircularProgressIndicator(
+                                  color: kPink,
+                                ),
+                              )
+                            : (snapshot.data!.size == 0)
+                                ? const Center(
+                                    child: Text(
+                                      'No messeges yet',
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                  )
+                                : (snapshot.hasError)
+                                    ? const Text('error')
+                                    : const SizedBox(),
+                  );
+                },
+              ),
               // *************************
               // *************************
               //TEXT FIELD
@@ -116,13 +129,13 @@ class _ChatViewState extends State<ChatView> {
                   top: 18,
                 ),
                 child: TextField(
-                  clipBehavior: Clip.none,
+                  maxLines: null,
+
                   controller: textEditingController,
                   cursorColor: const Color.fromARGB(255, 0, 140, 255),
                   onSubmitted: (value) async {
                     if (value != '') {
                       messege = value;
-                      textEditingController.clear();
                       await ChatOneToOneService().pushMessegeToFireStore(
                           messege: messege,
                           currentUserID: widget.currentUserID!,
@@ -130,6 +143,7 @@ class _ChatViewState extends State<ChatView> {
                       await controller.animateTo(0,
                           duration: const Duration(milliseconds: 500),
                           curve: Curves.easeInOut);
+                      textEditingController.clear();
                       setState(() {});
                     }
                   },
@@ -149,16 +163,19 @@ class _ChatViewState extends State<ChatView> {
                     ),
                     suffixIcon: IconButton(
                       onPressed: () async {
-                        messege = textEditingController.text;
-                        textEditingController.clear();
-                        await ChatOneToOneService().pushMessegeToFireStore(
-                            messege: messege,
-                            currentUserID: widget.currentUserID!,
-                            reciever: widget.recieverUser!);
-                        await controller.animateTo(0,
-                            duration: const Duration(milliseconds: 500),
-                            curve: Curves.easeInOut);
-                        setState(() {});
+                        if (textEditingController.text != '') {
+                          messege = textEditingController.text;
+
+                          await ChatOneToOneService().pushMessegeToFireStore(
+                              messege: messege,
+                              currentUserID: widget.currentUserID!,
+                              reciever: widget.recieverUser!);
+                          await controller.animateTo(0,
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.easeInOut);
+                          textEditingController.clear();
+                          setState(() {});
+                        }
                       },
                       icon: const Icon(
                         Icons.send,
@@ -179,6 +196,11 @@ class _ChatViewState extends State<ChatView> {
                       ),
                     ),
                   ),
+                  textInputAction: TextInputAction
+                      .newline, // Enables Shift + Enter for new lines
+                  onChanged: (text) {
+                    // You can add any additional logic here based on user input
+                  },
                 ),
               )
             ],

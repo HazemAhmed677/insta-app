@@ -40,7 +40,7 @@ class _PostTileState extends State<PostTile> {
               backgroundImage: (widget.userModel.profileImageURL != null)
                   ? CachedNetworkImageProvider(
                       widget.userModel.profileImageURL!)
-                  : null,
+                  : const AssetImage(kNullImage),
             ),
             SizedBox(
               width: 0.03 * width,
@@ -98,7 +98,6 @@ class _PostTileState extends State<PostTile> {
               onPressed: () async {
                 await AddRemoveLikePostService()
                     .addOrRemoeLike(postModel: widget.postModel);
-
                 setState(() {});
               },
               icon: (widget.postModel.likes
@@ -118,7 +117,7 @@ class _PostTileState extends State<PostTile> {
             ),
             IconButton(
               style: TextButton.styleFrom(
-                padding: EdgeInsets.only(right: 2, left: 1),
+                padding: const EdgeInsets.only(right: 2, left: 1),
                 minimumSize: const Size(20, 10),
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),

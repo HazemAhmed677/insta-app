@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 const kImage = 'assets/images/logo.jpg';
+const kNullImage = 'assets/images/images.png';
 const kPink = Colors.pink;
 const kPuple = Color.fromARGB(255, 198, 115, 221);
 const kBlack = Colors.black;

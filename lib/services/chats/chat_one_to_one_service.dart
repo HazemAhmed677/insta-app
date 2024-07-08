@@ -15,7 +15,10 @@ class ChatOneToOneService {
           .doc(roomID)
           .collection(kMesseges)
           .add({
-        'messege': messege,
+        'content': {
+          'messege': messege,
+          'userID': currentUserID,
+        },
         'sent at': Timestamp.now(),
       });
     } catch (e) {

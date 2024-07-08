@@ -64,7 +64,7 @@ class _ProfileViewState extends State<ProfileView> {
                                             null)
                                         ? CachedNetworkImageProvider(
                                             widget.userModel!.profileImageURL!)
-                                        : null,
+                                        : const AssetImage(kNullImage),
                                     radius: 40,
                                   ),
                                   SizedBox(

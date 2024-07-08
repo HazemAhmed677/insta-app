@@ -26,7 +26,7 @@ class _UserCommentState extends State<UserComment> {
           radius: 28,
           backgroundImage: (commentModel.imageProfile != null)
               ? CachedNetworkImageProvider(commentModel.imageProfile!)
-              : null,
+              : const AssetImage(kNullImage),
         ),
         SizedBox(
           width: width * 0.025,
