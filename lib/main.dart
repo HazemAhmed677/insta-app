@@ -56,7 +56,7 @@ class InstaApp extends StatelessWidget {
           AddPostView.addPostId: (context) => const AddPostView(),
           ProfileView.profileId: (context) => const ProfileView(),
           AddCommentView.addCommentView: (context) => const AddCommentView(),
-          ChatView.chatViewID: (context) => const ChatView(),
+          ChatView.chatViewID: (context) => ChatView(),
         },
         initialRoute: HomeView.homeViewId,
       ),

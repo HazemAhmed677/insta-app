@@ -1,11 +1,24 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/helper/chat_bubble.dart';
+import 'package:insta_app/models/user_model.dart';
+import 'package:insta_app/services/chats/chat_one_to_one_service.dart';
 
-class ChatView extends StatelessWidget {
-  const ChatView({super.key});
+class ChatView extends StatefulWidget {
+  ChatView({super.key, this.currentUserID, this.recieverUser});
+  final String? currentUserID;
+  final UserModel? recieverUser;
   static String chatViewID = 'Chat view';
+  @override
+  State<ChatView> createState() => _ChatViewState();
+}
+
+class _ChatViewState extends State<ChatView> {
+  TextEditingController textEditingController = TextEditingController();
+  String messege = '';
   @override
   Widget build(BuildContext context) {
     double hight = MediaQuery.of(context).size.height;
@@ -41,14 +54,20 @@ class ChatView extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        const CircleAvatar(
-                          backgroundImage: AssetImage(kImage),
+                        CircleAvatar(
+                          backgroundImage:
+                              (widget.recieverUser!.profileImageURL != null)
+                                  ? CachedNetworkImageProvider(
+                                      widget.recieverUser!.profileImageURL!)
+                                  : null,
                           radius: 26,
                         ),
                         SizedBox(width: width * 0.03),
-                        const Text(
-                          'name',
-                          style: TextStyle(fontSize: 18),
+                        Text(
+                          widget.recieverUser!.username,
+                          style: const TextStyle(
+                            fontSize: 18,
+                          ),
                         ),
                       ],
                     ),
@@ -57,10 +76,27 @@ class ChatView extends StatelessWidget {
               ),
 
               Expanded(
-                child: ListView.builder(
-                    itemCount: 5,
-                    itemBuilder: (context, index) {
-                      return const ChatBubbleFromMe();
+                child: StreamBuilder<QuerySnapshot>(
+                    stream: (messege != '')
+                        ? ChatOneToOneService().fetchAllMesseges(
+                            messege: messege,
+                            currentUserID: widget.currentUserID!,
+                            reciever: widget.recieverUser!)
+                        : null,
+                    builder: (context, snapshot) {
+                      return (snapshot.hasData)
+                          ? ListView.builder(
+                              itemCount: snapshot.data!.size,
+                              itemBuilder: (context, index) {
+                                return ChatBubbleFromMe(
+                                  messege: snapshot.data!.docs[index]
+                                      ['messege'],
+                                );
+                              })
+                          : const Center(
+                              child: CircularProgressIndicator(
+                              color: kPink,
+                            ));
                     }),
               ),
               // *************************
@@ -72,8 +108,21 @@ class ChatView extends StatelessWidget {
                   top: 18,
                 ),
                 child: TextField(
+                  controller: textEditingController,
                   cursorColor: const Color.fromARGB(255, 0, 140, 255),
-                  onSubmitted: (value) {},
+                  onChanged: (value) {
+                    messege = value;
+                  },
+                  onSubmitted: (value) async {
+                    if (value != '') {
+                      messege = value;
+                      await ChatOneToOneService().pushMessegeToFireStore(
+                          messege: value,
+                          currentUserID: widget.currentUserID!,
+                          reciever: widget.recieverUser!);
+                      textEditingController.clear();
+                    }
+                  },
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(
                         horizontal: 14, vertical: 16),

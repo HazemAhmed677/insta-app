@@ -15,7 +15,7 @@ getShowSnackBar(BuildContext context, String content) {
             topRight: Radius.circular(10),
           ),
         ),
-        duration: const Duration(milliseconds: 3500),
+        duration: const Duration(milliseconds: 9500),
         backgroundColor: kPink.shade500,
         content: Text(
           content,

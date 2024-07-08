@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import 'package:insta_app/constants.dart';
@@ -8,6 +9,7 @@ import 'package:insta_app/models/post_model.dart';
 import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/services/add_remove_like_post_service.dart';
 import 'package:insta_app/views/add_comment_view.dart';
+import 'package:insta_app/views/chat_view.dart';
 
 class PostTile extends StatefulWidget {
   const PostTile(
@@ -116,14 +118,22 @@ class _PostTileState extends State<PostTile> {
             ),
             IconButton(
               style: TextButton.styleFrom(
-                padding: EdgeInsets.zero,
+                padding: EdgeInsets.only(right: 2, left: 1),
                 minimumSize: const Size(20, 10),
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Get.to(
+                  ChatView(
+                    currentUserID: FirebaseAuth.instance.currentUser!.uid,
+                    recieverUser: widget.userModel,
+                  ),
+                  transition: Transition.fadeIn,
+                );
+              },
               icon: const Icon(
-                Icons.comment,
-                size: 26,
+                FontAwesomeIcons.commentDots,
+                size: 24,
               ),
             ),
           ],

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ChatBubbleFromMe extends StatelessWidget {
-  const ChatBubbleFromMe({super.key});
-
+  const ChatBubbleFromMe({super.key, required this.messege});
+  final String messege;
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -19,9 +19,9 @@ class ChatBubbleFromMe extends StatelessWidget {
           ),
           color: Color.fromARGB(255, 52, 96, 137),
         ),
-        child: const Text(
-          'This is from me, HZM',
-          style: TextStyle(
+        child: Text(
+          messege,
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 16,
           ),

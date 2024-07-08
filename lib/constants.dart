@@ -8,6 +8,7 @@ const kWhite = Colors.white;
 const kUsers = 'users';
 const kPosts = 'posts';
 const kChats = 'chats';
+const kMesseges = 'messeges';
 const kImages = 'images';
 const kComments = 'comments';
 const kPostsImages = 'posts_images';
