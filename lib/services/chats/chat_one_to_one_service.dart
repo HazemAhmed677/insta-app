@@ -24,9 +24,7 @@ class ChatOneToOneService {
   }
 
   Stream<QuerySnapshot> fetchAllMesseges(
-      {required String messege,
-      required String currentUserID,
-      required UserModel reciever}) async* {
+      {required String currentUserID, required UserModel reciever}) async* {
     String roomID =
         kChatRoomID(currentUserID: currentUserID, chatedOneID: reciever.uid);
     try {
@@ -35,6 +33,7 @@ class ChatOneToOneService {
           .collection(kChats)
           .doc(roomID)
           .collection(kMesseges)
+          .orderBy('sent at', descending: true)
           .get();
 
       yield docs;

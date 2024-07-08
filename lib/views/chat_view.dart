@@ -8,7 +8,7 @@ import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/services/chats/chat_one_to_one_service.dart';
 
 class ChatView extends StatefulWidget {
-  ChatView({super.key, this.currentUserID, this.recieverUser});
+  const ChatView({super.key, this.currentUserID, this.recieverUser});
   final String? currentUserID;
   final UserModel? recieverUser;
   static String chatViewID = 'Chat view';
@@ -19,6 +19,7 @@ class ChatView extends StatefulWidget {
 class _ChatViewState extends State<ChatView> {
   TextEditingController textEditingController = TextEditingController();
   String messege = '';
+  ScrollController controller = ScrollController();
   @override
   Widget build(BuildContext context) {
     double hight = MediaQuery.of(context).size.height;
@@ -50,7 +51,7 @@ class _ChatViewState extends State<ChatView> {
                       icon: const Icon(FontAwesomeIcons.arrowLeft),
                     ),
                     SizedBox(
-                      width: width * 0.04,
+                      width: width * 0.024,
                     ),
                     Row(
                       children: [
@@ -74,18 +75,17 @@ class _ChatViewState extends State<ChatView> {
                   ],
                 ),
               ),
-
-              Expanded(
-                child: StreamBuilder<QuerySnapshot>(
-                    stream: (messege != '')
-                        ? ChatOneToOneService().fetchAllMesseges(
-                            messege: messege,
-                            currentUserID: widget.currentUserID!,
-                            reciever: widget.recieverUser!)
-                        : null,
-                    builder: (context, snapshot) {
-                      return (snapshot.hasData)
+              // *********************** ListView
+              StreamBuilder<QuerySnapshot>(
+                  stream: ChatOneToOneService().fetchAllMesseges(
+                      currentUserID: widget.currentUserID!,
+                      reciever: widget.recieverUser!),
+                  builder: (context, snapshot) {
+                    return Expanded(
+                      child: (snapshot.hasData)
                           ? ListView.builder(
+                              reverse: true,
+                              controller: controller,
                               itemCount: snapshot.data!.size,
                               itemBuilder: (context, index) {
                                 return ChatBubbleFromMe(
@@ -93,12 +93,20 @@ class _ChatViewState extends State<ChatView> {
                                       ['messege'],
                                 );
                               })
-                          : const Center(
-                              child: CircularProgressIndicator(
-                              color: kPink,
-                            ));
-                    }),
-              ),
+                          : (snapshot.connectionState ==
+                                  ConnectionState.waiting)
+                              ? const Center(
+                                  child: CircularProgressIndicator(
+                                    color: kPink,
+                                  ),
+                                )
+                              : (snapshot.data == null)
+                                  ? const Center(child: Text('No messeges yet'))
+                                  : (snapshot.hasError)
+                                      ? const Text('error')
+                                      : const SizedBox(),
+                    );
+                  }),
               // *************************
               // *************************
               //TEXT FIELD
@@ -108,19 +116,21 @@ class _ChatViewState extends State<ChatView> {
                   top: 18,
                 ),
                 child: TextField(
+                  clipBehavior: Clip.none,
                   controller: textEditingController,
                   cursorColor: const Color.fromARGB(255, 0, 140, 255),
-                  onChanged: (value) {
-                    messege = value;
-                  },
                   onSubmitted: (value) async {
                     if (value != '') {
                       messege = value;
+                      textEditingController.clear();
                       await ChatOneToOneService().pushMessegeToFireStore(
-                          messege: value,
+                          messege: messege,
                           currentUserID: widget.currentUserID!,
                           reciever: widget.recieverUser!);
-                      textEditingController.clear();
+                      await controller.animateTo(0,
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeInOut);
+                      setState(() {});
                     }
                   },
                   decoration: InputDecoration(
@@ -130,14 +140,26 @@ class _ChatViewState extends State<ChatView> {
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
                       style: const ButtonStyle(
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap),
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
                       onPressed: () {},
                       icon: const Icon(
                         FontAwesomeIcons.image,
                       ),
                     ),
                     suffixIcon: IconButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        messege = textEditingController.text;
+                        textEditingController.clear();
+                        await ChatOneToOneService().pushMessegeToFireStore(
+                            messege: messege,
+                            currentUserID: widget.currentUserID!,
+                            reciever: widget.recieverUser!);
+                        await controller.animateTo(0,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.easeInOut);
+                        setState(() {});
+                      },
                       icon: const Icon(
                         Icons.send,
                         color: Colors.blue,
