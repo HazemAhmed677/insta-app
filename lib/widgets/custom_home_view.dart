@@ -5,10 +5,15 @@ import 'package:get/get.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/helper/post_widget.dart';
 import 'package:insta_app/models/post_model.dart';
+import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/views/all_chats_view.dart';
 
 class CustomHomeView extends StatefulWidget {
-  const CustomHomeView({super.key});
+  const CustomHomeView({
+    super.key,
+    required this.currentUser,
+  });
+  final UserModel currentUser;
 
   @override
   State<CustomHomeView> createState() => _CustomHomeViewState();
@@ -115,6 +120,7 @@ class _CustomHomeViewState extends State<CustomHomeView> {
                   childCount: snapshot.data?.size ?? 0,
                   (BuildContext context, int index) {
                     return CustomPostWidget(
+                      currentUser: widget.currentUser,
                       postModel: PostModel.fromJson(
                         snapshot.data!.docs[index],
                       ),

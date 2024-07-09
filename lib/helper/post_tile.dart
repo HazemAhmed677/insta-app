@@ -16,8 +16,10 @@ class PostTile extends StatefulWidget {
       {super.key,
       required this.userModel,
       required this.imageURL,
-      required this.postModel});
+      required this.postModel,
+      required this.currentUser});
   final UserModel userModel;
+  final UserModel currentUser;
   final String imageURL;
   final PostModel postModel;
 
@@ -235,7 +237,9 @@ class _PostTileState extends State<PostTile> {
                   ),
                   onPressed: () {
                     Get.to(
-                      () => const AddCommentView(),
+                      () => AddCommentView(
+                        userModel: widget.currentUser,
+                      ),
                       arguments: widget.postModel,
                       transition: Transition.rightToLeftWithFade,
                     );

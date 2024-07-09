@@ -6,8 +6,10 @@ import 'package:insta_app/models/post_model.dart';
 import 'package:insta_app/models/user_model.dart';
 
 class CustomPostWidget extends StatefulWidget {
-  const CustomPostWidget({super.key, required this.postModel});
+  const CustomPostWidget(
+      {super.key, required this.postModel, required this.currentUser});
   final PostModel postModel;
+  final UserModel currentUser;
   @override
   State<CustomPostWidget> createState() => _CustomPostWidgetState();
 }
@@ -46,6 +48,7 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
             userModel: userModel,
             imageURL: imageURL,
             postModel: widget.postModel,
+            currentUser: widget.currentUser,
           );
         } else if (snapshot.hasError) {
           return const Icon(Icons.error);

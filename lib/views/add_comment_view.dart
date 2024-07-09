@@ -2,9 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insta_app/constants.dart';
-import 'package:insta_app/cubits/fetch_user_data_cubit/fetch_user_data_cubit.dart';
 import 'package:insta_app/models/comment_model.dart';
 import 'package:insta_app/models/post_model.dart';
 import 'package:insta_app/models/user_model.dart';
@@ -12,8 +10,9 @@ import 'package:insta_app/widgets/user_comment.dart';
 import 'package:uuid/uuid.dart';
 
 class AddCommentView extends StatefulWidget {
-  const AddCommentView({super.key});
+  const AddCommentView({super.key, this.userModel});
   static String addCommentView = 'Add comment screen';
+  final UserModel? userModel;
   @override
   State<AddCommentView> createState() => _AddCommentViewState();
 }
@@ -27,19 +26,18 @@ class _AddCommentViewState extends State<AddCommentView> {
         ModalRoute.of(context)!.settings.arguments as PostModel;
     double hight = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    UserModel userModel =
-        BlocProvider.of<FetchUserDataCubit>(context).userModel;
+
     String generatedCommentId;
     Future<void> addComment(String generatedCommentId) async {
       if (textEditingController.text != '') {
         CommentModel commentModel = CommentModel(
-          username: userModel.username,
-          imageProfile: userModel.profileImageURL,
+          username: widget.userModel!.username,
+          imageProfile: widget.userModel!.profileImageURL,
           comment: textEditingController.text,
           likes: [],
           commentID: generatedCommentId,
           dataTime: Timestamp.now(),
-          uid: userModel.uid,
+          uid: widget.userModel!.uid,
         );
         textEditingController.clear();
         Map<String, dynamic> commentMap =

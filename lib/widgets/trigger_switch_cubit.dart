@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/cubits/fetch_all_users_cubit/fetch_all_users_cubit.dart';
-import 'package:insta_app/cubits/fetch_user_data_cubit/fetch_user_data_cubit.dart';
 import 'package:insta_app/cubits/switch_screen_cubit/switch_screen_cubit_states.dart';
 import 'package:insta_app/cubits/switch_screen_cubit/switch_screens_cubit.dart';
 import 'package:insta_app/models/user_model.dart';
@@ -22,6 +21,7 @@ class TriggerSwitchCubit extends StatefulWidget {
 }
 
 class _TriggerSwitchCubitState extends State<TriggerSwitchCubit> {
+  late UserModel user;
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -33,30 +33,44 @@ class _TriggerSwitchCubitState extends State<TriggerSwitchCubit> {
       child: BlocBuilder<SwitchScreensCubit, SwitchScreensStates>(
         builder: (context, state) {
           return SafeArea(
-            child: Scaffold(
-              backgroundColor: kBlack,
-              body: (state is HomeScreenState)
-                  ? const CustomHomeView()
-                  : (state is SearchScreenState)
-                      ? const SearchView()
-                      : (state is AddPostScreenState)
-                          ? const AddPostView()
-                          : StreamBuilder(
-                              stream: FirebaseFirestore.instance
-                                  .collection(kUsers)
-                                  .doc(
-                                    FirebaseAuth.instance.currentUser!.uid,
-                                  )
-                                  .snapshots(),
-                              builder: (context, snapshot) {
-                                Map<String, dynamic> userMap = snapshot.data!
-                                    .data() as Map<String, dynamic>;
-                                UserModel user = UserModel.fromJson(userMap);
-                                return ProfileView(
-                                    bar: "Edit profile", userModel: user);
-                              }),
-              bottomNavigationBar: const CustomBottomNavigationBar(),
-            ),
+            child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection(kUsers)
+                    .doc(
+                      FirebaseAuth.instance.currentUser!.uid,
+                    )
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: kPink,
+                      ),
+                    );
+                  } else {
+                    Map<String, dynamic> userMap =
+                        snapshot.data!.data() as Map<String, dynamic>;
+                    user = UserModel.fromJson(userMap);
+                  }
+
+                  return Scaffold(
+                    backgroundColor: kBlack,
+                    body: (state is HomeScreenState)
+                        ? CustomHomeView(
+                            currentUser: user,
+                          )
+                        : (state is SearchScreenState)
+                            ? SearchView(
+                                userModel: user,
+                              )
+                            : (state is AddPostScreenState)
+                                ? const AddPostView()
+                                : ProfileView(
+                                    userModel: user,
+                                  ),
+                    bottomNavigationBar: const CustomBottomNavigationBar(),
+                  );
+                }),
           );
         },
       ),

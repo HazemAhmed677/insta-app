@@ -32,7 +32,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           onPressed: () {
             BlocProvider.of<SwitchScreensCubit>(context).currentIndex = current;
             BlocProvider.of<SwitchScreensCubit>(context).getScreen();
-            setState(() {});
           },
           icon: Icon(
             icon,
@@ -67,7 +66,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             onTap: (value) {
               BlocProvider.of<SwitchScreensCubit>(context).currentIndex = value;
               BlocProvider.of<SwitchScreensCubit>(context).getScreen();
-              setState(() {});
             },
           );
         },

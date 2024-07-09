@@ -6,14 +6,14 @@ import 'package:get/get.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/cubits/fetch_all_users_cubit/fetch_all_users_cubit.dart';
 import 'package:insta_app/cubits/fetch_all_users_cubit/fetch_all_users_states.dart';
-import 'package:insta_app/cubits/fetch_user_data_cubit/fetch_user_data_cubit.dart';
 import 'package:insta_app/helper/person_in_search.dart';
 import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/services/fetch_and_push_searched_people_service.dart';
 import 'package:insta_app/views/profile_view.dart';
 
 class SearchView extends StatefulWidget {
-  const SearchView({super.key});
+  const SearchView({super.key, this.userModel});
+  final UserModel? userModel;
   static String searchId = 'Search page';
 
   @override
@@ -30,8 +30,6 @@ class _SearchViewState extends State<SearchView> {
     double hight = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     String? input;
-    UserModel userModel =
-        BlocProvider.of<FetchUserDataCubit>(context).userModel;
     return StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(kUsers)
@@ -65,7 +63,7 @@ class _SearchViewState extends State<SearchView> {
                                 i++) {
                               await FetchAndPushSearchedPeopleService()
                                   .pushSerached(
-                                currentUser: userModel,
+                                currentUser: widget.userModel!,
                                 searchedOne:
                                     UserModel.fromJson(fetchedPersons!.docs[i]),
                               );
@@ -154,8 +152,8 @@ class _SearchViewState extends State<SearchView> {
                                                       Get.back();
                                                       await FetchAndPushSearchedPeopleService()
                                                           .removeSearchHistory(
-                                                              currentUser:
-                                                                  userModel);
+                                                              currentUser: widget
+                                                                  .userModel!);
                                                       setState(() {});
                                                     } catch (e) {
                                                       print(e.toString());
@@ -201,14 +199,16 @@ class _SearchViewState extends State<SearchView> {
                                   Expanded(
                                     child: ListView.builder(
                                       clipBehavior: Clip.none,
-                                      itemCount:
-                                          userModel.serachedPeople?.length ?? 0,
+                                      itemCount: widget.userModel!
+                                              .serachedPeople?.length ??
+                                          0,
                                       itemBuilder: (context, index) {
                                         return StreamBuilder(
                                             stream: FirebaseFirestore.instance
                                                 .collection(kUsers)
                                                 .doc(
-                                                  userModel.serachedPeople![
+                                                  widget.userModel!
+                                                          .serachedPeople![
                                                       index]['uid'],
                                                 )
                                                 .snapshots(),
@@ -243,17 +243,19 @@ class _SearchViewState extends State<SearchView> {
                                                         Get.to(
                                                             ProfileView(
                                                               userModel: user,
-                                                              currentUser:
-                                                                  userModel,
+                                                              currentUser: widget
+                                                                  .userModel!,
                                                             ),
                                                             curve: Curves
                                                                 .easeInOutQuint);
                                                       },
                                                       child: PersonInSearch(
-                                                        username: userModel
+                                                        username: widget
+                                                                .userModel!
                                                                 .serachedPeople![
                                                             index]['username'],
-                                                        imageURL: userModel
+                                                        imageURL: widget
+                                                                .userModel!
                                                                 .serachedPeople![
                                                             index]['profile image'],
                                                       ),
@@ -331,7 +333,7 @@ class _SearchViewState extends State<SearchView> {
                                                                               .docs[index],
                                                                         ),
                                                                         currentUser:
-                                                                            userModel,
+                                                                            widget.userModel!,
                                                                       ),
                                                                   curve: Curves
                                                                       .easeIn);
