@@ -20,7 +20,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   Widget build(BuildContext context) {
     int index = BlocProvider.of<SwitchScreensCubit>(context).currentIndex;
     return CurvedNavigationBar(
-      height: 66,
+      height: 72,
       key: bottomNavigationKey,
       index: BlocProvider.of<SwitchScreensCubit>(context).currentIndex,
       items: const <Widget>[

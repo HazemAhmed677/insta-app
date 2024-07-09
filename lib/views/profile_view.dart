@@ -205,7 +205,20 @@ class _ProfileViewState extends State<ProfileView> {
                         ),
                         SliverToBoxAdapter(
                           child: SizedBox(
-                            height: 0.02 * hight,
+                            height: 0.01 * hight,
+                          ),
+                        ),
+                        const SliverToBoxAdapter(
+                          child: Divider(
+                            thickness: 2,
+                            height: 2,
+                            indent: 4,
+                            endIndent: 4,
+                          ),
+                        ),
+                        SliverToBoxAdapter(
+                          child: SizedBox(
+                            height: 0.01 * hight,
                           ),
                         ),
                         (snapshot1.connectionState == ConnectionState.waiting)

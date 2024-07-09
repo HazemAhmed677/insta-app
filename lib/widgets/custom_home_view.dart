@@ -106,10 +106,11 @@ class _CustomHomeViewState extends State<CustomHomeView> {
                   height: hight * 0.18,
                 ),
               ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  childCount: snapshot.data?.size ?? 0,
-                  (BuildContext context, int index) {
+              SliverPadding(
+                padding: const EdgeInsets.only(bottom: 70.0),
+                sliver: SliverList.builder(
+                  itemCount: snapshot.data?.size ?? 0,
+                  itemBuilder: (BuildContext context, int index) {
                     return CustomPostWidget(
                       currentUser: widget.currentUser,
                       postModel: PostModel.fromJson(

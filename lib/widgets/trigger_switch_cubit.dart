@@ -23,7 +23,6 @@ class TriggerSwitchCubit extends StatefulWidget {
 
 class _TriggerSwitchCubitState extends State<TriggerSwitchCubit> {
   late UserModel user;
-  double _opacity = 0.0;
 
   // @override
   // void initState() {

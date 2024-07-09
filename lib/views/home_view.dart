@@ -21,15 +21,10 @@ class _HomeViewState extends State<HomeView> {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Text(
-              'Loading...',
-              style: TextStyle(
-                fontFamily: 'PalywriteMX',
-              ),
-            );
+            return const Text('');
           }
           if (snapshot.hasError) {
-            return getShowSnackBar(context, ' error occured');
+            return getShowSnackBar(context, 'error occured');
           }
           if (snapshot.data == null) {
             return const SignIn();

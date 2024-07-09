@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
@@ -148,37 +149,54 @@ class _AddCommentViewState extends State<AddCommentView> {
                           bottom: 12.0,
                           top: 18,
                         ),
-                        child: TextField(
-                          controller: textEditingController,
-                          cursorColor: kPink,
-                          onSubmitted: (value) async {
-                            generatedCommentId = const Uuid().v4();
-                            await addComment(generatedCommentId);
-                          },
-                          decoration: InputDecoration(
-                            suffixIcon: IconButton(
-                              onPressed: () async {
-                                generatedCommentId = const Uuid().v4();
-                                await addComment(generatedCommentId);
-                              },
-                              icon: const Icon(Icons.send),
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 26,
+                              backgroundImage:
+                                  (widget.userModel!.profileImageURL != null)
+                                      ? CachedNetworkImageProvider(
+                                          widget.userModel!.profileImageURL!)
+                                      : const AssetImage(kNullImage),
                             ),
-                            hintText: 'Add comment',
-                            suffixIconColor:
-                                const Color.fromARGB(255, 49, 122, 183),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16),
-                              borderSide: const BorderSide(
-                                color: kWhite,
+                            SizedBox(
+                              width: width * 0.025,
+                            ),
+                            Expanded(
+                              child: TextField(
+                                controller: textEditingController,
+                                cursorColor: kPink,
+                                onSubmitted: (value) async {
+                                  generatedCommentId = const Uuid().v4();
+                                  await addComment(generatedCommentId);
+                                },
+                                decoration: InputDecoration(
+                                  suffixIcon: IconButton(
+                                    onPressed: () async {
+                                      generatedCommentId = const Uuid().v4();
+                                      await addComment(generatedCommentId);
+                                    },
+                                    icon: const Icon(Icons.send),
+                                  ),
+                                  hintText: 'Add comment',
+                                  suffixIconColor:
+                                      const Color.fromARGB(255, 49, 122, 183),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                    borderSide: const BorderSide(
+                                      color: kWhite,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                    borderSide: const BorderSide(
+                                      color: kPink,
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16),
-                              borderSide: const BorderSide(
-                                color: kPink,
-                              ),
-                            ),
-                          ),
+                          ],
                         ),
                       )
                     ],

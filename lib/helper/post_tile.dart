@@ -9,7 +9,6 @@ import 'package:insta_app/constants.dart';
 import 'package:insta_app/models/post_model.dart';
 import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/views/add_comment_view.dart';
-import 'package:insta_app/views/all_chats_view.dart';
 import 'package:insta_app/views/chat_view.dart';
 
 class PostTile extends StatefulWidget {
@@ -163,10 +162,9 @@ class _PostTileState extends State<PostTile> {
                             );
                           },
                           icon: const Icon(
-                            FontAwesomeIcons.commentDots,
-                            size: 24,
-                          ),
-                        )
+                            FontAwesomeIcons.facebookMessenger,
+                            color: Color.fromARGB(255, 74, 173, 255),
+                          ))
                       : IconButton(
                           padding: EdgeInsets.zero,
                           constraints: const BoxConstraints(),
@@ -175,13 +173,16 @@ class _PostTileState extends State<PostTile> {
                           ),
                           onPressed: () {
                             Get.to(
-                              const AllChatsView(),
-                              transition: Transition.fade,
+                              AddCommentView(
+                                userModel: widget.currentUser,
+                              ),
+                              arguments: widget.postModel,
+                              duration: const Duration(milliseconds: 240),
+                              transition: Transition.rightToLeft,
                             );
                           },
                           icon: const Icon(
-                            FontAwesomeIcons.facebookMessenger,
-                            color: Colors.blue,
+                            FontAwesomeIcons.commentDots,
                           ))
                 ],
               ),
@@ -257,7 +258,7 @@ class _PostTileState extends State<PostTile> {
                         userModel: widget.currentUser,
                       ),
                       arguments: widget.postModel,
-                      duration: Duration(milliseconds: 240),
+                      duration: const Duration(milliseconds: 240),
                       transition: Transition.rightToLeft,
                     );
                     // Navigator.pushNamed(context, AddCommentView.addCommentView,
