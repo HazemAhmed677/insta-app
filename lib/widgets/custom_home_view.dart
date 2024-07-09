@@ -6,6 +6,7 @@ import 'package:insta_app/constants.dart';
 import 'package:insta_app/helper/post_widget.dart';
 import 'package:insta_app/models/post_model.dart';
 import 'package:insta_app/models/user_model.dart';
+import 'package:insta_app/widgets/stories_bar.dart';
 
 class CustomHomeView extends StatefulWidget {
   const CustomHomeView({
@@ -103,7 +104,15 @@ class _CustomHomeViewState extends State<CustomHomeView> {
               ),
               SliverToBoxAdapter(
                 child: SizedBox(
-                  height: hight * 0.18,
+                  height: hight * 0.13,
+                  child: const Expanded(
+                    child: StoriesBar(),
+                  ),
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: hight * 0.015,
                 ),
               ),
               SliverPadding(

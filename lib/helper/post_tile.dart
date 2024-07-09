@@ -163,7 +163,7 @@ class _PostTileState extends State<PostTile> {
                           },
                           icon: const Icon(
                             FontAwesomeIcons.facebookMessenger,
-                            color: Color.fromARGB(255, 74, 173, 255),
+                            color: Colors.blue,
                           ))
                       : IconButton(
                           padding: EdgeInsets.zero,
