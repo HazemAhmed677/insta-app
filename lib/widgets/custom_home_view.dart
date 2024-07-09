@@ -46,7 +46,7 @@ class _CustomHomeViewState extends State<CustomHomeView> {
                               MaterialPageRoute(
                                   builder: (context) => const AllChatsView()));
                         },
-                        icon: Icon(Icons.abc)),
+                        icon: const Icon(Icons.abc)),
                     Tooltip(
                       message: 'Log out',
                       showDuration: const Duration(milliseconds: 500),

@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:insta_app/cubits/fetch_all_comments_cubit/fetch_all_comments_cubit.dart';
 import 'package:insta_app/cubits/fetch_user_data_cubit/fetch_user_data_cubit.dart';
 import 'package:insta_app/cubits/follow_and_unfollow_cubit/follow_and_unfollow_cubit.dart';
 import 'package:insta_app/cubits/profile_image_cubit/profile_image_cubit.dart';
@@ -37,9 +36,6 @@ class InstaApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => FetchUserDataCubit(),
-        ),
-        BlocProvider(
-          create: (context) => FetchAllCommentsCubit(),
         ),
         BlocProvider(
           create: (context) => FollowAndUnfollowCubit(),

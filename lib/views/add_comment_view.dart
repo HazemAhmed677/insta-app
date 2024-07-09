@@ -4,8 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insta_app/constants.dart';
-import 'package:insta_app/cubits/fetch_all_comments_cubit/fetch_all_comments_cubit.dart';
-import 'package:insta_app/cubits/fetch_all_comments_cubit/fetch_all_comments_state.dart';
 import 'package:insta_app/cubits/fetch_user_data_cubit/fetch_user_data_cubit.dart';
 import 'package:insta_app/models/comment_model.dart';
 import 'package:insta_app/models/post_model.dart';
@@ -56,143 +54,141 @@ class _AddCommentViewState extends State<AddCommentView> {
       }
     }
 
-    return BlocBuilder<FetchAllCommentsCubit, FetchAllCommentsState>(
-      builder: (context, state) {
-        return SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18.0),
-            child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                stream: BlocProvider.of<FetchAllCommentsCubit>(context)
-                    .fetchAllComments(postModel),
-                builder: (context, snapshot) {
-                  return Scaffold(
-                    backgroundColor: kBlack,
-                    body: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: Column(
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 18.0),
+        child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+            stream: FirebaseFirestore.instance
+                .collection(kPosts)
+                .doc(postModel.postID)
+                .collection(kComments)
+                .orderBy('date time', descending: false)
+                .snapshots(),
+            builder: (context, snapshot) {
+              return Scaffold(
+                backgroundColor: kBlack,
+                body: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: hight * 0.01,
+                      ),
+                      Row(
                         children: [
-                          SizedBox(
-                            height: hight * 0.01,
-                          ),
-                          Row(
-                            children: [
-                              IconButton(
-                                padding: const EdgeInsets.only(
-                                    left: 8, top: 4, bottom: 4),
-                                constraints: const BoxConstraints(),
-                                style: const ButtonStyle(
-                                  tapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
-                                ),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                icon: const Icon(Icons.arrow_back_ios),
-                              ),
-                              SizedBox(
-                                width: width * 0.04,
-                              ),
-                              const Text(
-                                'Comments',
-                                style: TextStyle(
-                                  color: kWhite,
-                                  fontSize: 26,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
+                          IconButton(
+                            padding: const EdgeInsets.only(
+                                left: 8, top: 4, bottom: 4),
+                            constraints: const BoxConstraints(),
+                            style: const ButtonStyle(
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: const Icon(Icons.arrow_back_ios),
                           ),
                           SizedBox(
-                            height: hight * 0.02,
+                            width: width * 0.04,
                           ),
-                          (snapshot.data == null)
-                              ? const Expanded(
-                                  child: Center(
-                                    child: CircularProgressIndicator(
-                                      color: kPink,
+                          const Text(
+                            'Comments',
+                            style: TextStyle(
+                              color: kWhite,
+                              fontSize: 26,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: hight * 0.02,
+                      ),
+                      (snapshot.data == null)
+                          ? const Expanded(
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  color: kPink,
+                                ),
+                              ),
+                            )
+                          : (snapshot.data!.size == 0)
+                              ? Expanded(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: hight * 0.01),
+                                    child: const Center(
+                                      child: Text(
+                                        'No comments yet',
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 18,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 )
-                              : (snapshot.data!.size == 0)
+                              : (snapshot.hasData)
                                   ? Expanded(
-                                      child: Padding(
-                                        padding:
-                                            EdgeInsets.only(top: hight * 0.01),
-                                        child: const Center(
-                                          child: Text(
-                                            'No comments yet',
-                                            style: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 18,
-                                            ),
+                                      child: ListView.builder(
+                                      itemCount: snapshot.data!.size,
+                                      itemBuilder: (context, index) {
+                                        return Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: hight * 0.009,
                                           ),
-                                        ),
-                                      ),
-                                    )
-                                  : (snapshot.hasData)
-                                      ? Expanded(
-                                          child: ListView.builder(
-                                          itemCount: snapshot.data!.size,
-                                          itemBuilder: (context, index) {
-                                            return Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                vertical: hight * 0.009,
-                                              ),
-                                              child: UserComment(
-                                                postID: postModel.postID,
-                                                commentQueryDoc:
-                                                    snapshot.data!.docs[index],
-                                              ),
-                                            );
-                                          },
-                                        ))
-                                      : const SizedBox(),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              bottom: 12.0,
-                              top: 18,
-                            ),
-                            child: TextField(
-                              controller: textEditingController,
-                              cursorColor: kPink,
-                              onSubmitted: (value) async {
+                                          child: UserComment(
+                                            postID: postModel.postID,
+                                            commentQueryDoc:
+                                                snapshot.data!.docs[index],
+                                          ),
+                                        );
+                                      },
+                                    ))
+                                  : const SizedBox(),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          bottom: 12.0,
+                          top: 18,
+                        ),
+                        child: TextField(
+                          controller: textEditingController,
+                          cursorColor: kPink,
+                          onSubmitted: (value) async {
+                            generatedCommentId = const Uuid().v4();
+                            await addComment(generatedCommentId);
+                          },
+                          decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                              onPressed: () async {
                                 generatedCommentId = const Uuid().v4();
                                 await addComment(generatedCommentId);
                               },
-                              decoration: InputDecoration(
-                                suffixIcon: IconButton(
-                                  onPressed: () async {
-                                    generatedCommentId = const Uuid().v4();
-                                    await addComment(generatedCommentId);
-                                  },
-                                  icon: const Icon(Icons.send),
-                                ),
-                                hintText: 'Add comment',
-                                suffixIconColor:
-                                    const Color.fromARGB(255, 49, 122, 183),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                  borderSide: const BorderSide(
-                                    color: kWhite,
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                  borderSide: const BorderSide(
-                                    color: kPink,
-                                  ),
-                                ),
+                              icon: const Icon(Icons.send),
+                            ),
+                            hintText: 'Add comment',
+                            suffixIconColor:
+                                const Color.fromARGB(255, 49, 122, 183),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16),
+                              borderSide: const BorderSide(
+                                color: kWhite,
                               ),
                             ),
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                }),
-          ),
-        );
-      },
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16),
+                              borderSide: const BorderSide(
+                                color: kPink,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            }),
+      ),
     );
   }
 }
