@@ -20,6 +20,13 @@ class ChatOneToOneService {
           'userID': currentUserID,
         },
         'sent at': Timestamp.now(),
+      });
+      FirebaseFirestore.instance.collection(kChats).doc(roomID).set({
+        'content': {
+          'messege': messege,
+          'userID': currentUserID,
+        },
+        'sent at': Timestamp.now(),
         'participants': [currentUserID, reciever.uid],
       });
     } catch (e) {

@@ -2,9 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/helper/peson_tile_for_chats.dart';
 import 'package:insta_app/models/user_model.dart';
+import 'package:insta_app/views/chat_view.dart';
 
 class AllChatsView extends StatelessWidget {
   const AllChatsView({super.key});
@@ -70,10 +72,14 @@ class AllChatsView extends StatelessWidget {
                         clipBehavior: Clip.none,
                         itemCount: snapshot.data?.size ?? 0,
                         itemBuilder: (context, index) {
+                          late String lastMsg;
                           if (snapshot.hasData) {
-                            Map<String, dynamic> snapMap = snapshot
-                                .data!.docs[index] as Map<String, dynamic>;
-                            List participants = snapMap['participants'];
+                            DocumentSnapshot document =
+                                snapshot.data!.docs[index];
+                            Map<String, dynamic> data =
+                                document.data() as Map<String, dynamic>;
+                            List participants = data['participants'];
+                            lastMsg = data['content']['messege'];
                             late String friendID;
                             for (int i = 0; i < 2; i++) {
                               if (participants[i] !=
@@ -84,24 +90,49 @@ class AllChatsView extends StatelessWidget {
                             }
 
                             return StreamBuilder(
-                                stream: FirebaseFirestore.instance
-                                    .collection(kUsers)
-                                    .doc(
-                                      friendID,
-                                    )
-                                    .snapshots(),
-                                builder: (context, snapshot2) {
+                              stream: FirebaseFirestore.instance
+                                  .collection(kUsers)
+                                  .doc(
+                                    friendID,
+                                  )
+                                  .snapshots(),
+                              builder: (context, snapshot2) {
+                                if (snapshot2.hasData) {
                                   var userMap = snapshot2.data!.data()
                                       as Map<String, dynamic>;
                                   UserModel userModel =
                                       UserModel.fromJson(userMap);
 
-                                  return PersonTileForChats(
-                                    profileImage: userModel.profileImageURL,
-                                    username: userModel.username,
-                                    lastMsg: 'hello',
+                                  return InkWell(
+                                    onTap: () {
+                                      Get.to(
+                                        ChatView(
+                                          currentUserID: FirebaseAuth
+                                              .instance.currentUser!.uid,
+                                          recieverUser: userModel,
+                                        ),
+                                        duration:
+                                            const Duration(milliseconds: 300),
+                                        transition: Transition.zoom,
+                                      );
+                                    },
+                                    child: PersonTileForChats(
+                                      profileImage: userModel.profileImageURL,
+                                      username: userModel.username,
+                                      lastMsg: lastMsg,
+                                    ),
                                   );
-                                });
+                                } else {
+                                  return const Text('');
+                                }
+                              },
+                            );
+                          } else {
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                color: kPink,
+                              ),
+                            );
                           }
                         },
                       );

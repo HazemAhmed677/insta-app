@@ -2,12 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:insta_app/cubits/follow_and_unfollow_cubit/follow_and_unfollow_cubit.dart';
 import 'package:insta_app/cubits/profile_image_cubit/profile_image_cubit.dart';
 import 'package:insta_app/cubits/switch_screen_cubit/switch_screens_cubit.dart';
 import 'package:insta_app/views/add_comment_view.dart';
 import 'package:insta_app/views/add_post_view.dart';
-import 'package:insta_app/views/chat_view.dart';
 import 'package:insta_app/views/home_view.dart';
 import 'package:insta_app/views/profile_view.dart';
 import 'package:insta_app/views/search_view.dart';
@@ -33,9 +31,6 @@ class InstaApp extends StatelessWidget {
         BlocProvider(
           create: (context) => ProfileImageCubit(),
         ),
-        BlocProvider(
-          create: (context) => FollowAndUnfollowCubit(),
-        ),
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
@@ -48,7 +43,6 @@ class InstaApp extends StatelessWidget {
           AddPostView.addPostId: (context) => const AddPostView(),
           ProfileView.profileId: (context) => const ProfileView(),
           AddCommentView.addCommentView: (context) => const AddCommentView(),
-          ChatView.chatViewID: (context) => ChatView(),
         },
         initialRoute: HomeView.homeViewId,
       ),

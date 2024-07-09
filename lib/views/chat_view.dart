@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:insta_app/constants.dart';
@@ -9,9 +8,10 @@ import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/services/chats/chat_one_to_one_service.dart';
 
 class ChatView extends StatefulWidget {
-  const ChatView({super.key, this.currentUserID, this.recieverUser});
-  final String? currentUserID;
-  final UserModel? recieverUser;
+  const ChatView(
+      {super.key, required this.currentUserID, required this.recieverUser});
+  final String currentUserID;
+  final UserModel recieverUser;
   static String chatViewID = 'Chat view';
   @override
   State<ChatView> createState() => _ChatViewState();
@@ -24,8 +24,9 @@ class _ChatViewState extends State<ChatView> {
   @override
   Widget build(BuildContext context) {
     String roomId = kChatRoomID(
-        currentUserID: widget.currentUserID!,
-        chatedOneID: widget.recieverUser!.uid);
+      currentUserID: widget.currentUserID,
+      chatedOneID: widget.recieverUser.uid,
+    );
 
     double hight = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
@@ -62,15 +63,15 @@ class _ChatViewState extends State<ChatView> {
                       children: [
                         CircleAvatar(
                           backgroundImage:
-                              (widget.recieverUser!.profileImageURL != null)
+                              (widget.recieverUser.profileImageURL != null)
                                   ? CachedNetworkImageProvider(
-                                      widget.recieverUser!.profileImageURL!)
+                                      widget.recieverUser.profileImageURL!)
                                   : const AssetImage(kNullImage),
                           radius: 26,
                         ),
                         SizedBox(width: width * 0.03),
                         Text(
-                          widget.recieverUser!.username,
+                          widget.recieverUser.username,
                           style: const TextStyle(
                             fontSize: 18,
                           ),
@@ -90,7 +91,7 @@ class _ChatViewState extends State<ChatView> {
                     .snapshots(),
                 builder: (context, snapshot) {
                   return Expanded(
-                    child: (snapshot.hasData)
+                    child: (snapshot.hasData && snapshot.data!.size != 0)
                         ? ListView.builder(
                             physics: const BouncingScrollPhysics(),
                             reverse: true,
@@ -114,7 +115,7 @@ class _ChatViewState extends State<ChatView> {
                                   color: kPink,
                                 ),
                               )
-                            : (snapshot.data?.size == 0 ?? true)
+                            : (snapshot.data!.size == 0)
                                 ? const Center(
                                     child: Text(
                                       'No messeges yet',
@@ -146,8 +147,8 @@ class _ChatViewState extends State<ChatView> {
                       textEditingController.clear();
                       await ChatOneToOneService().pushMessegeToFireStore(
                           messege: messege,
-                          currentUserID: widget.currentUserID!,
-                          reciever: widget.recieverUser!);
+                          currentUserID: widget.currentUserID,
+                          reciever: widget.recieverUser);
                       await controller.animateTo(0,
                           duration: const Duration(milliseconds: 500),
                           curve: Curves.easeInOut);
@@ -176,8 +177,8 @@ class _ChatViewState extends State<ChatView> {
                           textEditingController.clear();
                           await ChatOneToOneService().pushMessegeToFireStore(
                               messege: messege,
-                              currentUserID: widget.currentUserID!,
-                              reciever: widget.recieverUser!);
+                              currentUserID: widget.currentUserID,
+                              reciever: widget.recieverUser);
                           try {
                             await controller.animateTo(0,
                                 duration: const Duration(milliseconds: 500),
