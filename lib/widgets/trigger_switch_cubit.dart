@@ -31,25 +31,25 @@ class _TriggerSwitchCubitState extends State<TriggerSwitchCubit> {
           create: (context) => FetchSearchedUsersCubit(),
         ),
       ],
-      child: BlocBuilder<SwitchScreensCubit, SwitchScreensStates>(
-        builder: (context, state) {
-          return SafeArea(
-            child: StreamBuilder(
-                stream: FirebaseFirestore.instance
-                    .collection(kUsers)
-                    .doc(
-                      FirebaseAuth.instance.currentUser!.uid,
-                    )
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const SizedBox();
-                  } else {
-                    Map<String, dynamic> userMap =
-                        snapshot.data!.data() as Map<String, dynamic>;
-                    user = UserModel.fromJson(userMap);
-                  }
+      child: SafeArea(
+        child: StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection(kUsers)
+                .doc(
+                  FirebaseAuth.instance.currentUser!.uid,
+                )
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const SizedBox();
+              } else {
+                Map<String, dynamic> userMap =
+                    snapshot.data!.data() as Map<String, dynamic>;
+                user = UserModel.fromJson(userMap);
+              }
 
+              return BlocBuilder<SwitchScreensCubit, SwitchScreensStates>(
+                builder: (context, state) {
                   return Scaffold(
                     extendBody: true,
                     backgroundColor: kBlack,
@@ -70,9 +70,9 @@ class _TriggerSwitchCubitState extends State<TriggerSwitchCubit> {
                                       ),
                     bottomNavigationBar: const CustomBottomNavigationBar(),
                   );
-                }),
-          );
-        },
+                },
+              );
+            }),
       ),
     );
   }
