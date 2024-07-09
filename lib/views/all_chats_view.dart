@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/helper/peson_tile_for_chats.dart';
 import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/views/chat_view.dart';
+import 'package:insta_app/widgets/custom_all_chat_app_bar.dart';
 
 class AllChatsView extends StatelessWidget {
   const AllChatsView({super.key});
@@ -14,7 +14,6 @@ class AllChatsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double hight = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         backgroundColor: kBlack,
@@ -25,36 +24,7 @@ class AllChatsView extends StatelessWidget {
               SizedBox(
                 height: hight * 0.01,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Row(
-                  children: [
-                    IconButton(
-                      padding:
-                          const EdgeInsets.only(left: 4, top: 4, bottom: 4),
-                      constraints: const BoxConstraints(),
-                      style: const ButtonStyle(
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(FontAwesomeIcons.arrowLeft),
-                    ),
-                    SizedBox(
-                      width: width * 0.04,
-                    ),
-                    const Text(
-                      'Chats',
-                      style: TextStyle(
-                        color: kWhite,
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              const CustomAllChatAppBar(),
               SizedBox(
                 height: hight * 0.02,
               ),
@@ -103,21 +73,25 @@ class AllChatsView extends StatelessWidget {
                                   UserModel userModel =
                                       UserModel.fromJson(userMap);
 
-                                  return InkWell(
-                                    onTap: () {
-                                      Get.to(
-                                        ChatView(
-                                          currentUserID: FirebaseAuth
-                                              .instance.currentUser!.uid,
-                                          recieverUser: userModel,
-                                        ),
-                                        transition: Transition.fade,
-                                      );
-                                    },
-                                    child: PersonTileForChats(
-                                      profileImage: userModel.profileImageURL,
-                                      username: userModel.username,
-                                      lastMsg: lastMsg,
+                                  return SizedBox(
+                                    height: hight * 0.1,
+                                    child: InkWell(
+                                      borderRadius: BorderRadius.circular(20),
+                                      onTap: () {
+                                        Get.to(
+                                          ChatView(
+                                            currentUserID: FirebaseAuth
+                                                .instance.currentUser!.uid,
+                                            recieverUser: userModel,
+                                          ),
+                                          transition: Transition.fade,
+                                        );
+                                      },
+                                      child: PersonTileForChats(
+                                        profileImage: userModel.profileImageURL,
+                                        username: userModel.username,
+                                        lastMsg: lastMsg,
+                                      ),
                                     ),
                                   );
                                 } else {

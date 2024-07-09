@@ -257,7 +257,8 @@ class _PostTileState extends State<PostTile> {
                         userModel: widget.currentUser,
                       ),
                       arguments: widget.postModel,
-                      transition: Transition.fade,
+                      duration: Duration(milliseconds: 240),
+                      transition: Transition.rightToLeft,
                     );
                     // Navigator.pushNamed(context, AddCommentView.addCommentView,
                     //     arguments: widget.postModel);

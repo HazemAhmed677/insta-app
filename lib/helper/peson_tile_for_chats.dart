@@ -18,7 +18,7 @@ class PersonTileForChats extends StatelessWidget {
     // double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.only(bottom: 24.0),
+      padding: const EdgeInsets.only(left: 2),
       child: Row(
         children: [
           CircleAvatar(
@@ -33,26 +33,30 @@ class PersonTileForChats extends StatelessWidget {
           SizedBox(
             width: width * 0.6,
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    username,
-                    style: const TextStyle(
-                      fontSize: 18,
+              padding:
+                  const EdgeInsets.only(left: 4.0, right: 4, bottom: 6, top: 6),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      username,
+                      style: const TextStyle(
+                        fontSize: 18,
+                      ),
                     ),
-                  ),
-                  Text(
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    lastMsg,
-                    style: const TextStyle(
-                      color: Colors.grey,
-                      fontSize: 16,
+                    Text(
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      lastMsg,
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 16,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

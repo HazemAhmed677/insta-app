@@ -23,6 +23,22 @@ class TriggerSwitchCubit extends StatefulWidget {
 
 class _TriggerSwitchCubitState extends State<TriggerSwitchCubit> {
   late UserModel user;
+  double _opacity = 0.0;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _fadeIn();
+  // }
+
+  // void _fadeIn() {
+  //   Future.delayed(Duration(seconds: 1), () {
+  //     setState(() {
+  //       _opacity = 0.2;
+  //     });
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -53,21 +69,25 @@ class _TriggerSwitchCubitState extends State<TriggerSwitchCubit> {
                   return Scaffold(
                     extendBody: true,
                     backgroundColor: kBlack,
-                    body: (state is HomeScreenState)
-                        ? CustomHomeView(
-                            currentUser: user,
-                          )
-                        : (state is SearchScreenState)
-                            ? SearchView(
-                                userModel: user,
-                              )
-                            : (state is AllChatsScreenState)
-                                ? const AllChatsView()
-                                : (state is AddPostScreenState)
-                                    ? const AddPostView()
-                                    : ProfileView(
-                                        userModel: user,
-                                      ),
+                    body: AnimatedOpacity(
+                      opacity: 1,
+                      duration: const Duration(seconds: 10),
+                      child: (state is HomeScreenState)
+                          ? CustomHomeView(
+                              currentUser: user,
+                            )
+                          : (state is SearchScreenState)
+                              ? SearchView(
+                                  userModel: user,
+                                )
+                              : (state is AllChatsScreenState)
+                                  ? const AllChatsView()
+                                  : (state is AddPostScreenState)
+                                      ? const AddPostView()
+                                      : ProfileView(
+                                          userModel: user,
+                                        ),
+                    ),
                     bottomNavigationBar: const CustomBottomNavigationBar(),
                   );
                 },
