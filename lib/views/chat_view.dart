@@ -1,4 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:insta_app/constants.dart';
@@ -19,9 +21,12 @@ class _ChatViewState extends State<ChatView> {
   TextEditingController textEditingController = TextEditingController();
   String messege = '';
   ScrollController controller = ScrollController();
-
   @override
   Widget build(BuildContext context) {
+    String roomId = kChatRoomID(
+        currentUserID: widget.currentUserID!,
+        chatedOneID: widget.recieverUser!.uid);
+
     double hight = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return SafeArea(
@@ -77,12 +82,15 @@ class _ChatViewState extends State<ChatView> {
               ),
               // *********************** ListView
               StreamBuilder(
-                stream: ChatOneToOneService().fetchAllMesseges(
-                    currentUserID: widget.currentUserID!,
-                    reciever: widget.recieverUser!),
+                stream: FirebaseFirestore.instance
+                    .collection(kChats)
+                    .doc(roomId)
+                    .collection(kMesseges)
+                    .orderBy('sent at', descending: true)
+                    .snapshots(),
                 builder: (context, snapshot) {
                   return Expanded(
-                    child: (snapshot.hasData && snapshot.data!.size != 0)
+                    child: (snapshot.hasData)
                         ? ListView.builder(
                             physics: const BouncingScrollPhysics(),
                             reverse: true,
@@ -106,7 +114,7 @@ class _ChatViewState extends State<ChatView> {
                                   color: kPink,
                                 ),
                               )
-                            : (snapshot.data!.size == 0)
+                            : (snapshot.data?.size == 0 ?? true)
                                 ? const Center(
                                     child: Text(
                                       'No messeges yet',
@@ -114,7 +122,7 @@ class _ChatViewState extends State<ChatView> {
                                     ),
                                   )
                                 : (snapshot.hasError)
-                                    ? const Text('error')
+                                    ? const Center(child: Text('error'))
                                     : const SizedBox(),
                   );
                 },

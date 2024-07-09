@@ -79,7 +79,7 @@ class _UserCommentState extends State<UserComment> {
                       Map<String, dynamic> commmentMap = snapshot.data!.data()!;
                       List likes = commmentMap['likes'];
                       if (likes.contains(currentUserID)) {
-                        FirebaseFirestore.instance
+                        await FirebaseFirestore.instance
                             .collection(kPosts)
                             .doc(widget.postID)
                             .collection(kComments)
@@ -89,7 +89,7 @@ class _UserCommentState extends State<UserComment> {
                         });
                         commentModel.likes.remove(currentUserID);
                       } else {
-                        FirebaseFirestore.instance
+                        await FirebaseFirestore.instance
                             .collection(kPosts)
                             .doc(widget.postID)
                             .collection(kComments)

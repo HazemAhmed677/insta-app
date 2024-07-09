@@ -23,7 +23,7 @@ Future<void> kAnimateTo(ScrollController controller) async {
 
 String kChatRoomID(
     {required String currentUserID, required String chatedOneID}) {
-  String roomID = '$currentUserID-$chatedOneID';
+  String roomID = '${currentUserID}_$chatedOneID';
   List<String> chars = roomID.split('');
 
   chars.sort();

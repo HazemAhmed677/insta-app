@@ -219,7 +219,7 @@ class _PostTileState extends State<PostTile> {
                 height: hight * 0.038,
                 child: TextButton(
                   style: ButtonStyle(
-                    foregroundColor: WidgetStateProperty.all<Color>(
+                    foregroundColor: WidgetStateProperty.all(
                       Colors.white,
                     ),
                     backgroundColor:
@@ -237,7 +237,7 @@ class _PostTileState extends State<PostTile> {
                   ),
                   onPressed: () {
                     Get.to(
-                      () => AddCommentView(
+                      AddCommentView(
                         userModel: widget.currentUser,
                       ),
                       arguments: widget.postModel,

@@ -47,53 +47,63 @@ class _SearchViewState extends State<SearchView> {
                   ),
                   // *******************************************
                   // text field
-                  TextField(
-                    onSubmitted: (value) async {
-                      if (value != '') {
-                        input = value;
-                        flag = true;
-                        try {
-                          fetchedPersons =
-                              await BlocProvider.of<FetchSearchedUsersCubit>(
-                                      context)
-                                  .fetchSearchedUsers(input!);
-                          if (fetchedPersons!.docs.isNotEmpty) {
-                            for (int i = 0;
-                                i < fetchedPersons!.docs.length;
-                                i++) {
-                              await FetchAndPushSearchedPeopleService()
-                                  .pushSerached(
-                                currentUser: widget.userModel!,
-                                searchedOne:
-                                    UserModel.fromJson(fetchedPersons!.docs[i]),
-                              );
+                  StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection(kUsers)
+                          .where('username', isEqualTo: input)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        return TextField(
+                          onChanged: (value) {
+                            input = value;
+                            setState(() {});
+                          },
+                          onSubmitted: (value) async {
+                            if (value != '') {
+                              input = value;
+                              flag = true;
+                              try {
+                                fetchedPersons = await BlocProvider.of<
+                                        FetchSearchedUsersCubit>(context)
+                                    .fetchSearchedUsers(input!);
+                                if (fetchedPersons!.docs.isNotEmpty) {
+                                  for (int i = 0;
+                                      i < fetchedPersons!.docs.length;
+                                      i++) {
+                                    await FetchAndPushSearchedPeopleService()
+                                        .pushSerached(
+                                      currentUser: widget.userModel!,
+                                      searchedOne: UserModel.fromJson(
+                                          fetchedPersons!.docs[i]),
+                                    );
+                                  }
+                                }
+                                setState(() {});
+                              } catch (e) {
+                                print(e.toString());
+                              }
                             }
-                          }
-                          setState(() {});
-                        } catch (e) {
-                          print(e.toString());
-                        }
-                      }
-                    },
-                    decoration: const InputDecoration(
-                      hintText: 'Search',
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(14),
-                        ),
-                        borderSide: BorderSide(
-                          color: kWhite,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(14),
-                        ),
-                        borderSide: BorderSide(color: kPuple),
-                      ),
-                    ),
-                    cursorColor: kPuple,
-                  ),
+                          },
+                          decoration: const InputDecoration(
+                            hintText: 'Search',
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(14),
+                              ),
+                              borderSide: BorderSide(
+                                color: kWhite,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(14),
+                              ),
+                              borderSide: BorderSide(color: kPuple),
+                            ),
+                          ),
+                          cursorColor: kPuple,
+                        );
+                      }),
                   SizedBox(
                     height: hight * 0.01,
                   ),

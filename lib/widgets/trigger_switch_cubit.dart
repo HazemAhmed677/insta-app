@@ -42,11 +42,7 @@ class _TriggerSwitchCubitState extends State<TriggerSwitchCubit> {
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        color: kPink,
-                      ),
-                    );
+                    return const SizedBox();
                   } else {
                     Map<String, dynamic> userMap =
                         snapshot.data!.data() as Map<String, dynamic>;

@@ -26,20 +26,4 @@ class ChatOneToOneService {
       throw Exception(e.toString());
     }
   }
-
-  Stream<QuerySnapshot<Map<String, dynamic>>> fetchAllMesseges(
-      {required String currentUserID, required UserModel reciever}) async* {
-    String roomID =
-        kChatRoomID(currentUserID: currentUserID, chatedOneID: reciever.uid);
-    try {
-      yield* FirebaseFirestore.instance
-          .collection(kChats)
-          .doc(roomID)
-          .collection('messeges')
-          .orderBy('sent at', descending: true)
-          .snapshots();
-    } catch (e) {
-      throw Exception(e.toString());
-    }
-  }
 }
