@@ -10,6 +10,8 @@ class SwitchScreensCubit extends Cubit<SwitchScreensStates> {
     } else if (currentIndex == 1) {
       emit(SearchScreenState());
     } else if (currentIndex == 2) {
+      emit(AllChatsScreenState());
+    } else if (currentIndex == 3) {
       emit(AddPostScreenState());
     } else {
       emit(ProfilScreenState());

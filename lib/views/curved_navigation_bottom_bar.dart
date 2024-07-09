@@ -1,7 +1,9 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:insta_app/constants.dart';
+import 'package:insta_app/cubits/switch_screen_cubit/switch_screens_cubit.dart';
 
 class CustomCNBB extends StatefulWidget {
   const CustomCNBB({super.key});
@@ -13,15 +15,16 @@ class CustomCNBB extends StatefulWidget {
 class _CustomCNBBState extends State<CustomCNBB> {
   @override
   int _page = 0;
-  GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
+  GlobalKey<CurvedNavigationBarState> bottomNavigationKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         extendBody: true,
+        //  code start i
         bottomNavigationBar: CurvedNavigationBar(
-          key: _bottomNavigationKey,
-          index: 0,
+          key: bottomNavigationKey,
+          index: BlocProvider.of<SwitchScreensCubit>(context).currentIndex,
           items: const <Widget>[
             Padding(
               padding: EdgeInsets.only(right: 4.0),
@@ -38,9 +41,8 @@ class _CustomCNBBState extends State<CustomCNBB> {
           animationCurve: Curves.easeInOut,
           animationDuration: const Duration(milliseconds: 300),
           onTap: (index) {
-            setState(() {
-              _page = index;
-            });
+            BlocProvider.of<SwitchScreensCubit>(context).currentIndex = index;
+            BlocProvider.of<SwitchScreensCubit>(context).getScreen();
           },
           letIndexChange: (index) => true,
         ),
@@ -60,7 +62,7 @@ class _CustomCNBBState extends State<CustomCNBB> {
                   child: const Text('Go To Page of index 1'),
                   onPressed: () {
                     final CurvedNavigationBarState? navBarState =
-                        _bottomNavigationKey.currentState;
+                        bottomNavigationKey.currentState;
                     navBarState?.setPage(1);
                   },
                 )

@@ -10,7 +10,7 @@ import 'package:insta_app/views/chat_view.dart';
 
 class AllChatsView extends StatelessWidget {
   const AllChatsView({super.key});
-
+  static String allChatsViewID = 'All chats screen';
   @override
   Widget build(BuildContext context) {
     double hight = MediaQuery.of(context).size.height;
