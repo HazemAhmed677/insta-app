@@ -8,6 +8,8 @@ class ProfileGridView extends StatelessWidget {
   final QuerySnapshot<Map<String, dynamic>>? posts;
   @override
   Widget build(BuildContext context) {
+    // ************************************** //
+    // add bloc bilder of fetching  posts here
     return SliverGrid.builder(
       itemCount: posts?.size ?? 0,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

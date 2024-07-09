@@ -20,26 +20,24 @@ class ChatOneToOneService {
           'userID': currentUserID,
         },
         'sent at': Timestamp.now(),
+        'participants': [currentUserID, reciever.uid],
       });
     } catch (e) {
       throw Exception(e.toString());
     }
   }
 
-  Stream<QuerySnapshot> fetchAllMesseges(
+  Stream<QuerySnapshot<Map<String, dynamic>>> fetchAllMesseges(
       {required String currentUserID, required UserModel reciever}) async* {
     String roomID =
         kChatRoomID(currentUserID: currentUserID, chatedOneID: reciever.uid);
     try {
-      QuerySnapshot<Map<String, dynamic>> docs = await FirebaseFirestore
-          .instance
+      yield* FirebaseFirestore.instance
           .collection(kChats)
           .doc(roomID)
-          .collection(kMesseges)
+          .collection('messeges')
           .orderBy('sent at', descending: true)
-          .get();
-
-      yield docs;
+          .snapshots();
     } catch (e) {
       throw Exception(e.toString());
     }

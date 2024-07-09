@@ -30,8 +30,11 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
   bool flag = false;
+
   @override
   Widget build(BuildContext context) {
+    int currentNoFollowers = widget.userModel!.followers!.length;
+    int increamentCurrentNoFollowers = currentNoFollowers + 1;
     double hight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: BlocBuilder<FollowAndUnfollowCubit, FollowAndUnfollowStates>(
@@ -84,11 +87,8 @@ class _ProfileViewState extends State<ProfileView> {
                                 text: 'posts',
                               ),
                               ProfileHelper(
-                                number: (flag)
-                                    ? widget.userModel!.followers!.length
-                                        .toString()
-                                    : widget.userModel!.followers!.length
-                                        .toString(),
+                                number: widget.userModel!.followers!.length
+                                    .toString(),
                                 text: 'Followers',
                               ),
                               ProfileHelper(

@@ -115,26 +115,28 @@ class _PostTileState extends State<PostTile> {
             SizedBox(
               width: width * 0.03,
             ),
-            IconButton(
-              style: TextButton.styleFrom(
-                padding: const EdgeInsets.only(right: 2, left: 1),
-                minimumSize: const Size(20, 10),
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
-              onPressed: () {
-                Get.to(
-                  ChatView(
-                    currentUserID: FirebaseAuth.instance.currentUser!.uid,
-                    recieverUser: widget.userModel,
-                  ),
-                  transition: Transition.fadeIn,
-                );
-              },
-              icon: const Icon(
-                FontAwesomeIcons.commentDots,
-                size: 24,
-              ),
-            ),
+            (FirebaseAuth.instance.currentUser!.uid != widget.userModel.uid)
+                ? IconButton(
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.only(right: 2, left: 1),
+                      minimumSize: const Size(20, 10),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    onPressed: () {
+                      Get.to(
+                        ChatView(
+                          currentUserID: FirebaseAuth.instance.currentUser!.uid,
+                          recieverUser: widget.userModel,
+                        ),
+                        transition: Transition.fadeIn,
+                      );
+                    },
+                    icon: const Icon(
+                      FontAwesomeIcons.commentDots,
+                      size: 24,
+                    ),
+                  )
+                : const Text(r"Don't forget me"),
           ],
         ),
         SizedBox(

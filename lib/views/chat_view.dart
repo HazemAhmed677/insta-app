@@ -77,7 +77,7 @@ class _ChatViewState extends State<ChatView> {
                 ),
               ),
               // *********************** ListView
-              StreamBuilder<QuerySnapshot>(
+              StreamBuilder(
                 stream: ChatOneToOneService().fetchAllMesseges(
                     currentUserID: widget.currentUserID!,
                     reciever: widget.recieverUser!),
@@ -136,6 +136,7 @@ class _ChatViewState extends State<ChatView> {
                   onSubmitted: (value) async {
                     if (value != '') {
                       messege = value;
+                      textEditingController.clear();
                       await ChatOneToOneService().pushMessegeToFireStore(
                           messege: messege,
                           currentUserID: widget.currentUserID!,
@@ -143,7 +144,7 @@ class _ChatViewState extends State<ChatView> {
                       await controller.animateTo(0,
                           duration: const Duration(milliseconds: 500),
                           curve: Curves.easeInOut);
-                      textEditingController.clear();
+
                       setState(() {});
                     }
                   },
@@ -165,15 +166,19 @@ class _ChatViewState extends State<ChatView> {
                       onPressed: () async {
                         if (textEditingController.text != '') {
                           messege = textEditingController.text;
-
+                          textEditingController.clear();
                           await ChatOneToOneService().pushMessegeToFireStore(
                               messege: messege,
                               currentUserID: widget.currentUserID!,
                               reciever: widget.recieverUser!);
-                          await controller.animateTo(0,
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.easeInOut);
-                          textEditingController.clear();
+                          try {
+                            await controller.animateTo(0,
+                                duration: const Duration(milliseconds: 500),
+                                curve: Curves.easeInOut);
+                          } catch (e) {
+                            print(e.toString());
+                          }
+
                           setState(() {});
                         }
                       },
