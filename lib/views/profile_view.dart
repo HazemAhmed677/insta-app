@@ -11,7 +11,6 @@ import 'package:insta_app/cubits/follow_and_unfollow_cubit/follow_and_unfollow_s
 import 'package:insta_app/helper/profile_grid_view.dart';
 import 'package:insta_app/helper/profile_helper.dart';
 import 'package:insta_app/models/user_model.dart';
-import 'package:insta_app/services/fetch_user_posts_fo_profile.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({
@@ -33,8 +32,6 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    int currentNoFollowers = widget.userModel!.followers!.length;
-    int increamentCurrentNoFollowers = currentNoFollowers + 1;
     double hight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: BlocBuilder<FollowAndUnfollowCubit, FollowAndUnfollowStates>(
@@ -43,9 +40,11 @@ class _ProfileViewState extends State<ProfileView> {
             backgroundColor: kBlack,
             body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 14.0),
-              child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                  future: FetchUserPostsForProfile()
-                      .fetchUserPostsFoProfile(uid: widget.userModel!.uid),
+              child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection(kPosts)
+                      .where('userID', isEqualTo: widget.userModel!.uid)
+                      .snapshots(),
                   builder: (context, snapshot) {
                     return CustomScrollView(
                       physics: const BouncingScrollPhysics(

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insta_app/constants.dart';
@@ -5,6 +7,7 @@ import 'package:insta_app/cubits/fetch_all_users_cubit/fetch_all_users_cubit.dar
 import 'package:insta_app/cubits/fetch_user_data_cubit/fetch_user_data_cubit.dart';
 import 'package:insta_app/cubits/switch_screen_cubit/switch_screen_cubit_states.dart';
 import 'package:insta_app/cubits/switch_screen_cubit/switch_screens_cubit.dart';
+import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/views/add_post_view.dart';
 import 'package:insta_app/views/profile_view.dart';
 import 'package:insta_app/views/search_view.dart';
@@ -38,11 +41,20 @@ class _TriggerSwitchCubitState extends State<TriggerSwitchCubit> {
                       ? const SearchView()
                       : (state is AddPostScreenState)
                           ? const AddPostView()
-                          : ProfileView(
-                              bar: "Edit profile",
-                              userModel:
-                                  BlocProvider.of<FetchUserDataCubit>(context)
-                                      .userModel),
+                          : StreamBuilder(
+                              stream: FirebaseFirestore.instance
+                                  .collection(kUsers)
+                                  .doc(
+                                    FirebaseAuth.instance.currentUser!.uid,
+                                  )
+                                  .snapshots(),
+                              builder: (context, snapshot) {
+                                Map<String, dynamic> userMap = snapshot.data!
+                                    .data() as Map<String, dynamic>;
+                                UserModel user = UserModel.fromJson(userMap);
+                                return ProfileView(
+                                    bar: "Edit profile", userModel: user);
+                              }),
               bottomNavigationBar: const CustomBottomNavigationBar(),
             ),
           );

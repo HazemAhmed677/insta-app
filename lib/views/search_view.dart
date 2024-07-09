@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -9,7 +10,6 @@ import 'package:insta_app/cubits/fetch_user_data_cubit/fetch_user_data_cubit.dar
 import 'package:insta_app/helper/person_in_search.dart';
 import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/services/fetch_and_push_searched_people_service.dart';
-import 'package:insta_app/services/fetch_user_data_service.dart';
 import 'package:insta_app/views/profile_view.dart';
 
 class SearchView extends StatefulWidget {
@@ -32,9 +32,11 @@ class _SearchViewState extends State<SearchView> {
     String? input;
     UserModel userModel =
         BlocProvider.of<FetchUserDataCubit>(context).userModel;
-    return FutureBuilder<List<dynamic>?>(
-        future: FetchAndPushSearchedPeopleService()
-            .fetchAllSearched(currentUser: userModel),
+    return StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection(kUsers)
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .snapshots(),
         builder: (context, snapshot) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 22.0),
@@ -45,6 +47,8 @@ class _SearchViewState extends State<SearchView> {
                   SizedBox(
                     height: hight * 0.02,
                   ),
+                  // *******************************************
+                  // text field
                   TextField(
                     onSubmitted: (value) async {
                       if (value != '') {
@@ -97,13 +101,14 @@ class _SearchViewState extends State<SearchView> {
                   ),
                   (snapshot.connectionState == ConnectionState.waiting)
                       ? Padding(
-                          padding: EdgeInsets.only(top: hight * 0.03),
+                          padding:
+                              EdgeInsets.symmetric(vertical: hight * 0.355),
                           child: const Center(
                               child: CircularProgressIndicator(
                             color: kPink,
                           )),
                         )
-                      : (!flag && snapshot.hasData && snapshot.data!.isNotEmpty)
+                      : (!flag && snapshot.hasData)
                           ? Expanded(
                               child: Column(
                                 children: [
@@ -199,51 +204,64 @@ class _SearchViewState extends State<SearchView> {
                                       itemCount:
                                           userModel.serachedPeople?.length ?? 0,
                                       itemBuilder: (context, index) {
-                                        return Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 10.0,
-                                          ),
-                                          child: Dismissible(
-                                            key: UniqueKey(),
-                                            direction:
-                                                DismissDirection.endToStart,
-                                            onDismissed: (direction) {},
-                                            child: SizedBox(
-                                              height: hight * 0.08,
-                                              child: InkWell(
-                                                // highlightColor: kBlack,
-                                                borderRadius:
-                                                    BorderRadius.circular(21),
-                                                radius: 16,
-                                                onTap: () async {
-                                                  var user =
-                                                      await FetchUserDataService()
-                                                          .fetchUserData(
-                                                    id: userModel
-                                                            .serachedPeople![
-                                                        index]['uid'],
-                                                  );
-
-                                                  Get.to(
-                                                      ProfileView(
-                                                        userModel: user,
-                                                        currentUser: userModel,
-                                                      ),
-                                                      curve: Curves
-                                                          .easeInOutQuint);
-                                                },
-                                                child: PersonInSearch(
-                                                  username:
-                                                      userModel.serachedPeople![
-                                                          index]['username'],
-                                                  imageURL: userModel
-                                                          .serachedPeople![
-                                                      index]['profile image'],
+                                        return StreamBuilder(
+                                            stream: FirebaseFirestore.instance
+                                                .collection(kUsers)
+                                                .doc(
+                                                  userModel.serachedPeople![
+                                                      index]['uid'],
+                                                )
+                                                .snapshots(),
+                                            builder: (context, snapshot) {
+                                              return Padding(
+                                                padding: const EdgeInsets.only(
+                                                  bottom: 10.0,
                                                 ),
-                                              ),
-                                            ),
-                                          ),
-                                        );
+                                                child: Dismissible(
+                                                  key: UniqueKey(),
+                                                  direction: DismissDirection
+                                                      .endToStart,
+                                                  onDismissed: (direction) {},
+                                                  child: SizedBox(
+                                                    height: hight * 0.08,
+                                                    child: InkWell(
+                                                      // highlightColor: kBlack,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              21),
+                                                      radius: 16,
+                                                      onTap: () {
+                                                        Map<String, dynamic>
+                                                            userMap = snapshot
+                                                                    .data!
+                                                                    .data()
+                                                                as Map<String,
+                                                                    dynamic>;
+                                                        UserModel user =
+                                                            UserModel.fromJson(
+                                                                userMap);
+                                                        Get.to(
+                                                            ProfileView(
+                                                              userModel: user,
+                                                              currentUser:
+                                                                  userModel,
+                                                            ),
+                                                            curve: Curves
+                                                                .easeInOutQuint);
+                                                      },
+                                                      child: PersonInSearch(
+                                                        username: userModel
+                                                                .serachedPeople![
+                                                            index]['username'],
+                                                        imageURL: userModel
+                                                                .serachedPeople![
+                                                            index]['profile image'],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            });
                                       },
                                     ),
                                   ),

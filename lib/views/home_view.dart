@@ -1,8 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insta_app/constants.dart';
-import 'package:insta_app/cubits/fetch_user_data_cubit/fetch_user_data_cubit.dart';
 import 'package:insta_app/helper/modal_progress_hud_helper.dart';
 import 'package:insta_app/helper/show_snack_bar_function.dart';
 import 'package:insta_app/views/sign_in_view.dart';
@@ -36,9 +35,11 @@ class _HomeViewState extends State<HomeView> {
             return const SignIn();
           }
           if (snapshot.hasData) {
-            return FutureBuilder(
-                future: BlocProvider.of<FetchUserDataCubit>(context)
-                    .fetchUserData(FirebaseAuth.instance.currentUser!.uid),
+            return StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection(kUsers)
+                    .doc(FirebaseAuth.instance.currentUser!.uid)
+                    .snapshots(),
                 builder: (context, snapshot) {
                   return (snapshot.hasData)
                       ? const TriggerSwitchCubit()
