@@ -25,18 +25,18 @@ class _CustomCNBBState extends State<CustomCNBB> {
           items: const <Widget>[
             Padding(
               padding: EdgeInsets.only(right: 4.0),
-              child: Icon(FontAwesomeIcons.house, size: 30),
+              child: Icon(FontAwesomeIcons.house, size: 24),
             ),
-            Icon(FontAwesomeIcons.magnifyingGlass, size: 30),
-            Icon(FontAwesomeIcons.facebookMessenger, size: 30),
-            Icon(FontAwesomeIcons.plus, size: 30),
-            Icon(FontAwesomeIcons.user, size: 30),
+            Icon(FontAwesomeIcons.magnifyingGlass, size: 24),
+            Icon(FontAwesomeIcons.facebookMessenger, size: 24),
+            Icon(FontAwesomeIcons.plus, size: 24),
+            Icon(FontAwesomeIcons.user, size: 24),
           ],
-          color: kPink.shade900,
+          color: const Color.fromARGB(255, 98, 0, 52),
           buttonBackgroundColor: kPink.shade800,
           backgroundColor: Colors.transparent,
           animationCurve: Curves.easeInOut,
-          animationDuration: const Duration(milliseconds: 500),
+          animationDuration: const Duration(milliseconds: 300),
           onTap: (index) {
             setState(() {
               _page = index;

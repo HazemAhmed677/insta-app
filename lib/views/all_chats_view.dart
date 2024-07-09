@@ -111,9 +111,7 @@ class AllChatsView extends StatelessWidget {
                                               .instance.currentUser!.uid,
                                           recieverUser: userModel,
                                         ),
-                                        duration:
-                                            const Duration(milliseconds: 300),
-                                        transition: Transition.zoom,
+                                        transition: Transition.fade,
                                       );
                                     },
                                     child: PersonTileForChats(

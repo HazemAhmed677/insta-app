@@ -9,6 +9,7 @@ import 'package:insta_app/constants.dart';
 import 'package:insta_app/models/post_model.dart';
 import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/views/add_comment_view.dart';
+import 'package:insta_app/views/all_chats_view.dart';
 import 'package:insta_app/views/chat_view.dart';
 
 class PostTile extends StatefulWidget {
@@ -166,7 +167,22 @@ class _PostTileState extends State<PostTile> {
                             size: 24,
                           ),
                         )
-                      : const Text(r"Don't forget me"),
+                      : IconButton(
+                          padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(),
+                          style: const ButtonStyle(
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                          onPressed: () {
+                            Get.to(
+                              const AllChatsView(),
+                              transition: Transition.fade,
+                            );
+                          },
+                          icon: const Icon(
+                            FontAwesomeIcons.facebookMessenger,
+                            color: Colors.blue,
+                          ))
                 ],
               ),
               SizedBox(
@@ -241,7 +257,7 @@ class _PostTileState extends State<PostTile> {
                         userModel: widget.currentUser,
                       ),
                       arguments: widget.postModel,
-                      transition: Transition.rightToLeftWithFade,
+                      transition: Transition.fade,
                     );
                     // Navigator.pushNamed(context, AddCommentView.addCommentView,
                     //     arguments: widget.postModel);

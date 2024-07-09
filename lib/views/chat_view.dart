@@ -104,10 +104,15 @@ class _ChatViewState extends State<ChatView> {
                                   ? ChatBubbleFromMe(
                                       messege: snapshot.data!.docs[index]
                                           ['content']['messege'],
+                                      sentAt: snapshot.data!.docs[index]
+                                          ['sent at'],
                                     )
                                   : ChatBubbleFromFriend(
                                       messege: snapshot.data!.docs[index]
-                                          ['content']['messege']);
+                                          ['content']['messege'],
+                                      sentAt: snapshot.data!.docs[index]
+                                          ['sent at'],
+                                    );
                             })
                         : (snapshot.connectionState == ConnectionState.waiting)
                             ? const Center(
