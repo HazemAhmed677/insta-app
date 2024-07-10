@@ -2,10 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:insta_app/constants.dart';
+
 import 'package:insta_app/helper/profile_grid_view.dart';
 import 'package:insta_app/helper/profile_helper.dart';
 import 'package:insta_app/models/user_model.dart';
+import 'package:insta_app/views/add_story_view.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({
@@ -75,15 +79,60 @@ class _ProfileViewState extends State<ProfileView> {
                             children: [
                               Column(
                                 children: [
-                                  CircleAvatar(
-                                    backgroundImage: (widget
-                                                .userModel!.profileImageURL !=
-                                            null)
-                                        ? CachedNetworkImageProvider(
-                                            widget.userModel!.profileImageURL!)
-                                        : const AssetImage(kNullImage),
-                                    radius: 40,
-                                  ),
+                                  (widget.userModel!.uid !=
+                                          FirebaseAuth
+                                              .instance.currentUser!.uid)
+                                      ? CircleAvatar(
+                                          backgroundImage: (widget.userModel!
+                                                      .profileImageURL !=
+                                                  null)
+                                              ? CachedNetworkImageProvider(
+                                                  widget.userModel!
+                                                      .profileImageURL!)
+                                              : const AssetImage(kNullImage),
+                                          radius: 40,
+                                        )
+                                      : Stack(
+                                          children: [
+                                            CircleAvatar(
+                                              backgroundImage: (widget
+                                                          .userModel!
+                                                          .profileImageURL !=
+                                                      null)
+                                                  ? CachedNetworkImageProvider(
+                                                      widget.userModel!
+                                                          .profileImageURL!)
+                                                  : const AssetImage(
+                                                      kNullImage),
+                                              radius: 40,
+                                            ),
+                                            Positioned(
+                                                top: 62,
+                                                left: 32,
+                                                child: InkWell(
+                                                  borderRadius:
+                                                      BorderRadius.circular(40),
+                                                  onTap: () {
+                                                    Get.to(
+                                                      AddStoryView(
+                                                          userModel: widget
+                                                              .userModel!),
+                                                      transition:
+                                                          Transition.zoom,
+                                                    );
+                                                  },
+                                                  child: const CircleAvatar(
+                                                    radius: 9,
+                                                    backgroundColor: kWhite,
+                                                    child: Icon(
+                                                      FontAwesomeIcons.plus,
+                                                      color: kPink,
+                                                      size: 6,
+                                                    ),
+                                                  ),
+                                                ))
+                                          ],
+                                        ),
                                   SizedBox(
                                     height: 0.01 * hight,
                                   ),

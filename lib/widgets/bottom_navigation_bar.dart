@@ -20,7 +20,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   Widget build(BuildContext context) {
     int index = BlocProvider.of<SwitchScreensCubit>(context).currentIndex;
     return CurvedNavigationBar(
-      height: 72,
+      height: 68,
       key: bottomNavigationKey,
       index: BlocProvider.of<SwitchScreensCubit>(context).currentIndex,
       items: const <Widget>[
@@ -31,7 +31,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         Icon(FontAwesomeIcons.magnifyingGlass, size: 24),
         Icon(FontAwesomeIcons.facebookMessenger, size: 24),
         Icon(FontAwesomeIcons.plus, size: 24),
-        Icon(FontAwesomeIcons.user, size: 24),
+        Icon(FontAwesomeIcons.solidUser, size: 24),
       ],
       color: const Color.fromARGB(255, 29, 28, 28),
       buttonBackgroundColor:
