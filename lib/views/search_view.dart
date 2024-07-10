@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/cubits/fetch_all_users_cubit/fetch_all_users_cubit.dart';
 import 'package:insta_app/cubits/fetch_all_users_cubit/fetch_all_users_states.dart';
+import 'package:insta_app/helper/clear_history_helper.dart';
 import 'package:insta_app/helper/person_in_search.dart';
 import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/services/fetch_and_push_searched_people_service.dart';
@@ -39,52 +40,96 @@ class _SearchViewState extends State<SearchView> {
             },
           ),
           SizedBox(
-            height: hight * 0.01,
+            height: hight * 0.018,
           ),
           (widget.currentUser!.serachedPeople!.isNotEmpty)
+              // then show clear all bar
               ? Expanded(
-                  child: ListView.builder(
-                    // shrinkWrap: true,
-                    // physics: const NeverScrollableScrollPhysics(),
-                    itemCount: widget.currentUser!.serachedPeople!.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      List searchedPeopleBefore =
-                          widget.currentUser!.serachedPeople!;
-                      // ++++++++++++++++++++++++
-                      // fetch searched user data
-                      return FutureBuilder(
-                          future: FirebaseFirestore.instance
-                              .collection(kUsers)
-                              .doc(searchedPeopleBefore[index]['uid'])
-                              .get(),
-                          builder: (context, snapshot2) {
-                            return InkWell(
-                              onTap: () {
-                                Map<String, dynamic> currentUserMap,
-                                    searchedUserMap;
-                                searchedUserMap = snapshot2.data!.data()
-                                    as Map<String, dynamic>;
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 70.0),
+                    child: Column(
+                      children: [
+                        ClearHistoryHelper(userModel: widget.currentUser!),
+                        Expanded(
+                          child: ListView.builder(
+                            clipBehavior: Clip.none,
+                            itemCount:
+                                widget.currentUser!.serachedPeople!.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              List searchedPeopleBefore =
+                                  widget.currentUser!.serachedPeople!;
+                              // ++++++++++++++++++++++++
+                              // fetch searched user data
+                              return StreamBuilder(
+                                  stream: FirebaseFirestore.instance
+                                      .collection(kUsers)
+                                      .doc(searchedPeopleBefore[index]['uid'])
+                                      .snapshots(),
+                                  builder: (context, snapshot2) {
+                                    return (snapshot2.connectionState ==
+                                            ConnectionState.waiting)
+                                        ? const SizedBox()
+                                        : Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 4.0),
+                                            child: Dismissible(
+                                              key: UniqueKey(),
+                                              direction:
+                                                  DismissDirection.endToStart,
+                                              onDismissed: (direction) {},
+                                              child: SizedBox(
+                                                height: hight * 0.08,
+                                                child: InkWell(
+                                                  borderRadius:
+                                                      BorderRadius.circular(21),
+                                                  radius: 16,
+                                                  onTap: () {
+                                                    Map<String, dynamic>
+                                                        searchedUserMap =
+                                                        snapshot2.data!.data()
+                                                            as Map<String,
+                                                                dynamic>;
 
-                                UserModel searchedUser =
-                                    UserModel.fromJson(searchedUserMap);
+                                                    UserModel searchedUser =
+                                                        UserModel.fromJson(
+                                                            searchedUserMap);
 
-                                Get.to(
-                                  SafeArea(
-                                    child: (ProfileView(
-                                      currentUser: widget.currentUser,
-                                      userModel: searchedUser,
-                                    )),
-                                  ),
-                                );
-                              },
-                              child: PersonInSearch(
-                                  username: searchedPeopleBefore[index]
-                                      ['username'],
-                                  imageURL: searchedPeopleBefore[index]
-                                      ['profileImageURL']),
-                            );
-                          });
-                    },
+                                                    Get.to(
+                                                      SafeArea(
+                                                        child: (ProfileView(
+                                                          currentUser: widget
+                                                              .currentUser,
+                                                          userModel:
+                                                              searchedUser,
+                                                        )),
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: PersonInSearch(
+                                                      currentUserID: widget
+                                                          .currentUser!.uid,
+                                                      searchedUser:
+                                                          UserModel.fromJson(
+                                                        snapshot2.data!.data(),
+                                                      ),
+                                                      username:
+                                                          searchedPeopleBefore[
+                                                                  index]
+                                                              ['username'],
+                                                      imageURL:
+                                                          searchedPeopleBefore[
+                                                                  index][
+                                                              'profile image']),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                  });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 )
               : (widget.currentUser!.serachedPeople!.isEmpty)

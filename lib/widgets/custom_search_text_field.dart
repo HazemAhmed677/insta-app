@@ -11,7 +11,7 @@ class CustomSearchTextField extends StatelessWidget {
       //   input = value;
       // },
       onSubmitted: onSubmitted, // }
-      cursorColor: kPuple,
+      cursorColor: kPink,
       decoration: const InputDecoration(
         hintText: 'Search',
         enabledBorder: OutlineInputBorder(
@@ -26,7 +26,9 @@ class CustomSearchTextField extends StatelessWidget {
           borderRadius: BorderRadius.all(
             Radius.circular(14),
           ),
-          borderSide: BorderSide(color: kPuple),
+          borderSide: BorderSide(
+            color: Colors.lightBlueAccent,
+          ),
         ),
       ),
     );

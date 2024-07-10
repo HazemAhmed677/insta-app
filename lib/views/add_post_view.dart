@@ -165,7 +165,7 @@ class _AddPostViewState extends State<AddPostView> {
                             },
                             text: 'upload image',
                             icon: const Icon(FontAwesomeIcons.image,
-                                color: Colors.lightGreenAccent),
+                                color: Colors.greenAccent),
                           ),
                           ButtonOfAddStoryHelper(
                             onTap: () {
@@ -174,7 +174,7 @@ class _AddPostViewState extends State<AddPostView> {
                             text: 'upload video',
                             icon: const Icon(
                               FontAwesomeIcons.video,
-                              color: Colors.lightBlueAccent,
+                              color: Colors.blueAccent,
                             ),
                           ),
                         ],
