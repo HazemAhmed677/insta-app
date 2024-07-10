@@ -13,15 +13,25 @@ class StoriesBar extends StatelessWidget {
       itemBuilder: (context, index) {
         return Padding(
           padding: (index != 7)
-              ? const EdgeInsets.only(right: 18.0)
+              ? const EdgeInsets.only(
+                  right: 18.0,
+                )
               : EdgeInsets.zero,
-          child: const CircleAvatar(
-            radius: 44,
-            backgroundColor: kWhite,
-            child: CircleAvatar(
-              backgroundImage: AssetImage(kNullImage),
-              radius: 40,
-            ),
+          child: const Column(
+            children: [
+              CircleAvatar(
+                radius: 44,
+                backgroundColor: kWhite,
+                child: CircleAvatar(
+                  backgroundImage: AssetImage(kNullImage),
+                  radius: 40,
+                ),
+              ),
+              Text(
+                'Name',
+                style: TextStyle(fontSize: 16),
+              )
+            ],
           ),
         );
       },

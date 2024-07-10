@@ -61,6 +61,7 @@ class _PostTileState extends State<PostTile> {
                         style: const TextStyle(
                           color: kWhite,
                           fontSize: 18,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       const Padding(
@@ -76,7 +77,7 @@ class _PostTileState extends State<PostTile> {
                 ],
               ),
               SizedBox(
-                height: 0.025 * hight,
+                height: 0.02 * hight,
               ),
               SizedBox(
                 height: 0.4 * hight,

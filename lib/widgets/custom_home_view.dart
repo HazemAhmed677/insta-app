@@ -104,15 +104,18 @@ class _CustomHomeViewState extends State<CustomHomeView> {
               ),
               SliverToBoxAdapter(
                 child: SizedBox(
-                  height: hight * 0.13,
-                  child: const Expanded(
-                    child: StoriesBar(),
-                  ),
+                  height: hight * 0.018,
                 ),
               ),
               SliverToBoxAdapter(
                 child: SizedBox(
-                  height: hight * 0.015,
+                  height: hight * 0.14,
+                  child: const StoriesBar(),
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: hight * 0.014,
                 ),
               ),
               SliverPadding(

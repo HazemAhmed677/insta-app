@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
-
 import 'package:insta_app/helper/profile_grid_view.dart';
 import 'package:insta_app/helper/profile_helper.dart';
 import 'package:insta_app/models/user_model.dart';

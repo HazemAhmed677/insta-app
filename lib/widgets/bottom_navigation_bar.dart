@@ -34,15 +34,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         Icon(FontAwesomeIcons.user, size: 24),
       ],
       color: const Color.fromARGB(255, 29, 28, 28),
-      buttonBackgroundColor: (index == 0)
-          ? kPink.shade900
-          : (index == 1)
-              ? Colors.green.shade800
-              : (index == 2)
-                  ? Colors.blue.shade900
-                  : (index == 3)
-                      ? Colors.yellow.shade900
-                      : Colors.red.shade900,
+      buttonBackgroundColor:
+          (index == 2) ? Colors.blue.shade900 : kPink.shade800,
       backgroundColor: Colors.transparent,
       animationCurve: Curves.easeInOut,
       animationDuration: const Duration(milliseconds: 300),

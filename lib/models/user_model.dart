@@ -7,16 +7,17 @@ class UserModel {
   List<dynamic>? followers;
   List<dynamic>? following;
   List<dynamic>? serachedPeople;
-  UserModel({
-    required this.username,
-    required this.email,
-    required this.password,
-    required this.uid,
-    this.profileImageURL,
-    required this.followers,
-    required this.following,
-    required this.serachedPeople,
-  });
+  List<dynamic>? stories;
+  UserModel(
+      {required this.username,
+      required this.email,
+      required this.password,
+      required this.uid,
+      this.profileImageURL,
+      required this.followers,
+      required this.following,
+      required this.serachedPeople,
+      required this.stories});
   factory UserModel.fromJson(json) {
     return UserModel(
         username: json['username'],
@@ -26,7 +27,8 @@ class UserModel {
         following: json['following'],
         profileImageURL: json['profileImageURL'],
         uid: json['uid'],
-        serachedPeople: json['searched people']);
+        serachedPeople: json['searched people'],
+        stories: json['stories']);
   }
   Map<String, dynamic> convertToMap(UserModel user) {
     return {
@@ -38,6 +40,7 @@ class UserModel {
       'following': user.following,
       'uid': user.uid,
       'searched people': user.serachedPeople,
+      'stories': user.stories,
     };
   }
 }

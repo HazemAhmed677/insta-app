@@ -14,15 +14,15 @@ class UploadUserData {
       List? searchedPeople}) async {
     var uid = FirebaseAuth.instance.currentUser!.uid;
     UserModel userModel = UserModel(
-      username: username,
-      email: email,
-      password: password,
-      profileImageURL: imageURL,
-      followers: [],
-      following: [],
-      uid: uid,
-      serachedPeople: [],
-    );
+        username: username,
+        email: email,
+        password: password,
+        profileImageURL: imageURL,
+        followers: [],
+        following: [],
+        uid: uid,
+        serachedPeople: [],
+        stories: []);
     Map<String, dynamic> userMap = userModel.convertToMap(userModel);
     await FirebaseFirestore.instance.collection(kUsers).doc(uid).set(userMap);
   }
