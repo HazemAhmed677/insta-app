@@ -1,11 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:insta_app/constants.dart';
-import 'package:insta_app/cubits/fetch_all_users_cubit/fetch_all_users_cubit.dart';
-import 'package:insta_app/cubits/fetch_all_users_cubit/fetch_all_users_states.dart';
 import 'package:insta_app/helper/clear_history_helper.dart';
 import 'package:insta_app/helper/person_in_search.dart';
 import 'package:insta_app/models/user_model.dart';
@@ -26,8 +22,6 @@ class _SearchViewState extends State<SearchView> {
   String input = '';
   @override
   Widget build(BuildContext context) {
-    UserModel serachedOne;
-    bool flag = false;
     double hight = MediaQuery.of(context).size.height;
 
     String? endString = (input != '')
@@ -75,7 +69,7 @@ class _SearchViewState extends State<SearchView> {
                               ),
                             ),
                           )
-                        : (snapshot2.hasData)
+                        : (snapshot2.hasData && snapshot2.data!.size != 0)
                             ? Expanded(
                                 child: ListView.builder(
                                   itemCount: snapshot2.data!.docs.length,
@@ -146,15 +140,15 @@ class _SearchViewState extends State<SearchView> {
                                   },
                                 ),
                               )
-                            : (snapshot2.data == null)
+                            : (snapshot2.data!.size == 0)
                                 ? Padding(
                                     padding: EdgeInsets.only(top: hight * 0.38),
-                                    child: const Center(
+                                    child: Center(
                                       child: Text(
                                         'user not found',
                                         style: TextStyle(
                                           fontSize: 18,
-                                          color: Colors.grey,
+                                          color: Colors.grey.shade400,
                                         ),
                                       ),
                                     ),
