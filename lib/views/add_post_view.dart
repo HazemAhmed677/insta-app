@@ -5,10 +5,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/cubits/switch_screen_cubit/switch_screen_cubit_states.dart';
 import 'package:insta_app/cubits/switch_screen_cubit/switch_screens_cubit.dart';
+import 'package:insta_app/helper/button_of_add_story_helper.dart';
 import 'package:insta_app/helper/modal_progress_hud_helper.dart';
 import 'package:insta_app/helper/show_snack_bar_function.dart';
 import 'package:insta_app/models/post_model.dart';
@@ -36,8 +38,10 @@ class _AddPostViewState extends State<AddPostView> {
     } catch (e) {}
 
     if (image != null) {
-      imagePost = File(image.path);
-      setState(() {});
+      if (mounted) {
+        imagePost = File(image.path);
+        setState(() {});
+      }
     }
   }
 
@@ -101,10 +105,11 @@ class _AddPostViewState extends State<AddPostView> {
                                   isAbsorb = true;
                                   isLoading = true;
                                   setState(() {});
-
                                   await uploadPostToFirebase();
                                   if (mounted) {
                                     setState(() {
+                                      getShowSnackBar(
+                                          context, 'Post added successfully');
                                       BlocProvider.of<SwitchScreensCubit>(
                                               context)
                                           .currentIndex = 0;
@@ -116,9 +121,6 @@ class _AddPostViewState extends State<AddPostView> {
                                 } catch (e) {
                                   print(e.toString());
                                 }
-
-                                getShowSnackBar(
-                                    context, 'Post added successfully');
                               } else {
                                 getShowSnackBar(context, 'upload an image');
                               }
@@ -154,31 +156,40 @@ class _AddPostViewState extends State<AddPostView> {
                               ],
                             )
                           : SizedBox(height: hight * 0.39),
-                      SizedBox(
-                        height: hight * 0.058,
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            await selectImage();
-                          },
-                          child: const Center(
-                            child: Icon(
-                              Icons.file_upload_sharp,
-                              size: 30,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          ButtonOfAddStoryHelper(
+                            onTap: () {
+                              selectImage();
+                            },
+                            text: 'upload image',
+                            icon: const Icon(FontAwesomeIcons.image,
+                                color: Colors.lightGreenAccent),
+                          ),
+                          ButtonOfAddStoryHelper(
+                            onTap: () {
+                              //  selectVideo();
+                            },
+                            text: 'upload video',
+                            icon: const Icon(
+                              FontAwesomeIcons.video,
+                              color: Colors.lightBlueAccent,
                             ),
                           ),
-                        ),
+                        ],
                       ),
                       SizedBox(
-                        height: hight * 0.014,
+                        height: hight * 0.015,
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: TextField(
                           controller: textEditingController,
                           cursorColor: kPink,
                           maxLines: 10,
                           decoration: const InputDecoration(
-                            hintText: 'Describtion...',
+                            hintText: 'Type describtion...',
                             hintStyle: TextStyle(
                               fontSize: 16,
                             ),

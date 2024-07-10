@@ -28,7 +28,7 @@ class StoriesBar extends StatelessWidget {
                 ),
               ),
               Text(
-                'Name',
+                'Story',
                 style: TextStyle(fontSize: 16),
               )
             ],

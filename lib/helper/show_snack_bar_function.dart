@@ -11,20 +11,22 @@ getShowSnackBar(BuildContext context, String content) {
         ),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10),
-            topRight: Radius.circular(10),
+            topLeft: Radius.circular(18),
+            topRight: Radius.circular(18),
           ),
         ),
-        duration: const Duration(milliseconds: 1500),
-        backgroundColor: kPink.shade500,
+        duration: const Duration(milliseconds: 9500),
+        backgroundColor: kWhite,
         content: Text(
           content,
           style: const TextStyle(
             fontSize: 16,
-            color: kWhite,
+            color: kBlack,
           ),
         ),
       ),
     );
-  } catch (e) {}
+  } catch (e) {
+    //
+  }
 }

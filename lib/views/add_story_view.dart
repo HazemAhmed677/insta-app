@@ -45,7 +45,7 @@ class _AddStoryViewState extends State<AddStoryView> {
           storyVideo = null;
         }
       } catch (e) {
-        getShowSnackBar(context, 'pait please');
+        // getShowSnackBar(context, 'wait please');
       }
     }
 
@@ -196,17 +196,27 @@ class _AddStoryViewState extends State<AddStoryView> {
                                   ],
                                 )
                               : SizedBox(height: hight * 0.39),
-                          const Center(
+                          Center(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 ButtonOfAddStoryHelper(
+                                  onTap: () {
+                                    selectImage();
+                                  },
                                   text: 'upload image',
-                                  icon: FontAwesomeIcons.image,
+                                  icon: const Icon(FontAwesomeIcons.image,
+                                      color: Colors.lightGreenAccent),
                                 ),
                                 ButtonOfAddStoryHelper(
+                                  onTap: () {
+                                    selectVideo();
+                                  },
                                   text: 'upload video',
-                                  icon: FontAwesomeIcons.video,
+                                  icon: const Icon(
+                                    FontAwesomeIcons.video,
+                                    color: Colors.lightBlueAccent,
+                                  ),
                                 ),
                               ],
                             ),

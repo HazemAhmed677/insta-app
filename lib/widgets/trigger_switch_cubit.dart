@@ -77,7 +77,7 @@ class _TriggerSwitchCubitState extends State<TriggerSwitchCubit> {
                             )
                           : (state is SearchScreenState)
                               ? SearchView(
-                                  userModel: user,
+                                  currentUser: user,
                                 )
                               : (state is AllChatsScreenState)
                                   ? const AllChatsView()

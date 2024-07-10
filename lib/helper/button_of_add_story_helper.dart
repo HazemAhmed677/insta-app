@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ButtonOfAddStoryHelper extends StatelessWidget {
   const ButtonOfAddStoryHelper(
-      {super.key, required this.text, required this.icon});
+      {super.key, required this.text, required this.icon, this.onTap});
   final String text;
-  final IconData icon;
+  final Icon icon;
+  final Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(30),
-      onTap: () {},
+      onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-            color: Colors.grey.shade600,
+            color: Colors.grey.shade700,
             borderRadius: BorderRadius.circular(20),
             boxShadow: const [
               BoxShadow(
-                offset: Offset(10, 10),
+                offset: Offset(8, 8),
               )
             ]),
         child: Card(
@@ -25,7 +25,7 @@ class ButtonOfAddStoryHelper extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
             child: Row(
               children: [
-                Icon(icon),
+                icon,
                 const SizedBox(
                   width: 10,
                 ),
