@@ -278,6 +278,7 @@ class _ProfileViewState extends State<ProfileView> {
                             )
                           : (snapshot1.hasData)
                               ? ProfileGridView(
+                                  currentUser: widget.currentUser,
                                   posts: snapshot1.data,
                                 )
                               : const SliverToBoxAdapter(

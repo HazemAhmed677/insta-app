@@ -54,10 +54,6 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
           return const Icon(Icons.error);
         } else {
           return const Text('');
-          // return const Center(
-          //     child: CircularProgressIndicator(
-          //   color: kPink,
-          // ));
         }
       },
     );

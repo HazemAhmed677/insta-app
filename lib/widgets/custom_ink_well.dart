@@ -21,17 +21,18 @@ class CustomInkWell extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Center(
-            child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Text(
-            text,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              text,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-        )),
+        ),
       ),
     );
   }
