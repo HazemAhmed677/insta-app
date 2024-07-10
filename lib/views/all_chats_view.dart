@@ -72,7 +72,6 @@ class AllChatsView extends StatelessWidget {
                                       as Map<String, dynamic>;
                                   UserModel userModel =
                                       UserModel.fromJson(userMap);
-
                                   return SizedBox(
                                     height: hight * 0.1,
                                     child: InkWell(

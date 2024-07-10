@@ -28,7 +28,7 @@ class PersonInSearch extends StatelessWidget {
               : const AssetImage(kNullImage),
           radius: 28,
         ),
-        SizedBox(width: width * 0.01),
+        SizedBox(width: width * 0.02),
         Text(
           username,
           style: const TextStyle(fontSize: 18),
@@ -45,6 +45,7 @@ class PersonInSearch extends StatelessWidget {
           icon: const Icon(
             FontAwesomeIcons.solidMessage,
             color: Colors.blueAccent,
+            size: 20,
           ),
         )
       ],

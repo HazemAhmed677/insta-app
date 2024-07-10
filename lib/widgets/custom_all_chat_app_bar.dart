@@ -14,7 +14,7 @@ class CustomAllChatAppBar extends StatelessWidget {
         child: Row(
           children: [
             SizedBox(
-              width: width * 0.04,
+              width: width * 0.05,
             ),
             const Text(
               'Chats',

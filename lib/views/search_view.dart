@@ -34,6 +34,8 @@ class _SearchViewState extends State<SearchView> {
           SizedBox(
             height: hight * 0.01,
           ),
+          //------------------------
+          //Text field ------------------
           CustomSearchTextField(
             onSubmitted: (value) {
               input = value;
@@ -49,7 +51,10 @@ class _SearchViewState extends State<SearchView> {
                     padding: const EdgeInsets.only(bottom: 70.0),
                     child: Column(
                       children: [
-                        ClearHistoryHelper(userModel: widget.currentUser!),
+                        Align(
+                            alignment: Alignment.centerRight,
+                            child: ClearHistoryHelper(
+                                userModel: widget.currentUser!)),
                         Expanded(
                           child: ListView.builder(
                             clipBehavior: Clip.none,

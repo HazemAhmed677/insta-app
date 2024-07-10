@@ -17,8 +17,8 @@ class _ClearHistoryHelperState extends State<ClearHistoryHelper> {
     double width = MediaQuery.of(context).size.width;
     return TextButton(
         style: TextButton.styleFrom(
-            padding: const EdgeInsets.only(right: 8, left: 0),
-            minimumSize: const Size(8, 25),
+            padding: const EdgeInsets.only(top: 3, right: 8, left: 10),
+            minimumSize: const Size(14, 14),
             tapTargetSize: MaterialTapTargetSize.shrinkWrap),
         onPressed: () async {
           AlertDialog alert = AlertDialog(
@@ -67,7 +67,7 @@ class _ClearHistoryHelperState extends State<ClearHistoryHelper> {
           );
         },
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
               'Clear all',
