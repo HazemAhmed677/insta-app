@@ -57,10 +57,12 @@ class _TriggerSwitchCubitState extends State<TriggerSwitchCubit> {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const SizedBox();
-              } else {
+              } else if (snapshot.hasData) {
                 Map<String, dynamic> userMap =
                     snapshot.data!.data() as Map<String, dynamic>;
                 user = UserModel.fromJson(userMap);
+              } else {
+                throw Exception('Sign UP');
               }
 
               return BlocBuilder<SwitchScreensCubit, SwitchScreensStates>(

@@ -14,6 +14,7 @@ import 'package:insta_app/helper/modal_progress_hud_helper.dart';
 import 'package:insta_app/helper/show_snack_bar_function.dart';
 import 'package:insta_app/models/user_model.dart';
 import 'package:uuid/uuid.dart';
+import 'package:video_player/video_player.dart';
 
 class AddStoryView extends StatefulWidget {
   const AddStoryView({super.key, required this.userModel});
@@ -25,13 +26,13 @@ class AddStoryView extends StatefulWidget {
 }
 
 class _AddStoryViewState extends State<AddStoryView> {
-  File? storyImage;
-  File? storyVideo;
+  File? imageFile;
+  File? videoFile;
   String? imageURL;
   String? videoURL;
-
   bool isLoading = false;
   bool isAbsorb = false;
+  late VideoPlayerController videoPlayerController;
   @override
   Widget build(BuildContext context) {
     Future<void> selectImage() async {
@@ -41,23 +42,41 @@ class _AddStoryViewState extends State<AddStoryView> {
           source: ImageSource.gallery,
         );
         if (image != null) {
-          storyImage = File(image.path);
-          storyVideo = null;
+          imageFile = File(image.path);
+          videoFile = null;
+          videoPlayerController.pause();
         }
       } catch (e) {
         // getShowSnackBar(context, 'wait please');
       }
     }
 
-    Future<void> selectVideo() async {}
+    Future<void> selectVideo() async {
+      XFile? video;
+      try {
+        video = await ImagePicker().pickVideo(
+          source: ImageSource.gallery,
+        );
+        if (video != null) {
+          videoFile = File(video.path);
+          imageFile = null;
+          videoPlayerController = VideoPlayerController.file(videoFile!);
+          videoPlayerController.initialize();
+          videoPlayerController.play();
+          setState(() {});
+        }
+      } catch (e) {
+        // getShowSnackBar(context, 'wait please');
+      }
+    }
 
     Future<void> uploadStoryItemToFirebase() async {
-      if (storyImage != null && storyVideo == null) {
+      if (imageFile != null && videoFile == null) {
         String generatedID = const Uuid().v4();
         var reff = FirebaseStorage.instance.ref(kStories).child(generatedID);
-        await reff.putFile(storyImage!);
+        await reff.putFile(imageFile!);
         imageURL = await reff.getDownloadURL();
-        widget.userModel.stories!.add(storyImage);
+        widget.userModel.stories!.add(imageFile);
         await FirebaseFirestore.instance
             .collection(kUsers)
             .doc(widget.userModel.uid)
@@ -66,12 +85,12 @@ class _AddStoryViewState extends State<AddStoryView> {
             'stories': FieldValue.arrayUnion([imageURL]),
           },
         );
-      } else if (storyVideo != null && storyImage == null) {
+      } else if (videoFile != null && imageFile == null) {
         String generatedID = const Uuid().v4();
         var reff = FirebaseStorage.instance.ref(kStories).child(generatedID);
-        await reff.putFile(storyVideo!);
+        await reff.putFile(videoFile!);
         videoURL = await reff.getDownloadURL();
-        widget.userModel.stories!.add(storyVideo);
+        widget.userModel.stories!.add(videoFile);
         await FirebaseFirestore.instance
             .collection(kUsers)
             .doc(widget.userModel.uid)
@@ -112,7 +131,8 @@ class _AddStoryViewState extends State<AddStoryView> {
                                       MaterialTapTargetSize.shrinkWrap,
                                 ),
                                 onPressed: () {
-                                  storyImage = null;
+                                  imageFile = null;
+                                  videoFile = null;
                                   setState(() {});
                                 },
                                 icon: const Icon(
@@ -137,7 +157,7 @@ class _AddStoryViewState extends State<AddStoryView> {
                                   ),
                                 ),
                                 onPressed: () async {
-                                  if (storyImage != null) {
+                                  if (imageFile != null) {
                                     try {
                                       isAbsorb = true;
                                       isLoading = true;
@@ -178,24 +198,35 @@ class _AddStoryViewState extends State<AddStoryView> {
                           SizedBox(
                             height: hight * 0.028,
                           ),
-                          (storyImage != null)
+                          (imageFile != null || videoFile != null)
                               ? Column(
                                   children: [
-                                    Center(
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(14),
-                                        child: Image.file(
-                                          storyImage!,
-                                          height: hight * 0.38,
-                                        ),
-                                      ),
-                                    ),
+                                    (imageFile != null)
+                                        ? Center(
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(14),
+                                              child: Image.file(
+                                                imageFile!,
+                                                height: hight * 0.42,
+                                              ),
+                                            ),
+                                          )
+                                        : Container(
+                                            height: hight * 0.42,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(14)),
+                                            child: VideoPlayer(
+                                              videoPlayerController,
+                                            ),
+                                          ),
                                     SizedBox(
                                       height: hight * 0.01,
                                     ),
                                   ],
                                 )
-                              : SizedBox(height: hight * 0.39),
+                              : SizedBox(height: hight * 0.46),
                           Center(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,

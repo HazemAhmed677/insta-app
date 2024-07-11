@@ -19,7 +19,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    int index = BlocProvider.of<SwitchScreensCubit>(context).currentIndex;
     return BlocBuilder<SwitchScreensCubit, SwitchScreensStates>(
       builder: (context, state) {
         return CurvedNavigationBar(

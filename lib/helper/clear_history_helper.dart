@@ -81,7 +81,7 @@ class _ClearHistoryHelperState extends State<ClearHistoryHelper> {
             ),
             const Icon(
               Icons.cancel_outlined,
-              color: Colors.redAccent,
+              color: Colors.grey,
               size: 16,
             )
           ],

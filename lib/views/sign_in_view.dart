@@ -19,13 +19,15 @@ class _SignInState extends State<SignIn> {
   bool obsecure = true;
   ScrollController controller = ScrollController();
   GlobalKey<FormState> formKey = GlobalKey();
-  List<AutovalidateMode> autoValidateMode =
-      List.filled(2, AutovalidateMode.disabled);
+  AutovalidateMode autoValidateMode1 = AutovalidateMode.disabled;
+  AutovalidateMode autoValidateMode2 = AutovalidateMode.disabled;
+  AutovalidateMode autoValidateMode3 = AutovalidateMode.disabled;
   bool flag1 = false, flag2 = false;
   String? email, password;
   bool isLoading = false;
   TextEditingController textEditing1 = TextEditingController(),
       textEditing2 = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     double hight = MediaQuery.of(context).size.height;
@@ -39,6 +41,7 @@ class _SignInState extends State<SignIn> {
               horizontal: 20,
             ),
             child: Form(
+              autovalidateMode: autoValidateMode3,
               key: formKey,
               child: ListView(
                 physics: const BouncingScrollPhysics(
@@ -61,19 +64,22 @@ class _SignInState extends State<SignIn> {
                     height: hight * 0.017,
                   ),
                   CustomTextFormField(
+                    autovalidateMode: autoValidateMode3,
                     validator: (input) {
-                      if (input!.isEmpty) {
+                      if (input == '') {
                         return 'please enter your email';
                       } else {
                         return null;
                       }
                     },
+                    textEditingController: textEditing1,
                     onChange: (data) {
-                      if (data.isNotEmpty && data.contains('@')) {
-                        autoValidateMode[0] = AutovalidateMode.disabled;
+                      if (data != '') {
+                        autoValidateMode3 = AutovalidateMode.always;
                         flag1 = true;
                         email = data;
                       } else if (flag1) {
+                        autoValidateMode3 = AutovalidateMode.disabled;
                         setState(() {});
                       }
                     },
@@ -84,6 +90,7 @@ class _SignInState extends State<SignIn> {
                     height: hight * 0.022,
                   ),
                   CustomTextFormField(
+                    autovalidateMode: autoValidateMode2,
                     onTap: () async {
                       await kAnimateTo(controller);
                     },
@@ -94,12 +101,14 @@ class _SignInState extends State<SignIn> {
                         return null;
                       }
                     },
+                    textEditingController: textEditing2,
                     onChange: (data) {
-                      if (data.isNotEmpty && data.length >= 6) {
-                        autoValidateMode[1] = AutovalidateMode.disabled;
+                      if (data != '') {
+                        autoValidateMode2 = AutovalidateMode.always;
                         flag2 = true;
                         password = data;
                       } else if (flag2) {
+                        autoValidateMode2 = AutovalidateMode.disabled;
                         setState(() {});
                       }
                     },
@@ -125,63 +134,55 @@ class _SignInState extends State<SignIn> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: CustomInkWell(
-                      text: 'Log in',
-                      color: Colors.blue.withOpacity(0.88),
-                      onTap: () async {
-                        if (formKey.currentState!.validate()) {
-                          formKey.currentState!.save();
+                        text: 'Log in',
+                        color: Colors.blue.withOpacity(0.88),
+                        onTap: () async {
+                          if (formKey.currentState!.validate()) {
+                            formKey.currentState!.save();
 
-                          // firebase auth code
-                          try {
-                            setState(() {
-                              isLoading = true;
-                            });
-                            await signIn();
-                            setState(() {
-                              isLoading = false;
-                            });
-                            formKey.currentState!.reset();
-                          } on FirebaseAuthException catch (e) {
-                            if (e.code == 'user-not-found') {
-                              isLoading = false;
-                              setState(() {});
-                              getShowSnackBar(context, 'No account found');
-                            } else if (e.code == 'wrong-password') {
-                              isLoading = false;
-                              setState(() {});
-                              getShowSnackBar(context, 'Wrong password');
-                            } else {
+                            // firebase auth code
+                            try {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              await signIn();
                               setState(() {
                                 isLoading = false;
                               });
-                              getShowSnackBar(context, e.toString());
+                              formKey.currentState!.reset();
+                            } on FirebaseAuthException catch (e) {
+                              if (e.code == 'user-not-found') {
+                                isLoading = false;
+                                setState(() {});
+                                getShowSnackBar(context, 'No account found');
+                              } else if (e.code == 'wrong-password') {
+                                isLoading = false;
+                                setState(() {});
+                                getShowSnackBar(context, 'Wrong password');
+                              } else {
+                                setState(() {
+                                  isLoading = false;
+                                });
+                                getShowSnackBar(context, e.toString());
+                              }
+                            } catch (e) {
+                              // isLoading = false;
+                              // setState(() {});
+                              getShowSnackBar(
+                                context,
+                                e.toString(),
+                              );
                             }
-                          } catch (e) {
-                            // isLoading = false;
-                            // setState(() {});
-                            getShowSnackBar(
-                              context,
-                              e.toString(),
-                            );
+
+                            autoValidateMode2 = AutovalidateMode.disabled;
+                            autoValidateMode3 = AutovalidateMode.disabled;
                           }
-                          for (int i = 0; i < 1; i++) {
-                            autoValidateMode[i] = AutovalidateMode.disabled;
-                          }
-                        }
-                        flag1 = false;
-                        flag2 = false;
-                        try {
-                          for (int i = 0; i < 1; i++) {
-                            autoValidateMode[i] = AutovalidateMode.always;
-                            setState(() {
-                              isLoading = false;
-                            });
-                          }
-                        } catch (e) {
-                          print(e.toString());
-                        }
-                      },
-                    ),
+                          flag1 = false;
+                          flag2 = false;
+
+                          autoValidateMode2 = AutovalidateMode.always;
+                          autoValidateMode3 = AutovalidateMode.always;
+                        }),
                   ),
                   const SignUpWord(),
                 ],

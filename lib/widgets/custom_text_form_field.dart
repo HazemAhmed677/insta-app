@@ -13,6 +13,8 @@ class CustomTextFormField extends StatefulWidget {
     this.passwordIcon,
     this.validator,
     this.onChange,
+    this.textEditingController,
+    this.autovalidateMode,
   });
   final String label;
   final String hint;
@@ -22,7 +24,8 @@ class CustomTextFormField extends StatefulWidget {
   final Function()? onTap;
   final String? Function(String?)? validator;
   Function(String)? onChange;
-
+  final TextEditingController? textEditingController;
+  final AutovalidateMode? autovalidateMode;
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
 }
@@ -31,9 +34,10 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autovalidateMode: widget.autovalidateMode,
+      controller: widget.textEditingController,
       onChanged: widget.onChange,
       validator: widget.validator,
-      onTap: widget.onTap,
       autofocus: widget.autoFocus,
       obscureText: widget.obsecure,
       decoration: InputDecoration(

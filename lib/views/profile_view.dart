@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:insta_app/constants.dart';
-
 import 'package:insta_app/helper/profile_grid_view.dart';
 import 'package:insta_app/helper/profile_helper.dart';
 import 'package:insta_app/models/user_model.dart';
