@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insta_app/constants.dart';
-import 'package:insta_app/cubits/fetch_all_users_cubit/fetch_all_users_states.dart';
 import 'package:insta_app/cubits/switch_screen_cubit/switch_screen_cubit_states.dart';
 import 'package:insta_app/cubits/switch_screen_cubit/switch_screens_cubit.dart';
 import 'package:insta_app/helper/button_of_add_story_helper.dart';
@@ -321,30 +320,25 @@ class _AddStoryViewState extends State<AddStoryView> {
                           SizedBox(
                             height: hight * 0.02,
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).viewInsets.bottom,
-                            ),
-                            child: TextField(
-                              onChanged: (value) {
-                                caption = value;
-                              },
-                              cursorColor: kPink,
-                              maxLines: 1,
-                              decoration: const InputDecoration(
-                                hintText: 'Add a caption...',
-                                hintStyle: TextStyle(
-                                  fontSize: 16,
+                          TextField(
+                            onChanged: (value) {
+                              caption = value;
+                            },
+                            cursorColor: kPink,
+                            maxLines: 1,
+                            decoration: const InputDecoration(
+                              hintText: 'Add a caption...',
+                              hintStyle: TextStyle(
+                                fontSize: 16,
+                              ),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: kPink,
                                 ),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: kPink,
-                                  ),
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: kPink,
-                                  ),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: kPink,
                                 ),
                               ),
                             ),

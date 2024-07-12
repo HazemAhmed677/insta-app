@@ -29,8 +29,8 @@ class _AddPostViewState extends State<AddPostView> {
   String? description;
   late String imageURL;
 
+  XFile? image;
   Future<void> selectImage() async {
-    XFile? image;
     try {
       image = await ImagePicker().pickImage(
         source: ImageSource.gallery,
@@ -39,7 +39,7 @@ class _AddPostViewState extends State<AddPostView> {
 
     if (image != null) {
       if (mounted) {
-        imagePost = File(image.path);
+        imagePost = File(image!.path);
         setState(() {});
       }
     }
@@ -146,7 +146,7 @@ class _AddPostViewState extends State<AddPostView> {
                                     borderRadius: BorderRadius.circular(14),
                                     child: Image.file(
                                       imagePost!,
-                                      height: hight * 0.38,
+                                      height: hight * 0.58,
                                     ),
                                   ),
                                 ),
@@ -155,7 +155,7 @@ class _AddPostViewState extends State<AddPostView> {
                                 ),
                               ],
                             )
-                          : SizedBox(height: hight * 0.39),
+                          : SizedBox(height: hight * 0.38),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
@@ -182,22 +182,33 @@ class _AddPostViewState extends State<AddPostView> {
                       SizedBox(
                         height: hight * 0.015,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: TextField(
-                          controller: textEditingController,
-                          cursorColor: kPink,
-                          maxLines: 10,
-                          decoration: const InputDecoration(
-                            hintText: 'Type describtion...',
-                            hintStyle: TextStyle(
-                              fontSize: 16,
-                            ),
-                            focusedBorder: InputBorder.none,
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      )
+                      (image != null)
+                          ? Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 10.0, right: 10, top: 10, bottom: 18),
+                              child: TextField(
+                                controller: textEditingController,
+                                cursorColor: kPink,
+                                maxLines: 2,
+                                decoration: const InputDecoration(
+                                  hintText: 'Type describtion...',
+                                  hintStyle: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: kPink,
+                                    ),
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: kPink,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : const SizedBox(),
                     ],
                   );
                 },

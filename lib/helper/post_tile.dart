@@ -80,15 +80,17 @@ class _PostTileState extends State<PostTile> {
                 height: 0.02 * hight,
               ),
               SizedBox(
-                height: 0.4 * hight,
+                height: 0.5 * hight,
                 width: width,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(14),
                   child: CachedNetworkImage(
                     imageUrl: widget.imageURL,
-                    fit: BoxFit.cover,
-                    placeholder: (context, imageURL) =>
-                        const Text(''), // Show loading indicator
+                    fit: BoxFit.fitHeight,
+                    placeholder: (context, imageURL) => const Center(
+                        child: CircularProgressIndicator(
+                      color: kPink,
+                    )), // Show loading indicator
                     errorWidget: (context, url, error) =>
                         const Icon(Icons.error), // Show error icon
                   ),
@@ -202,6 +204,7 @@ class _PostTileState extends State<PostTile> {
                 height: 0.009 * hight,
               ),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     widget.userModel.username,

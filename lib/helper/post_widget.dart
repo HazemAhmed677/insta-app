@@ -36,7 +36,7 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return SizedBox(
-            height: 0.72 * hight,
+            height: 0.82 * hight,
             child: const Center(
                 child: CircularProgressIndicator(
               color: kPink,
