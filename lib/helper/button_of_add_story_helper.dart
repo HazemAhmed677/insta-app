@@ -13,8 +13,8 @@ class ButtonOfAddStoryHelper extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-            color: Colors.grey.shade700,
-            borderRadius: BorderRadius.circular(20),
+            color: Colors.grey.shade900,
+            borderRadius: BorderRadius.circular(22),
             boxShadow: const [
               BoxShadow(
                 offset: Offset(8, 8),

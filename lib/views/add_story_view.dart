@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insta_app/constants.dart';
+import 'package:insta_app/cubits/fetch_all_users_cubit/fetch_all_users_states.dart';
 import 'package:insta_app/cubits/switch_screen_cubit/switch_screen_cubit_states.dart';
 import 'package:insta_app/cubits/switch_screen_cubit/switch_screens_cubit.dart';
 import 'package:insta_app/helper/button_of_add_story_helper.dart';
@@ -26,6 +27,13 @@ class AddStoryView extends StatefulWidget {
 }
 
 class _AddStoryViewState extends State<AddStoryView> {
+  @override
+  void initState() {
+    super.initState();
+
+    videoPlayerController.initialize();
+  }
+
   File? imageFile;
   File? videoFile;
   String? imageURL;
@@ -33,6 +41,8 @@ class _AddStoryViewState extends State<AddStoryView> {
   bool isLoading = false;
   bool isAbsorb = false;
   late VideoPlayerController videoPlayerController;
+  bool? isPlaying;
+  String? caption;
   @override
   Widget build(BuildContext context) {
     Future<void> selectImage() async {
@@ -44,7 +54,11 @@ class _AddStoryViewState extends State<AddStoryView> {
         if (image != null) {
           imageFile = File(image.path);
           videoFile = null;
-          videoPlayerController.pause();
+
+          setState(() {
+            isPlaying = null;
+            videoPlayerController.pause();
+          });
         }
       } catch (e) {
         // getShowSnackBar(context, 'wait please');
@@ -60,10 +74,12 @@ class _AddStoryViewState extends State<AddStoryView> {
         if (video != null) {
           videoFile = File(video.path);
           imageFile = null;
-          videoPlayerController = VideoPlayerController.file(videoFile!);
-          videoPlayerController.initialize();
-          videoPlayerController.play();
-          setState(() {});
+
+          setState(() {
+            isPlaying = true;
+            videoPlayerController = VideoPlayerController.file(videoFile!);
+            videoPlayerController.play();
+          });
         }
       } catch (e) {
         // getShowSnackBar(context, 'wait please');
@@ -75,28 +91,48 @@ class _AddStoryViewState extends State<AddStoryView> {
         String generatedID = const Uuid().v4();
         var reff = FirebaseStorage.instance.ref(kStories).child(generatedID);
         await reff.putFile(imageFile!);
-        imageURL = await reff.getDownloadURL();
-        widget.userModel.stories!.add(imageFile);
+        imageURL = await reff.getDownloadURL(); // you got url of image
+        Story story = Story(
+          caption: caption,
+          content: imageURL!,
+          storyID: generatedID,
+          type: 'image',
+          uid: widget.userModel.uid,
+          date: Timestamp.now(),
+          viewers: [],
+        );
+        Map<String, dynamic> storyMap = story.convertToMap(story);
         await FirebaseFirestore.instance
             .collection(kUsers)
             .doc(widget.userModel.uid)
             .update(
           {
-            'stories': FieldValue.arrayUnion([imageURL]),
+            'stories': FieldValue.arrayUnion([storyMap]),
           },
         );
       } else if (videoFile != null && imageFile == null) {
         String generatedID = const Uuid().v4();
         var reff = FirebaseStorage.instance.ref(kStories).child(generatedID);
         await reff.putFile(videoFile!);
-        videoURL = await reff.getDownloadURL();
+        videoURL = await reff.getDownloadURL(); // you got video url
+
         widget.userModel.stories!.add(videoFile);
+        Story story = Story(
+          caption: caption,
+          content: videoURL!,
+          storyID: generatedID,
+          type: 'video',
+          uid: widget.userModel.uid,
+          date: Timestamp.now(),
+          viewers: [],
+        );
+        Map<String, dynamic> storyMap = story.convertToMap(story);
         await FirebaseFirestore.instance
             .collection(kUsers)
             .doc(widget.userModel.uid)
             .update(
           {
-            'stories': FieldValue.arrayUnion([videoURL]),
+            'stories': FieldValue.arrayUnion([storyMap]),
           },
         );
       }
@@ -133,6 +169,7 @@ class _AddStoryViewState extends State<AddStoryView> {
                                 onPressed: () {
                                   imageFile = null;
                                   videoFile = null;
+                                  videoPlayerController.pause();
                                   setState(() {});
                                 },
                                 icon: const Icon(
@@ -164,20 +201,15 @@ class _AddStoryViewState extends State<AddStoryView> {
                                       setState(() {});
 
                                       await uploadStoryItemToFirebase();
-                                      if (mounted) {
-                                        setState(() {
-                                          BlocProvider.of<SwitchScreensCubit>(
-                                                  context)
-                                              .currentIndex = 0;
-                                          BlocProvider.of<SwitchScreensCubit>(
-                                                  context)
-                                              .getScreen();
-                                        });
-                                      }
                                     } catch (e) {
                                       print(e.toString());
                                     }
-
+                                    caption = null;
+                                    imageFile = null;
+                                    videoFile = null;
+                                    isAbsorb = false;
+                                    isLoading = true;
+                                    setState(() {});
                                     getShowSnackBar(
                                         context, 'Story added successfully');
                                   } else {
@@ -208,25 +240,59 @@ class _AddStoryViewState extends State<AddStoryView> {
                                                   BorderRadius.circular(14),
                                               child: Image.file(
                                                 imageFile!,
-                                                height: hight * 0.42,
+                                                height: hight * 0.68,
                                               ),
                                             ),
                                           )
-                                        : Container(
-                                            height: hight * 0.42,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(14)),
-                                            child: VideoPlayer(
-                                              videoPlayerController,
-                                            ),
+                                        : Stack(
+                                            children: [
+                                              SizedBox(
+                                                height: hight * 0.68,
+                                                child: VideoPlayer(
+                                                  videoPlayerController,
+                                                ),
+                                              ),
+                                              (isPlaying!)
+                                                  ? Positioned(
+                                                      bottom: 4,
+                                                      left: 2,
+                                                      child: IconButton(
+                                                        onPressed: () {
+                                                          isPlaying =
+                                                              !isPlaying!;
+                                                          videoPlayerController
+                                                              .pause();
+                                                          setState(() {});
+                                                        },
+                                                        icon: const Icon(
+                                                            FontAwesomeIcons
+                                                                .pause),
+                                                      ),
+                                                    )
+                                                  : Positioned(
+                                                      bottom: 4,
+                                                      left: 2,
+                                                      child: IconButton(
+                                                        onPressed: () {
+                                                          isPlaying =
+                                                              !isPlaying!;
+                                                          videoPlayerController
+                                                              .play();
+                                                          setState(() {});
+                                                        },
+                                                        icon: const Icon(
+                                                            FontAwesomeIcons
+                                                                .play),
+                                                      ),
+                                                    ),
+                                            ],
                                           ),
                                     SizedBox(
-                                      height: hight * 0.01,
+                                      height: hight * 0.02,
                                     ),
                                   ],
                                 )
-                              : SizedBox(height: hight * 0.46),
+                              : SizedBox(height: hight * 0.69),
                           Center(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -250,6 +316,37 @@ class _AddStoryViewState extends State<AddStoryView> {
                                   ),
                                 ),
                               ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: hight * 0.02,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom,
+                            ),
+                            child: TextField(
+                              onChanged: (value) {
+                                caption = value;
+                              },
+                              cursorColor: kPink,
+                              maxLines: 1,
+                              decoration: const InputDecoration(
+                                hintText: 'Add a caption...',
+                                hintStyle: TextStyle(
+                                  fontSize: 16,
+                                ),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: kPink,
+                                  ),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: kPink,
+                                  ),
+                                ),
+                              ),
                             ),
                           )
                         ],

@@ -24,20 +24,6 @@ class TriggerSwitchCubit extends StatefulWidget {
 class _TriggerSwitchCubitState extends State<TriggerSwitchCubit> {
   late UserModel user;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _fadeIn();
-  // }
-
-  // void _fadeIn() {
-  //   Future.delayed(Duration(seconds: 1), () {
-  //     setState(() {
-  //       _opacity = 0.2;
-  //     });
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
