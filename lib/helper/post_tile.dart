@@ -80,7 +80,7 @@ class _PostTileState extends State<PostTile> {
                 height: 0.02 * hight,
               ),
               SizedBox(
-                height: 0.5 * hight,
+                height: 0.51 * hight,
                 width: width,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(14),
@@ -214,7 +214,7 @@ class _PostTileState extends State<PostTile> {
                     ),
                   ),
                   const Padding(
-                    padding: EdgeInsets.only(left: 2.0),
+                    padding: EdgeInsets.only(left: 2.0, top: 5),
                     child: Icon(
                       Icons.verified,
                       size: 16,
