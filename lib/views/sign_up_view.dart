@@ -209,6 +209,7 @@ class _SignUpState extends State<SignUp> {
                                       imageURL: imageURL,
                                       followers: [],
                                       following: [],
+                                      stories: [],
                                     );
                                     setState(() {
                                       selectedImage = null;

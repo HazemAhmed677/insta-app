@@ -26,20 +26,13 @@ class AddStoryView extends StatefulWidget {
 }
 
 class _AddStoryViewState extends State<AddStoryView> {
-  @override
-  void initState() {
-    super.initState();
-
-    videoPlayerController.initialize();
-  }
-
   File? imageFile;
   File? videoFile;
   String? imageURL;
   String? videoURL;
   bool isLoading = false;
   bool isAbsorb = false;
-  late VideoPlayerController videoPlayerController;
+  VideoPlayerController? videoPlayerController;
   bool? isPlaying;
   String? caption;
   @override
@@ -56,7 +49,7 @@ class _AddStoryViewState extends State<AddStoryView> {
 
           setState(() {
             isPlaying = null;
-            videoPlayerController.pause();
+            videoPlayerController!.pause();
           });
         }
       } catch (e) {
@@ -74,11 +67,14 @@ class _AddStoryViewState extends State<AddStoryView> {
           videoFile = File(video.path);
           imageFile = null;
 
-          setState(() {
-            isPlaying = true;
-            videoPlayerController = VideoPlayerController.file(videoFile!);
-            videoPlayerController.play();
-          });
+          setState(
+            () {
+              isPlaying = true;
+              videoPlayerController = VideoPlayerController.file(videoFile!);
+              videoPlayerController!.initialize();
+              videoPlayerController!.play();
+            },
+          );
         }
       } catch (e) {
         // getShowSnackBar(context, 'wait please');
@@ -98,8 +94,8 @@ class _AddStoryViewState extends State<AddStoryView> {
           type: 'image',
           uid: widget.userModel.uid,
           date: Timestamp.now(),
-          viewers: [],
         );
+
         Map<String, dynamic> storyMap = story.convertToMap(story);
         await FirebaseFirestore.instance
             .collection(kUsers)
@@ -115,7 +111,6 @@ class _AddStoryViewState extends State<AddStoryView> {
         await reff.putFile(videoFile!);
         videoURL = await reff.getDownloadURL(); // you got video url
 
-        widget.userModel.stories!.add(videoFile);
         Story story = Story(
           caption: caption,
           content: videoURL!,
@@ -123,8 +118,8 @@ class _AddStoryViewState extends State<AddStoryView> {
           type: 'video',
           uid: widget.userModel.uid,
           date: Timestamp.now(),
-          viewers: [],
         );
+        widget.userModel.stories!.add(story.convertToMap(story));
         Map<String, dynamic> storyMap = story.convertToMap(story);
         await FirebaseFirestore.instance
             .collection(kUsers)
@@ -168,7 +163,7 @@ class _AddStoryViewState extends State<AddStoryView> {
                                 onPressed: () {
                                   imageFile = null;
                                   videoFile = null;
-                                  videoPlayerController.pause();
+                                  videoPlayerController?.pause() ?? true;
                                   setState(() {});
                                 },
                                 icon: const Icon(
@@ -207,7 +202,7 @@ class _AddStoryViewState extends State<AddStoryView> {
                                     imageFile = null;
                                     videoFile = null;
                                     isAbsorb = false;
-                                    isLoading = true;
+                                    isLoading = false;
                                     setState(() {});
                                     getShowSnackBar(
                                         context, 'Story added successfully');
@@ -248,7 +243,7 @@ class _AddStoryViewState extends State<AddStoryView> {
                                               SizedBox(
                                                 height: hight * 0.68,
                                                 child: VideoPlayer(
-                                                  videoPlayerController,
+                                                  videoPlayerController!,
                                                 ),
                                               ),
                                               (isPlaying!)
@@ -259,7 +254,7 @@ class _AddStoryViewState extends State<AddStoryView> {
                                                         onPressed: () {
                                                           isPlaying =
                                                               !isPlaying!;
-                                                          videoPlayerController
+                                                          videoPlayerController!
                                                               .pause();
                                                           setState(() {});
                                                         },
@@ -275,7 +270,7 @@ class _AddStoryViewState extends State<AddStoryView> {
                                                         onPressed: () {
                                                           isPlaying =
                                                               !isPlaying!;
-                                                          videoPlayerController
+                                                          videoPlayerController!
                                                               .play();
                                                           setState(() {});
                                                         },

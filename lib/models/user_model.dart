@@ -22,16 +22,15 @@ class UserModel {
       required this.stories});
   factory UserModel.fromJson(json) {
     return UserModel(
-      username: json['username'],
-      email: json['email'],
-      password: json['password'],
-      followers: json['followers'],
-      following: json['following'],
-      profileImageURL: json['profileImageURL'],
-      uid: json['uid'],
-      serachedPeople: json['searched people'],
-      stories: json['stories'],
-    );
+        username: json['username'],
+        email: json['email'],
+        password: json['password'],
+        followers: json['followers'],
+        following: json['following'],
+        profileImageURL: json['profileImageURL'],
+        uid: json['uid'],
+        serachedPeople: json['searched people'],
+        stories: json['stories']);
   }
   Map<String, dynamic> convertToMap(UserModel user) {
     return {
@@ -55,14 +54,12 @@ class Story {
   String type;
   String? caption;
   Timestamp date;
-  List viewers;
 
   Story(
       {required this.content,
       required this.storyID,
       required this.type,
       required this.date,
-      required this.viewers,
       required this.uid,
       required this.caption});
   factory Story.fromJson(json) {
@@ -71,7 +68,6 @@ class Story {
         storyID: json['storyID'],
         type: json['type'],
         date: json['date'],
-        viewers: json['viewers'],
         uid: json['uid'],
         caption: json['caption']);
   }
@@ -82,7 +78,6 @@ class Story {
       'type': story.type,
       'date': story.date,
       'uid': story.uid,
-      'viewers': story.viewers,
       'caption': story.caption,
     };
   }
