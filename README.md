@@ -1,16 +1,28 @@
-# insta_app
+# Project Name
 
-A new Flutter project.
+Insta app
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- **Authentication**
+  - Sign in and sign up functionality.
+  - Streaming authentication (just log in or up one time)
+- **Posts**
+  - Add new posts.
+  - Add comments to posts.
+  - Like posts and count the no.of likes.
+  - Like comments and count the no.of likes.
+- **Chat**
+  - One-to-one chatting feature.
+  - View all your chats.
+- **Search**
+  - Search for users by typing letters.
+  - Save seareched people before and you can clear history
+- **Follow**
+  - Follow and unfollow users.
+  - View the stories of users you follow.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Stories**
+  - Add and view stories.
+  - Upload images or videos in stories.
+  - delete story after 24 hours
