@@ -19,8 +19,6 @@ class _SignInState extends State<SignIn> {
   bool obsecure = true;
   ScrollController controller = ScrollController();
   GlobalKey<FormState> formKey = GlobalKey();
-  AutovalidateMode autoValidateMode1 = AutovalidateMode.disabled;
-  AutovalidateMode autoValidateMode2 = AutovalidateMode.disabled;
   AutovalidateMode autoValidateMode3 = AutovalidateMode.disabled;
   bool flag1 = false, flag2 = false;
   String? email, password;
@@ -90,7 +88,6 @@ class _SignInState extends State<SignIn> {
                     height: hight * 0.022,
                   ),
                   CustomTextFormField(
-                    autovalidateMode: autoValidateMode2,
                     onTap: () async {
                       await kAnimateTo(controller);
                     },
@@ -104,11 +101,11 @@ class _SignInState extends State<SignIn> {
                     textEditingController: textEditing2,
                     onChange: (data) {
                       if (data != '') {
-                        autoValidateMode2 = AutovalidateMode.always;
+                        autoValidateMode3 = AutovalidateMode.always;
                         flag2 = true;
                         password = data;
                       } else if (flag2) {
-                        autoValidateMode2 = AutovalidateMode.disabled;
+                        autoValidateMode3 = AutovalidateMode.disabled;
                         setState(() {});
                       }
                     },
@@ -174,13 +171,10 @@ class _SignInState extends State<SignIn> {
                               );
                             }
 
-                            autoValidateMode2 = AutovalidateMode.disabled;
                             autoValidateMode3 = AutovalidateMode.disabled;
                           }
                           flag1 = false;
                           flag2 = false;
-
-                          autoValidateMode2 = AutovalidateMode.always;
                           autoValidateMode3 = AutovalidateMode.always;
                         }),
                   ),

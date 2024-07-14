@@ -83,64 +83,26 @@ class _ProfileViewState extends State<ProfileView> {
                               children: [
                                 (widget.userModel!.uid !=
                                         FirebaseAuth.instance.currentUser!.uid)
-                                    ? InkWell(
-                                        borderRadius: BorderRadius.circular(40),
-                                        onTap: () {
-                                          Get.to(
-                                            CustomStoryView(
-                                              userModel: userProfile,
-                                            ),
-                                            transition: Transition.downToUp,
-                                          );
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            border: Border.all(
-                                              color: (widget.userModel!.stories!
-                                                      .isEmpty)
-                                                  ? Colors.grey
-                                                  : kPink,
-                                              width: 4,
-                                            ),
-                                          ),
-                                          child: CircleAvatar(
-                                            backgroundImage: (widget.userModel!
-                                                        .profileImageURL !=
-                                                    null)
-                                                ? CachedNetworkImageProvider(
-                                                    widget.userModel!
-                                                        .profileImageURL!)
-                                                : const AssetImage(kNullImage),
-                                            radius: 40,
-                                          ),
-                                        ),
-                                      )
-                                    : Container(
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                            color: (widget.userModel!.stories!
-                                                    .isEmpty)
-                                                ? kWhite
-                                                : kPink,
-                                            width: 4,
-                                          ),
-                                        ),
-                                        child: Stack(
-                                          children: [
-                                            InkWell(
-                                              borderRadius:
-                                                  BorderRadius.circular(40),
-                                              onTap: () {
-                                                Get.to(
-                                                  CustomStoryView(
-                                                    userModel: userProfile,
-                                                  ),
-                                                  transition:
-                                                      Transition.downToUp,
-                                                );
-                                              },
+                                    ? (userProfile.stories!.isNotEmpty)
+                                        ? InkWell(
+                                            borderRadius:
+                                                BorderRadius.circular(40),
+                                            onTap: () {
+                                              Get.to(
+                                                CustomStoryView(
+                                                  userModel: userProfile,
+                                                ),
+                                                transition: Transition.downToUp,
+                                              );
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                border: Border.all(
+                                                  color: kPink,
+                                                  width: 4,
+                                                ),
+                                              ),
                                               child: CircleAvatar(
                                                 backgroundImage: (widget
                                                             .userModel!
@@ -154,6 +116,70 @@ class _ProfileViewState extends State<ProfileView> {
                                                 radius: 40,
                                               ),
                                             ),
+                                          )
+                                        : CircleAvatar(
+                                            backgroundImage: (widget.userModel!
+                                                        .profileImageURL !=
+                                                    null)
+                                                ? CachedNetworkImageProvider(
+                                                    widget.userModel!
+                                                        .profileImageURL!)
+                                                : const AssetImage(kNullImage),
+                                            radius: 40,
+                                          )
+                                    : Container(
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: (widget.userModel!.stories!
+                                                    .isEmpty)
+                                                ? kWhite
+                                                : kPink,
+                                            width: 4,
+                                          ),
+                                        ),
+                                        child: Stack(
+                                          children: [
+                                            (userProfile.stories!.isNotEmpty)
+                                                ? InkWell(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            40),
+                                                    onTap: () {
+                                                      Get.to(
+                                                        CustomStoryView(
+                                                          userModel:
+                                                              userProfile,
+                                                        ),
+                                                        transition:
+                                                            Transition.downToUp,
+                                                      );
+                                                    },
+                                                    child: CircleAvatar(
+                                                      backgroundImage: (widget
+                                                                  .userModel!
+                                                                  .profileImageURL !=
+                                                              null)
+                                                          ? CachedNetworkImageProvider(
+                                                              widget.userModel!
+                                                                  .profileImageURL!)
+                                                          : const AssetImage(
+                                                              kNullImage),
+                                                      radius: 40,
+                                                    ),
+                                                  )
+                                                : CircleAvatar(
+                                                    backgroundImage: (widget
+                                                                .userModel!
+                                                                .profileImageURL !=
+                                                            null)
+                                                        ? CachedNetworkImageProvider(
+                                                            widget.userModel!
+                                                                .profileImageURL!)
+                                                        : const AssetImage(
+                                                            kNullImage),
+                                                    radius: 40,
+                                                  ),
                                             Positioned(
                                                 top: 62,
                                                 left: 32,

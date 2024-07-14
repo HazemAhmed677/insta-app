@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/models/user_model.dart';
+import 'package:insta_app/services/delete_story_after_24_h.dart';
 import 'package:insta_app/views/add_story_view.dart';
 import 'package:insta_app/views/custom_story_view.dart';
 
@@ -80,6 +81,10 @@ class StoriesBar extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   itemCount: snapshot.data?.size ?? 0,
                   itemBuilder: (context, index) {
+                    Map user = snapshot.data!.docs[index].data();
+                    List stories = user['stories'];
+                    DeleteStoryAfter24H().deleteStoryAfter24hours(stories,
+                        UserModel.fromJson(snapshot.data!.docs[index].data()));
                     return Padding(
                       padding: (index != snapshot.data!.size)
                           ? const EdgeInsets.only(
