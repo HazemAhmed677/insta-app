@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:insta_app/constants.dart';
 import 'package:intl/intl.dart';
 
 class ChatBubbleFromMe extends StatelessWidget {
@@ -19,13 +18,12 @@ class ChatBubbleFromMe extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         padding: const EdgeInsets.only(top: 14, bottom: 6, left: 14, right: 20),
         decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(30),
-            topRight: Radius.circular(30),
-            bottomLeft: Radius.circular(30),
-          ),
-          color: Color.fromARGB(255, 52, 96, 137),
-        ),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+              bottomLeft: Radius.circular(30),
+            ),
+            color: Color(0xff2E236C)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -67,13 +65,13 @@ class ChatBubbleFromFriend extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         padding: const EdgeInsets.only(top: 14, bottom: 6, left: 14, right: 14),
-        decoration: BoxDecoration(
-            borderRadius: const BorderRadius.only(
+        decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(
               topLeft: Radius.circular(30),
               topRight: Radius.circular(30),
               bottomRight: Radius.circular(30),
             ),
-            color: kPink.shade800),
+            color: Color(0xff49243E)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

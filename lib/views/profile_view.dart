@@ -99,7 +99,7 @@ class _ProfileViewState extends State<ProfileView> {
                                             border: Border.all(
                                               color: (widget.userModel!.stories!
                                                       .isEmpty)
-                                                  ? kWhite
+                                                  ? Colors.grey
                                                   : kPink,
                                               width: 4,
                                             ),
@@ -129,17 +129,30 @@ class _ProfileViewState extends State<ProfileView> {
                                         ),
                                         child: Stack(
                                           children: [
-                                            CircleAvatar(
-                                              backgroundImage: (widget
-                                                          .userModel!
-                                                          .profileImageURL !=
-                                                      null)
-                                                  ? CachedNetworkImageProvider(
-                                                      widget.userModel!
-                                                          .profileImageURL!)
-                                                  : const AssetImage(
-                                                      kNullImage),
-                                              radius: 40,
+                                            InkWell(
+                                              borderRadius:
+                                                  BorderRadius.circular(40),
+                                              onTap: () {
+                                                Get.to(
+                                                  CustomStoryView(
+                                                    userModel: userProfile,
+                                                  ),
+                                                  transition:
+                                                      Transition.downToUp,
+                                                );
+                                              },
+                                              child: CircleAvatar(
+                                                backgroundImage: (widget
+                                                            .userModel!
+                                                            .profileImageURL !=
+                                                        null)
+                                                    ? CachedNetworkImageProvider(
+                                                        widget.userModel!
+                                                            .profileImageURL!)
+                                                    : const AssetImage(
+                                                        kNullImage),
+                                                radius: 40,
+                                              ),
                                             ),
                                             Positioned(
                                                 top: 62,

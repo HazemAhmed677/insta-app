@@ -44,6 +44,7 @@ class _CustomPostWidgetState extends State<CustomPostWidget> {
           );
         } else if (snapshot.hasData) {
           UserModel userModel = UserModel.fromJson(snapshot.data);
+
           return PostTile(
             userModel: userModel,
             imageURL: imageURL,
