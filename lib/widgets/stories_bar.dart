@@ -100,7 +100,7 @@ class StoriesBar extends StatelessWidget {
                                         CustomStoryView(
                                           userModel: userModel,
                                         ),
-                                        transition: Transition.zoom);
+                                        transition: Transition.downToUp);
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(

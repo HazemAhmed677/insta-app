@@ -35,6 +35,7 @@ class _AddStoryViewState extends State<AddStoryView> {
   VideoPlayerController? videoPlayerController;
   bool? isPlaying;
   String? caption;
+  TextEditingController textEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     Future<void> selectImage() async {
@@ -105,6 +106,7 @@ class _AddStoryViewState extends State<AddStoryView> {
             'stories': FieldValue.arrayUnion([storyMap]),
           },
         );
+        videoPlayerController!.pause();
       } else if (videoFile != null && imageFile == null) {
         String generatedID = const Uuid().v4();
         var reff = FirebaseStorage.instance.ref(kStories).child(generatedID);
@@ -129,6 +131,7 @@ class _AddStoryViewState extends State<AddStoryView> {
             'stories': FieldValue.arrayUnion([storyMap]),
           },
         );
+        caption = null;
       }
     }
 
@@ -188,7 +191,7 @@ class _AddStoryViewState extends State<AddStoryView> {
                                   ),
                                 ),
                                 onPressed: () async {
-                                  if (imageFile != null) {
+                                  if (imageFile != null || videoFile != null) {
                                     try {
                                       isAbsorb = true;
                                       isLoading = true;
@@ -198,7 +201,7 @@ class _AddStoryViewState extends State<AddStoryView> {
                                     } catch (e) {
                                       print(e.toString());
                                     }
-                                    caption = null;
+                                    textEditingController.clear();
                                     imageFile = null;
                                     videoFile = null;
                                     isAbsorb = false;
@@ -234,14 +237,14 @@ class _AddStoryViewState extends State<AddStoryView> {
                                                   BorderRadius.circular(14),
                                               child: Image.file(
                                                 imageFile!,
-                                                height: hight * 0.68,
+                                                height: hight * 0.67,
                                               ),
                                             ),
                                           )
                                         : Stack(
                                             children: [
                                               SizedBox(
-                                                height: hight * 0.68,
+                                                height: hight * 0.67,
                                                 child: VideoPlayer(
                                                   videoPlayerController!,
                                                 ),
@@ -292,16 +295,18 @@ class _AddStoryViewState extends State<AddStoryView> {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 ButtonOfAddStoryHelper(
-                                  onTap: () {
-                                    selectImage();
+                                  onTap: () async {
+                                    await selectImage();
+                                    setState(() {});
                                   },
                                   text: 'upload image',
                                   icon: const Icon(FontAwesomeIcons.image,
                                       color: Colors.lightGreenAccent),
                                 ),
                                 ButtonOfAddStoryHelper(
-                                  onTap: () {
-                                    selectVideo();
+                                  onTap: () async {
+                                    await selectVideo();
+                                    setState(() {});
                                   },
                                   text: 'upload video',
                                   icon: const Icon(
@@ -316,6 +321,7 @@ class _AddStoryViewState extends State<AddStoryView> {
                             height: hight * 0.02,
                           ),
                           TextField(
+                            controller: textEditingController,
                             onChanged: (value) {
                               caption = value;
                             },

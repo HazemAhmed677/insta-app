@@ -1,10 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:insta_app/constants.dart';
 import 'package:insta_app/models/user_model.dart';
 import 'package:story_view/controller/story_controller.dart';
+import 'package:story_view/utils.dart';
 import 'package:story_view/widgets/story_view.dart';
-import 'package:video_player/video_player.dart';
 
 class CustomStoryView extends StatefulWidget {
   const CustomStoryView({super.key, required this.userModel});
@@ -19,42 +17,51 @@ class _CustomStoryViewState extends State<CustomStoryView> {
   Widget build(BuildContext context) {
     List stories = widget.userModel.stories!;
     return SafeArea(
-      child: StoryView(
-        onComplete: () {
-          Navigator.pop(context);
-        },
-        controller: storyController,
-        storyItems: stories
-            .map((ele) => (ele['type'] == 'image')
-                ? StoryItem(
-                    Scaffold(
-                      backgroundColor: kBlack,
-                      body: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          CachedNetworkImage(
-                            imageUrl: ele['content'],
-                            placeholder: (context, url) {
-                              return const Center(
-                                child: CircularProgressIndicator(
-                                  color: kPink,
+      child: Scaffold(
+        body: StoryView(
+          onComplete: () {
+            Navigator.pop(context);
+          },
+          onVerticalSwipeComplete: (direction) {
+            if (direction == Direction.down) {
+              Navigator.pop(context);
+            }
+          },
+          controller: storyController,
+          storyItems: stories
+              .map(
+                (ele) => (ele['type'] == 'image')
+                    ? StoryItem.pageImage(
+                        url: ele['content'],
+                        controller: storyController,
+                        captionOuterPadding: EdgeInsets.symmetric(
+                            horizontal:
+                                MediaQuery.of(context).size.width * 0.44),
+                        caption: (ele['caption'] != null)
+                            ? Text(
+                                ele['caption'],
+                                style: const TextStyle(
+                                  fontSize: 22,
                                 ),
-                              );
-                            },
-                          ),
-                          (ele['caption'] != null)
-                              ? Align(
-                                  alignment: Alignment.bottomCenter,
-                                  child: Text(ele['caption']))
-                              : const Text(''),
-                        ],
+                              )
+                            : const Text(''))
+                    : StoryItem.pageVideo(
+                        ele['content'],
+                        duration: const Duration(seconds: 30),
+                        controller: storyController,
+                        caption: (ele['caption'] != null)
+                            ? Text(
+                                ele['caption'],
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 22,
+                                ),
+                              )
+                            : const Text(''),
                       ),
-                    ),
-                    duration: const Duration(seconds: 5))
-                : StoryItem(
-                    VideoPlayerController.networkUrl(ele['content']) as Widget,
-                    duration: const Duration(seconds: 5)))
-            .toList(),
+              )
+              .toList(),
+        ),
       ),
     );
   }
