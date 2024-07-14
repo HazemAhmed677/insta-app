@@ -12,6 +12,7 @@ const kChats = 'chats';
 const kMesseges = 'messeges';
 const kImages = 'images';
 const kStories = 'Stories';
+const kLoadingPhoto = 'assets/images/th.jpg';
 const kComments = 'comments';
 const kPostsImages = 'posts_images';
 Future<void> kAnimateTo(ScrollController controller) async {

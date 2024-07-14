@@ -266,7 +266,7 @@ class _SearchViewState extends State<SearchView> {
                                               });
                                         } catch (e) {
                                           print(e.toString());
-                                          return SizedBox();
+                                          return const SizedBox();
                                         }
                                       },
                                     ),

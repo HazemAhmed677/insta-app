@@ -9,6 +9,7 @@ import 'package:insta_app/helper/profile_grid_view.dart';
 import 'package:insta_app/helper/profile_helper.dart';
 import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/views/add_story_view.dart';
+import 'package:insta_app/views/custom_story_view.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({
@@ -82,18 +83,28 @@ class _ProfileViewState extends State<ProfileView> {
                               children: [
                                 (widget.userModel!.uid !=
                                         FirebaseAuth.instance.currentUser!.uid)
-                                    ? CircleAvatar(
-                                        backgroundImage: (widget.userModel!
-                                                    .profileImageURL !=
-                                                null)
-                                            ? CachedNetworkImageProvider(widget
-                                                .userModel!.profileImageURL!)
-                                            : const AssetImage(kNullImage),
-                                        radius: 40,
-                                      )
-                                    : Stack(
-                                        children: [
-                                          CircleAvatar(
+                                    ? InkWell(
+                                        borderRadius: BorderRadius.circular(40),
+                                        onTap: () {
+                                          Get.to(
+                                            CustomStoryView(
+                                              userModel: userProfile,
+                                            ),
+                                            transition: Transition.downToUp,
+                                          );
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                              color: (widget.userModel!.stories!
+                                                      .isEmpty)
+                                                  ? kWhite
+                                                  : kPink,
+                                              width: 4,
+                                            ),
+                                          ),
+                                          child: CircleAvatar(
                                             backgroundImage: (widget.userModel!
                                                         .profileImageURL !=
                                                     null)
@@ -103,31 +114,60 @@ class _ProfileViewState extends State<ProfileView> {
                                                 : const AssetImage(kNullImage),
                                             radius: 40,
                                           ),
-                                          Positioned(
-                                              top: 62,
-                                              left: 32,
-                                              child: InkWell(
-                                                borderRadius:
-                                                    BorderRadius.circular(40),
-                                                onTap: () {
-                                                  Get.to(
-                                                    AddStoryView(
-                                                        userModel:
-                                                            widget.userModel!),
-                                                    transition: Transition.zoom,
-                                                  );
-                                                },
-                                                child: const CircleAvatar(
-                                                  radius: 9,
-                                                  backgroundColor: kWhite,
-                                                  child: Icon(
-                                                    FontAwesomeIcons.plus,
-                                                    color: kPink,
-                                                    size: 6,
+                                        ),
+                                      )
+                                    : Container(
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: (widget.userModel!.stories!
+                                                    .isEmpty)
+                                                ? kWhite
+                                                : kPink,
+                                            width: 4,
+                                          ),
+                                        ),
+                                        child: Stack(
+                                          children: [
+                                            CircleAvatar(
+                                              backgroundImage: (widget
+                                                          .userModel!
+                                                          .profileImageURL !=
+                                                      null)
+                                                  ? CachedNetworkImageProvider(
+                                                      widget.userModel!
+                                                          .profileImageURL!)
+                                                  : const AssetImage(
+                                                      kNullImage),
+                                              radius: 40,
+                                            ),
+                                            Positioned(
+                                                top: 62,
+                                                left: 32,
+                                                child: InkWell(
+                                                  borderRadius:
+                                                      BorderRadius.circular(40),
+                                                  onTap: () {
+                                                    Get.to(
+                                                      AddStoryView(
+                                                          userModel: widget
+                                                              .userModel!),
+                                                      transition:
+                                                          Transition.zoom,
+                                                    );
+                                                  },
+                                                  child: const CircleAvatar(
+                                                    radius: 9,
+                                                    backgroundColor: kWhite,
+                                                    child: Icon(
+                                                      FontAwesomeIcons.plus,
+                                                      color: kPink,
+                                                      size: 6,
+                                                    ),
                                                   ),
-                                                ),
-                                              ))
-                                        ],
+                                                ))
+                                          ],
+                                        ),
                                       ),
                                 SizedBox(
                                   height: 0.01 * hight,
