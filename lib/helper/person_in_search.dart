@@ -42,9 +42,9 @@ class PersonInSearch extends StatelessWidget {
               transition: Transition.rightToLeft,
             );
           },
-          icon: const Icon(
+          icon: Icon(
             FontAwesomeIcons.solidMessage,
-            color: Colors.blueAccent,
+            color: kPink.shade400,
             size: 20,
           ),
         )

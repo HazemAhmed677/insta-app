@@ -2,13 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
 
 class CustomSearchTextField extends StatelessWidget {
-  const CustomSearchTextField(
-      {super.key, required this.onSubmitted, required this.onChanged});
+  const CustomSearchTextField({
+    super.key,
+    required this.onSubmitted,
+    required this.onChanged,
+  });
   final Function(String)? onSubmitted;
   final Function(String)? onChanged;
+
   @override
   Widget build(BuildContext context) {
     return TextField(
+      autofocus: true,
       onChanged: onChanged,
       onSubmitted: onSubmitted, // }
       cursorColor: kPink,
