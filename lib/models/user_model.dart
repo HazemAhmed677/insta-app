@@ -47,7 +47,7 @@ class UserModel {
   }
 }
 
-class Story {
+class StoryModel {
   String uid;
   String storyID;
   String content;
@@ -55,15 +55,15 @@ class Story {
   String? caption;
   Timestamp date;
 
-  Story(
+  StoryModel(
       {required this.content,
       required this.storyID,
       required this.type,
       required this.date,
       required this.uid,
       required this.caption});
-  factory Story.fromJson(json) {
-    return Story(
+  factory StoryModel.fromJson(json) {
+    return StoryModel(
         content: json['content'],
         storyID: json['storyID'],
         type: json['type'],
@@ -71,7 +71,7 @@ class Story {
         uid: json['uid'],
         caption: json['caption']);
   }
-  Map<String, dynamic> convertToMap(Story story) {
+  Map<String, dynamic> convertToMap(StoryModel story) {
     return {
       'content': story.content,
       'storyID': story.storyID,

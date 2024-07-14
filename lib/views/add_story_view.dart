@@ -88,7 +88,7 @@ class _AddStoryViewState extends State<AddStoryView> {
         var reff = FirebaseStorage.instance.ref(kStories).child(generatedID);
         await reff.putFile(imageFile!);
         imageURL = await reff.getDownloadURL(); // you got url of image
-        Story story = Story(
+        StoryModel story = StoryModel(
           caption: caption,
           content: imageURL!,
           storyID: generatedID,
@@ -113,7 +113,7 @@ class _AddStoryViewState extends State<AddStoryView> {
         await reff.putFile(videoFile!);
         videoURL = await reff.getDownloadURL(); // you got video url
 
-        Story story = Story(
+        StoryModel story = StoryModel(
           caption: caption,
           content: videoURL!,
           storyID: generatedID,
@@ -202,6 +202,7 @@ class _AddStoryViewState extends State<AddStoryView> {
                                       print(e.toString());
                                     }
                                     textEditingController.clear();
+
                                     imageFile = null;
                                     videoFile = null;
                                     isAbsorb = false;

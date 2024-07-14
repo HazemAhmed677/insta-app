@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:insta_app/constants.dart';
 import 'package:insta_app/models/user_model.dart';
 import 'package:story_view/controller/story_controller.dart';
 import 'package:story_view/utils.dart';
@@ -13,6 +16,27 @@ class CustomStoryView extends StatefulWidget {
 
 class _CustomStoryViewState extends State<CustomStoryView> {
   StoryController storyController = StoryController();
+
+  deleteStoryAfter24hours(Map story) async {
+    Duration difference = DateTime.now().difference(story['date'].toDate);
+    if (difference.inMinutes > 1) {
+      await FirebaseFirestore.instance
+          .collection(kUsers)
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .update({
+        'stories': FieldValue.arrayRemove([story])
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    for (var ele in widget.userModel.stories!) {
+      deleteStoryAfter24hours(ele);
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     List stories = widget.userModel.stories!;
@@ -34,12 +58,10 @@ class _CustomStoryViewState extends State<CustomStoryView> {
                     ? StoryItem.pageImage(
                         url: ele['content'],
                         controller: storyController,
-                        captionOuterPadding: EdgeInsets.symmetric(
-                            horizontal:
-                                MediaQuery.of(context).size.width * 0.44),
                         caption: (ele['caption'] != null)
                             ? Text(
                                 ele['caption'],
+                                textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   fontSize: 22,
                                 ),
