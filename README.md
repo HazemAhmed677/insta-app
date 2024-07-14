@@ -6,7 +6,7 @@ Insta app
 
 - **Authentication**
   - Sign in and sign up functionality.
-  - Streaming authentication (just log in ot up one time)
+  - Streaming authentication (just log in or up one time)
 - **Posts**
   - Add new posts.
   - Add comments to posts.
