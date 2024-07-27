@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/helper/chat_bubble.dart';
+import 'package:insta_app/helper/show_snack_bar_function.dart';
 import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/services/chats/chat_one_to_one_service.dart';
 
@@ -196,7 +197,9 @@ class _ChatViewState extends State<ChatView> {
                                 duration: const Duration(milliseconds: 500),
                                 curve: Curves.easeInOut);
                           } catch (e) {
-                            print(e.toString());
+                            getShowSnackBar(
+                                context, 'Oops, there something wrong');
+                            // print(e.toString());
                           }
 
                           setState(() {});

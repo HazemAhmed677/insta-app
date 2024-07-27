@@ -9,6 +9,7 @@ import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/services/delete_story_after_24_h.dart';
 import 'package:insta_app/views/add_story_view.dart';
 import 'package:insta_app/views/custom_story_view.dart';
+import 'package:insta_app/widgets/story_screen_item.dart';
 
 class StoriesBar extends StatelessWidget {
   const StoriesBar({super.key, required this.currentUser});
@@ -63,8 +64,10 @@ class StoriesBar extends StatelessWidget {
               ),
               Text(
                 currentUser.username,
-                style: const TextStyle(fontSize: 16),
-              )
+                style: const TextStyle(
+                  fontSize: 16,
+                ),
+              ),
             ],
           ),
         ),
@@ -73,7 +76,10 @@ class StoriesBar extends StatelessWidget {
                 .collection(kUsers)
                 .where('followers',
                     arrayContains: FirebaseAuth.instance.currentUser!.uid)
-                .where('stories', isNotEqualTo: []).snapshots(),
+                .where(
+              'stories',
+              isNotEqualTo: [],
+            ).snapshots(),
             builder: (context, snapshot) {
               return Expanded(
                 child: ListView.builder(
@@ -83,58 +89,11 @@ class StoriesBar extends StatelessWidget {
                   itemBuilder: (context, index) {
                     Map user = snapshot.data!.docs[index].data();
                     List stories = user['stories'];
-                    DeleteStoryAfter24H().deleteStoryAfter24hours(stories,
-                        UserModel.fromJson(snapshot.data!.docs[index].data()));
-                    return Padding(
-                      padding: (index != snapshot.data!.size)
-                          ? const EdgeInsets.only(
-                              right: 18.0,
-                            )
-                          : EdgeInsets.zero,
-                      child: (snapshot.hasData)
-                          ? Column(
-                              children: [
-                                InkWell(
-                                  borderRadius: BorderRadius.circular(34),
-                                  onTap: () {
-                                    Map<String, dynamic> userMap =
-                                        snapshot.data!.docs[index].data();
-                                    UserModel userModel =
-                                        UserModel.fromJson(userMap);
-                                    Get.to(
-                                        CustomStoryView(
-                                          userModel: userModel,
-                                        ),
-                                        transition: Transition.downToUp);
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                        color: kPink,
-                                        width: 4,
-                                      ),
-                                    ),
-                                    child: CircleAvatar(
-                                      backgroundImage:
-                                          (snapshot.data!.docs[index]
-                                                      ['profileImageURL'] !=
-                                                  null)
-                                              ? CachedNetworkImageProvider(
-                                                  snapshot.data!.docs[index]
-                                                      ['profileImageURL'])
-                                              : const AssetImage(kNullImage),
-                                      radius: 40,
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  snapshot.data!.docs[index]['username'],
-                                  style: const TextStyle(fontSize: 16),
-                                )
-                              ],
-                            )
-                          : const SizedBox(),
+                    currentUser.stories = stories;
+                    return StoryScreenItem(
+                      stories: stories,
+                      snapshot: snapshot,
+                      index: index,
                     );
                   },
                 ),

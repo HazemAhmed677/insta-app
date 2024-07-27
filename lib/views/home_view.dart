@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/helper/modal_progress_hud_helper.dart';
 import 'package:insta_app/helper/show_snack_bar_function.dart';
+import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/views/sign_in_view.dart';
 import 'package:insta_app/widgets/trigger_switch_cubit.dart';
 
@@ -37,7 +38,9 @@ class _HomeViewState extends State<HomeView> {
                   .snapshots(),
               builder: (context, snapshot) {
                 return (snapshot.hasData)
-                    ? const TriggerSwitchCubit()
+                    ? TriggerSwitchCubit(
+                        user: UserModel.fromJson(snapshot.data!.data()),
+                      )
                     : const ModalProgressHudHelper(
                         isLoading: true,
                         child: Scaffold(

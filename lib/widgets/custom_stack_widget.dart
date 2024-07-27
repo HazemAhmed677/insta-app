@@ -25,7 +25,9 @@ class _CustomStackWidgetState extends State<CustomStackWidget> {
         image = await ImagePicker().pickImage(
           source: ImageSource.gallery,
         );
-      } catch (e) {}
+      } catch (e) {
+        //
+      }
       if (image != null) {
         selectedImage = File(image.path);
         setState(() {});
@@ -34,8 +36,6 @@ class _CustomStackWidgetState extends State<CustomStackWidget> {
       }
     }
 
-    double hight = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
     return Align(
       alignment: Alignment.center,
       child: Stack(

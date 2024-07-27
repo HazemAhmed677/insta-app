@@ -1,11 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/cubits/fetch_all_users_cubit/fetch_all_users_cubit.dart';
 import 'package:insta_app/cubits/switch_screen_cubit/switch_screen_cubit_states.dart';
 import 'package:insta_app/cubits/switch_screen_cubit/switch_screens_cubit.dart';
+import 'package:insta_app/helper/delete_story_after24_function.dart';
 import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/views/add_post_view.dart';
 import 'package:insta_app/views/all_chats_view.dart';
@@ -15,71 +14,58 @@ import 'package:insta_app/widgets/bottom_navigation_bar.dart';
 import 'package:insta_app/widgets/custom_home_view.dart';
 
 class TriggerSwitchCubit extends StatefulWidget {
-  const TriggerSwitchCubit({super.key});
+  const TriggerSwitchCubit({super.key, required this.user});
 
+  final UserModel user;
   @override
   State<TriggerSwitchCubit> createState() => _TriggerSwitchCubitState();
 }
 
 class _TriggerSwitchCubitState extends State<TriggerSwitchCubit> {
-  late UserModel user;
+  @override
+  void initState() {
+    super.initState();
+    if (widget.user.stories?.isNotEmpty ?? false) {
+      deleteStories(
+        widget.user.stories!,
+        widget.user,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => FetchSearchedUsersCubit(),
-        ),
-      ],
+    return BlocProvider(
+      create: (context) => FetchSearchedUsersCubit(),
       child: SafeArea(
-        child: StreamBuilder(
-            stream: FirebaseFirestore.instance
-                .collection(kUsers)
-                .doc(
-                  FirebaseAuth.instance.currentUser!.uid,
-                )
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const SizedBox();
-              } else if (snapshot.hasData) {
-                Map<String, dynamic> userMap =
-                    snapshot.data!.data() as Map<String, dynamic>;
-                user = UserModel.fromJson(userMap);
-              } else {
-                throw Exception('Sign UP');
-              }
-
-              return BlocBuilder<SwitchScreensCubit, SwitchScreensStates>(
-                builder: (context, state) {
-                  return Scaffold(
-                    extendBody: true,
-                    backgroundColor: kBlack,
-                    body: AnimatedOpacity(
-                      opacity: 1,
-                      duration: const Duration(seconds: 10),
-                      child: (state is HomeScreenState)
-                          ? CustomHomeView(
-                              currentUser: user,
-                            )
-                          : (state is SearchScreenState)
-                              ? SearchView(
-                                  currentUser: user,
-                                )
-                              : (state is AllChatsScreenState)
-                                  ? const AllChatsView()
-                                  : (state is AddPostScreenState)
-                                      ? const AddPostView()
-                                      : ProfileView(
-                                          userModel: user,
-                                        ),
-                    ),
-                    bottomNavigationBar: const CustomBottomNavigationBar(),
-                  );
-                },
-              );
-            }),
+        child: BlocBuilder<SwitchScreensCubit, SwitchScreensStates>(
+          builder: (context, state) {
+            return Scaffold(
+              extendBody: true,
+              backgroundColor: kBlack,
+              body: AnimatedOpacity(
+                opacity: 1,
+                duration: const Duration(seconds: 10),
+                child: (state is HomeScreenState)
+                    ? CustomHomeView(
+                        currentUser: widget.user,
+                      )
+                    : (state is SearchScreenState)
+                        ? SearchView(
+                            currentUser: widget.user,
+                          )
+                        : (state is AllChatsScreenState)
+                            ? const AllChatsView()
+                            : (state is AddPostScreenState)
+                                ? const AddPostView()
+                                : ProfileView(
+                                    userModel: widget.user,
+                                  ),
+              ),
+              bottomNavigationBar: const CustomBottomNavigationBar(),
+            );
+          },
+        ),
       ),
     );
   }

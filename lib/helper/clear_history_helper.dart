@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:insta_app/constants.dart';
+import 'package:insta_app/helper/show_snack_bar_function.dart';
 import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/services/fetch_and_push_searched_people_service.dart';
 
@@ -49,7 +50,8 @@ class _ClearHistoryHelperState extends State<ClearHistoryHelper> {
                         .removeSearchHistory(currentUser: widget.userModel);
                     setState(() {});
                   } catch (e) {
-                    print(e.toString());
+                    getShowSnackBar(context, 'Oops, there something wrong');
+                    // print(e.toString());
                   }
                 },
                 child: const Text(

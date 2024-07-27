@@ -22,7 +22,10 @@ class ButtonOfAddStoryHelper extends StatelessWidget {
             ]),
         child: Card(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+            padding: const EdgeInsets.symmetric(
+              vertical: 10,
+              horizontal: 14,
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -32,7 +35,9 @@ class ButtonOfAddStoryHelper extends StatelessWidget {
                 ),
                 Text(
                   text,
-                  style: const TextStyle(fontSize: 18),
+                  style: TextStyle(
+                      fontSize:
+                          (MediaQuery.sizeOf(context).width > 400) ? 18 : 14),
                 ),
               ],
             ),

@@ -126,7 +126,9 @@ class _AddPostViewState extends State<AddPostView> {
                                     });
                                   }
                                 } catch (e) {
-                                  print(e.toString());
+                                  getShowSnackBar(
+                                      context, 'Oops, there something wrong');
+                                  // print(e.toString());
                                 }
                               } else {
                                 getShowSnackBar(context, 'upload an image');

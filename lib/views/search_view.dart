@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:insta_app/constants.dart';
 import 'package:insta_app/helper/clear_history_helper.dart';
 import 'package:insta_app/helper/person_in_search.dart';
+import 'package:insta_app/helper/show_snack_bar_function.dart';
 import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/services/fetch_and_push_searched_people_service.dart';
 import 'package:insta_app/views/profile_view.dart';
@@ -253,7 +254,9 @@ class _SearchViewState extends State<SearchView> {
                                                 );
                                         });
                                   } catch (e) {
-                                    print(e.toString());
+                                    getShowSnackBar(
+                                        context, 'Oops, there something wrong');
+                                    // print(e.toString());
                                     return const SizedBox();
                                   }
                                 },

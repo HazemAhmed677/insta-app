@@ -23,7 +23,7 @@ class FetchAndPushSearchedPeopleService {
         currentUser.serachedPeople!.add(searchedOne);
       }
     } catch (e) {
-      print(e.toString());
+      // print(e.toString());
     }
   }
 
