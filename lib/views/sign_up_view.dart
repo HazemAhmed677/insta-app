@@ -36,6 +36,12 @@ class _SignUpState extends State<SignUp> {
   File? selectedImage;
   String? imageURL;
   bool isLoading = false;
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
+  }
+
   var uuid;
   @override
   Widget build(BuildContext context) {
@@ -82,6 +88,7 @@ class _SignUpState extends State<SignUp> {
                           height: hight * 0.028,
                         ),
                         CustomTextFormField(
+                          autovalidateMode: autoValidMode[0],
                           validator: (input) {
                             if (input!.isEmpty) {
                               return 'please enter your name';
@@ -92,11 +99,15 @@ class _SignUpState extends State<SignUp> {
                             }
                           },
                           onChange: (data) {
-                            if (data.length >= 4) {
+                            if (flag1) {
+                              setState(() {
+                                autoValidMode[0] = AutovalidateMode.disabled;
+                              });
+                            } else if (data.length >= 4) {
                               username = data;
+                              autoValidMode[0] = AutovalidateMode.always;
+
                               flag1 = true;
-                              setState(() {});
-                            } else if (flag1) {
                               setState(() {});
                             }
                           },
@@ -108,22 +119,25 @@ class _SignUpState extends State<SignUp> {
                           height: hight * 0.020,
                         ),
                         CustomTextFormField(
+                          autovalidateMode: autoValidMode[1],
                           validator: (input) {
                             if (input!.isEmpty) {
                               return 'please enter your email';
-                            } else if (!input.contains('@')) {
-                              return 'enter a valid email';
                             } else {
                               return null;
                             }
                           },
                           onChange: (data) {
-                            if (data.isNotEmpty && data.contains('@')) {
-                              autoValidMode[1] = AutovalidateMode.disabled;
+                            if (flag2) {
+                              setState(() {
+                                autoValidMode[1] = AutovalidateMode.disabled;
+                              });
+                            } else if (data.isNotEmpty) {
+                              setState(() {
+                                autoValidMode[1] = AutovalidateMode.always;
+                              });
                               flag2 = true;
                               email = data;
-                            } else if (flag2) {
-                              setState(() {});
                             }
                           },
                           onTap: () async {
@@ -136,16 +150,20 @@ class _SignUpState extends State<SignUp> {
                           height: hight * 0.020,
                         ),
                         CustomTextFormField(
+                          autovalidateMode: autoValidMode[2],
                           onTap: () async {
                             await kAnimateTo(controller);
                           },
                           onChange: (data) {
-                            if (data.isNotEmpty && data.length >= 6) {
-                              autoValidMode[2] = AutovalidateMode.disabled;
+                            if (flag3) {
+                              setState(() {
+                                autoValidMode[2] = AutovalidateMode.disabled;
+                              });
+                            } else if (data.isNotEmpty) {
+                              setState(() {
+                                autoValidMode[2] = AutovalidateMode.always;
+                              });
                               flag3 = true;
-                              password = data;
-                            } else if (flag3) {
-                              setState(() {});
                             }
                           },
                           validator: (input) {
@@ -232,19 +250,14 @@ class _SignUpState extends State<SignUp> {
                                           context, 'email not valid');
                                     }
                                   } catch (e) {
-                                    print(e);
+                                    // print(e);
                                   }
 
                                   for (int i = 0; i < 3; i++) {
                                     autoValidMode[i] =
                                         AutovalidateMode.disabled;
                                   }
-                                }
-                                for (int i = 0; i < 3; i++) {
-                                  autoValidMode[i] = AutovalidateMode.always;
-                                  setState(() {
-                                    isLoading = false;
-                                  });
+                                  setState(() {});
                                 }
                               },
                               text: 'Sign up'),

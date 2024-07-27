@@ -37,6 +37,12 @@ class _AddStoryViewState extends State<AddStoryView> {
   String? caption;
   TextEditingController textEditingController = TextEditingController();
   @override
+  void dispose() {
+    super.dispose();
+    textEditingController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Future<void> selectImage() async {
       XFile? image;
@@ -199,7 +205,7 @@ class _AddStoryViewState extends State<AddStoryView> {
 
                                       await uploadStoryItemToFirebase();
                                     } catch (e) {
-                                      print(e.toString());
+                                      // print(e.toString());
                                     }
                                     textEditingController.clear();
 

@@ -31,20 +31,21 @@ class _HomeViewState extends State<HomeView> {
           }
           if (snapshot.hasData) {
             return StreamBuilder(
-                stream: FirebaseFirestore.instance
-                    .collection(kUsers)
-                    .doc(FirebaseAuth.instance.currentUser!.uid)
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  return (snapshot.hasData)
-                      ? const TriggerSwitchCubit()
-                      : const ModalProgressHudHelper(
-                          isLoading: true,
-                          child: Scaffold(
-                            backgroundColor: kBlack,
-                          ),
-                        );
-                });
+              stream: FirebaseFirestore.instance
+                  .collection(kUsers)
+                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                return (snapshot.hasData)
+                    ? const TriggerSwitchCubit()
+                    : const ModalProgressHudHelper(
+                        isLoading: true,
+                        child: Scaffold(
+                          backgroundColor: kBlack,
+                        ),
+                      );
+              },
+            );
           }
           return const SizedBox();
         });

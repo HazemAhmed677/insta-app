@@ -1,7 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:insta_app/constants.dart';
 import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/services/delete_story_after_24_h.dart';
 import 'package:story_view/controller/story_controller.dart';
@@ -17,6 +14,11 @@ class CustomStoryView extends StatefulWidget {
 
 class _CustomStoryViewState extends State<CustomStoryView> {
   StoryController storyController = StoryController();
+  @override
+  void dispose() {
+    super.dispose();
+    storyController.dispose();
+  }
 
   @override
   void initState() {

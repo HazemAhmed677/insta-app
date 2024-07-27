@@ -25,11 +25,7 @@ class _CustomStackWidgetState extends State<CustomStackWidget> {
         image = await ImagePicker().pickImage(
           source: ImageSource.gallery,
         );
-      } catch (e) {
-        image = await ImagePicker().pickImage(
-          source: ImageSource.gallery,
-        );
-      }
+      } catch (e) {}
       if (image != null) {
         selectedImage = File(image.path);
         setState(() {});

@@ -22,6 +22,13 @@ class _ChatViewState extends State<ChatView> {
   String messege = '';
   ScrollController controller = ScrollController();
   @override
+  void dispose() {
+    super.dispose();
+    textEditingController.dispose();
+    controller.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     String roomId = kChatRoomID(
       currentUserID: widget.currentUserID,

@@ -19,12 +19,19 @@ class _SignInState extends State<SignIn> {
   bool obsecure = true;
   ScrollController controller = ScrollController();
   GlobalKey<FormState> formKey = GlobalKey();
-  AutovalidateMode autoValidateMode3 = AutovalidateMode.disabled;
+  AutovalidateMode autoValidateMode1 = AutovalidateMode.disabled;
+  AutovalidateMode autoValidateMode2 = AutovalidateMode.disabled;
   bool flag1 = false, flag2 = false;
   String? email, password;
   bool isLoading = false;
   TextEditingController textEditing1 = TextEditingController(),
       textEditing2 = TextEditingController();
+  @override
+  void dispose() {
+    super.dispose();
+    textEditing1.dispose();
+    textEditing2.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +46,6 @@ class _SignInState extends State<SignIn> {
               horizontal: 20,
             ),
             child: Form(
-              autovalidateMode: autoValidateMode3,
               key: formKey,
               child: ListView(
                 physics: const BouncingScrollPhysics(
@@ -62,7 +68,7 @@ class _SignInState extends State<SignIn> {
                     height: hight * 0.017,
                   ),
                   CustomTextFormField(
-                    autovalidateMode: autoValidateMode3,
+                    autovalidateMode: autoValidateMode1,
                     validator: (input) {
                       if (input == '') {
                         return 'please enter your email';
@@ -73,11 +79,13 @@ class _SignInState extends State<SignIn> {
                     textEditingController: textEditing1,
                     onChange: (data) {
                       if (data != '') {
-                        autoValidateMode3 = AutovalidateMode.always;
+                        setState(() {
+                          autoValidateMode1 = AutovalidateMode.always;
+                        });
                         flag1 = true;
                         email = data;
                       } else if (flag1) {
-                        autoValidateMode3 = AutovalidateMode.disabled;
+                        autoValidateMode1 = AutovalidateMode.disabled;
                         setState(() {});
                       }
                     },
@@ -88,6 +96,7 @@ class _SignInState extends State<SignIn> {
                     height: hight * 0.022,
                   ),
                   CustomTextFormField(
+                    autovalidateMode: autoValidateMode2,
                     onTap: () async {
                       await kAnimateTo(controller);
                     },
@@ -101,11 +110,13 @@ class _SignInState extends State<SignIn> {
                     textEditingController: textEditing2,
                     onChange: (data) {
                       if (data != '') {
-                        autoValidateMode3 = AutovalidateMode.always;
+                        setState(() {
+                          autoValidateMode2 = AutovalidateMode.always;
+                        });
                         flag2 = true;
                         password = data;
                       } else if (flag2) {
-                        autoValidateMode3 = AutovalidateMode.disabled;
+                        autoValidateMode2 = AutovalidateMode.disabled;
                         setState(() {});
                       }
                     },
@@ -131,52 +142,50 @@ class _SignInState extends State<SignIn> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: CustomInkWell(
-                        text: 'Log in',
-                        color: Colors.blue.withOpacity(0.88),
-                        onTap: () async {
-                          if (formKey.currentState!.validate()) {
-                            formKey.currentState!.save();
+                      text: 'Log in',
+                      color: Colors.blue.withOpacity(0.88),
+                      onTap: () async {
+                        if (formKey.currentState!.validate()) {
+                          formKey.currentState!.save();
 
-                            // firebase auth code
-                            try {
+                          // firebase auth code
+                          try {
+                            setState(() {
+                              isLoading = true;
+                              autoValidateMode1 = AutovalidateMode.disabled;
+                              autoValidateMode2 = AutovalidateMode.disabled;
+                            });
+                            await signIn();
+                            setState(() {
+                              isLoading = false;
+                            });
+                            formKey.currentState!.reset();
+                          } on FirebaseAuthException catch (e) {
+                            if (e.code == 'user-not-found') {
+                              isLoading = false;
+                              setState(() {});
+                              getShowSnackBar(context, 'No account found');
+                            } else if (e.code == 'wrong-password') {
+                              isLoading = false;
+                              setState(() {});
+                              getShowSnackBar(context, 'Wrong password');
+                            } else {
                               setState(() {
-                                isLoading = true;
-                              });
-                              await signIn();
-                              setState(() {
                                 isLoading = false;
                               });
-                              formKey.currentState!.reset();
-                            } on FirebaseAuthException catch (e) {
-                              if (e.code == 'user-not-found') {
-                                isLoading = false;
-                                setState(() {});
-                                getShowSnackBar(context, 'No account found');
-                              } else if (e.code == 'wrong-password') {
-                                isLoading = false;
-                                setState(() {});
-                                getShowSnackBar(context, 'Wrong password');
-                              } else {
-                                setState(() {
-                                  isLoading = false;
-                                });
-                                getShowSnackBar(context, e.toString());
-                              }
-                            } catch (e) {
-                              // isLoading = false;
-                              // setState(() {});
-                              getShowSnackBar(
-                                context,
-                                e.toString(),
-                              );
+                              getShowSnackBar(context, e.toString());
                             }
-
-                            autoValidateMode3 = AutovalidateMode.disabled;
+                          } catch (e) {
+                            // isLoading = false;
+                            // setState(() {});
+                            getShowSnackBar(
+                              context,
+                              e.toString(),
+                            );
                           }
-                          flag1 = false;
-                          flag2 = false;
-                          autoValidateMode3 = AutovalidateMode.always;
-                        }),
+                        }
+                      },
+                    ),
                   ),
                   const SignUpWord(),
                 ],

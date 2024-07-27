@@ -8,7 +8,7 @@ class DeleteStoryAfter24H {
     if (stories.isNotEmpty) {
       for (var ele in stories) {
         Duration difference = DateTime.now().difference(ele['date'].toDate());
-        if (difference.inHours > 24) {
+        if (difference.inMinutes > 2) {
           await FirebaseFirestore.instance
               .collection(kUsers)
               .doc(FirebaseAuth.instance.currentUser!.uid)

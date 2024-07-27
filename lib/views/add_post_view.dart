@@ -48,6 +48,13 @@ class _AddPostViewState extends State<AddPostView> {
   TextEditingController textEditingController = TextEditingController();
   bool isLoading = false;
   bool isAbsorb = false;
+
+  @override
+  void dispose() {
+    super.dispose();
+    textEditingController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     double hight = MediaQuery.of(context).size.height;
