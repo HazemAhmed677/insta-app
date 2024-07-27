@@ -166,22 +166,14 @@ class _AddPostViewState extends State<AddPostView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          ButtonOfAddStoryHelper(
-                            onTap: () {
-                              selectImage();
-                            },
-                            text: 'upload image',
-                            icon: const Icon(FontAwesomeIcons.image,
-                                color: Colors.greenAccent),
-                          ),
-                          ButtonOfAddStoryHelper(
-                            onTap: () {
-                              //  selectVideo();
-                            },
-                            text: 'upload video',
-                            icon: const Icon(
-                              FontAwesomeIcons.video,
-                              color: Colors.blueAccent,
+                          Expanded(
+                            child: ButtonOfAddStoryHelper(
+                              onTap: () {
+                                selectImage();
+                              },
+                              text: 'upload image',
+                              icon: const Icon(FontAwesomeIcons.image,
+                                  color: Colors.greenAccent),
                             ),
                           ),
                         ],

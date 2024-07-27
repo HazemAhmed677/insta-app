@@ -102,9 +102,9 @@ class _CustomHomeViewState extends State<CustomHomeView> {
                   ],
                 ),
               ),
-              SliverToBoxAdapter(
+              const SliverToBoxAdapter(
                 child: SizedBox(
-                  height: hight * 0.018,
+                  height: 18,
                 ),
               ),
               SliverToBoxAdapter(
@@ -113,9 +113,9 @@ class _CustomHomeViewState extends State<CustomHomeView> {
                   child: StoriesBar(currentUser: widget.currentUser),
                 ),
               ),
-              SliverToBoxAdapter(
+              const SliverToBoxAdapter(
                 child: SizedBox(
-                  height: hight * 0.014,
+                  height: 26,
                 ),
               ),
               SliverPadding(

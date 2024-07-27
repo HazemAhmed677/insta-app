@@ -63,7 +63,8 @@ class _SignUpState extends State<SignUp> {
                     key: formKey,
                     child: ListView(
                       physics: const BouncingScrollPhysics(
-                          decelerationRate: ScrollDecelerationRate.fast),
+                        decelerationRate: ScrollDecelerationRate.fast,
+                      ),
                       controller: controller,
                       children: [
                         SizedBox(
@@ -164,13 +165,12 @@ class _SignUpState extends State<SignUp> {
                                 autoValidMode[2] = AutovalidateMode.always;
                               });
                               flag3 = true;
+                              password = data;
                             }
                           },
                           validator: (input) {
                             if (input!.isEmpty) {
                               return 'please enter password';
-                            } else if (input.length < 6) {
-                              return 'enter 6 characters at least';
                             } else {
                               return null;
                             }
@@ -246,8 +246,7 @@ class _SignUpState extends State<SignUp> {
                                     } else {
                                       isLoading = false;
                                       setState(() {});
-                                      getShowSnackBar(
-                                          context, 'email not valid');
+                                      getShowSnackBar(context, e.toString());
                                     }
                                   } catch (e) {
                                     // print(e);

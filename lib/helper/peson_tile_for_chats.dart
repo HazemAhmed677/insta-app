@@ -27,35 +27,40 @@ class PersonTileForChats extends StatelessWidget {
                 ? CachedNetworkImageProvider(profileImage!)
                 : const AssetImage(kNullImage),
           ),
-          SizedBox(
-            width: width * 0.025,
+          const SizedBox(
+            width: 10,
           ),
-          SizedBox(
-            width: width * 0.6,
-            child: Padding(
-              padding:
-                  const EdgeInsets.only(left: 4.0, right: 4, bottom: 6, top: 6),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      username,
-                      style: const TextStyle(
-                        fontSize: 18,
+          Flexible(
+            child: SizedBox(
+              width: width * 0.6,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    left: 4.0, right: 4, bottom: 6, top: 6),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        username,
+                        style: const TextStyle(
+                          fontSize: 24,
+                        ),
                       ),
-                    ),
-                    Text(
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      lastMsg,
-                      style: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 16,
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          lastMsg,
+                          style: const TextStyle(
+                            color: Colors.grey,
+                            fontSize: 16,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

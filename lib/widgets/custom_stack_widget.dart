@@ -49,8 +49,8 @@ class _CustomStackWidgetState extends State<CustomStackWidget> {
             maxRadius: 48,
           ),
           Positioned(
-            top: hight * 0.084,
-            left: width * 0.086,
+            top: 70,
+            left: 35,
             child: IconButton(
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),

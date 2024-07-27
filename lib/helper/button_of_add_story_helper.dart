@@ -24,6 +24,7 @@ class ButtonOfAddStoryHelper extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 icon,
                 const SizedBox(

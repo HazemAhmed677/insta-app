@@ -192,7 +192,6 @@ class _PostTileState extends State<PostTile> {
           height: 0.009 * hight,
         ),
         Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               widget.userModel.username,
@@ -211,8 +210,7 @@ class _PostTileState extends State<PostTile> {
             ),
             (widget.postModel.desciption != null)
                 ? Text(
-                    " ${widget.postModel.desciption!}",
-                    maxLines: 3,
+                    widget.postModel.desciption!,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       fontSize: 18,
