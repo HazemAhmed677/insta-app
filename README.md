@@ -24,6 +24,7 @@
 </ul><ul>
 <li>Follow/Unfollow: Build relationships and follow your favorite users.</li>
 </ul><ul>
-<li>Follow/Unfollow: Build relationships and follow your favorite users. Stories: Share ephemeral content with your followers.</li>
+<li>Stories: Share ephemeral content with your followers.</li>
+</ul><ul>
 </ul><h2>Project Status</h2>
 <hr><p>Completed</p>
