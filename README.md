@@ -26,3 +26,6 @@ Insta app
   - Add and view stories.
   - Upload images or videos in stories.
   - delete story after 24 hours
+
+</ul><h2>Project Status</h2>
+<hr><p>Completed</p>
