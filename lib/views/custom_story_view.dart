@@ -14,14 +14,10 @@ class CustomStoryView extends StatefulWidget {
 
 class _CustomStoryViewState extends State<CustomStoryView> {
   StoryController storyController = StoryController();
-  @override
-  void dispose() {
-    super.dispose();
-    storyController.dispose();
-  }
 
   @override
   void initState() {
+    super.initState();
     try {
       for (var ele in widget.userModel.stories!) {
         DeleteStoryAfter24H().deleteStoryAfter24hours(ele, widget.userModel);
@@ -29,7 +25,12 @@ class _CustomStoryViewState extends State<CustomStoryView> {
     } catch (e) {
       //
     }
-    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    storyController.dispose();
   }
 
   @override

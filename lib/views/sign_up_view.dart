@@ -133,7 +133,8 @@ class _SignUpState extends State<SignUp> {
                               setState(() {
                                 autoValidMode[1] = AutovalidateMode.disabled;
                               });
-                            } else if (data.isNotEmpty) {
+                            }
+                            if (data.isNotEmpty) {
                               setState(() {
                                 autoValidMode[1] = AutovalidateMode.always;
                               });
@@ -160,7 +161,8 @@ class _SignUpState extends State<SignUp> {
                               setState(() {
                                 autoValidMode[2] = AutovalidateMode.disabled;
                               });
-                            } else if (data.isNotEmpty) {
+                            }
+                            if (data.isNotEmpty) {
                               setState(() {
                                 autoValidMode[2] = AutovalidateMode.always;
                               });
@@ -239,15 +241,21 @@ class _SignUpState extends State<SignUp> {
                                     // firestore code
                                   } on FirebaseAuthException catch (e) {
                                     if (e.code == 'email-already-in-use') {
-                                      isLoading = false;
-                                      setState(() {});
                                       getShowSnackBar(
                                           context, 'Email already exists');
+                                    } else if (e.code == 'weak-password') {
+                                      print(e.code);
+                                      getShowSnackBar(
+                                          context, 'password is too weak.');
                                     } else {
-                                      isLoading = false;
-                                      setState(() {});
-                                      getShowSnackBar(context, e.toString());
+                                      print(e.code);
+                                      print('email = $email');
+                                      print('Password = $password');
+                                      getShowSnackBar(context,
+                                          'Oops, there something wrong');
                                     }
+                                    isLoading = false;
+                                    setState(() {});
                                   } catch (e) {
                                     // print(e);
                                   }

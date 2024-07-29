@@ -149,35 +149,33 @@ class _SignInState extends State<SignIn> {
                           formKey.currentState!.save();
 
                           // firebase auth code
+                          setState(() {
+                            isLoading = true;
+                            autoValidateMode1 = AutovalidateMode.disabled;
+                            autoValidateMode2 = AutovalidateMode.disabled;
+                          });
                           try {
-                            setState(() {
-                              isLoading = true;
-                              autoValidateMode1 = AutovalidateMode.disabled;
-                              autoValidateMode2 = AutovalidateMode.disabled;
-                            });
                             await signIn();
                             setState(() {
                               isLoading = false;
                             });
                             formKey.currentState!.reset();
                           } on FirebaseAuthException catch (e) {
-                            if (e.code == 'user-not-found') {
-                              isLoading = false;
-                              setState(() {});
+                            if (e.code == 'invalid-credential') {
+                              print(email);
+                              print(password);
                               getShowSnackBar(context, 'No account found');
                             } else if (e.code == 'wrong-password') {
-                              isLoading = false;
-                              setState(() {});
                               getShowSnackBar(context, 'Wrong password');
                             } else {
-                              setState(() {
-                                isLoading = false;
-                              });
-                              getShowSnackBar(context, e.toString());
+                              getShowSnackBar(
+                                  context, 'Oops, there somthing wrong!');
                             }
+                            isLoading = false;
+                            setState(() {});
                           } catch (e) {
-                            // isLoading = false;
-                            // setState(() {});
+                            isLoading = false;
+                            setState(() {});
                             getShowSnackBar(
                               context,
                               e.toString(),
@@ -197,7 +195,7 @@ class _SignInState extends State<SignIn> {
     );
   }
 
-  Future signIn() async {
+  Future<void> signIn() async {
     await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email!, password: password!);
   }

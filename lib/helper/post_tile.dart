@@ -133,8 +133,8 @@ class _PostTileState extends State<PostTile> {
                       size: 28,
                     ),
             ),
-            SizedBox(
-              width: width * 0.03,
+            const SizedBox(
+              width: 8,
             ),
             (FirebaseAuth.instance.currentUser!.uid != widget.userModel.uid)
                 ? IconButton(
@@ -201,7 +201,7 @@ class _PostTileState extends State<PostTile> {
               ),
             ),
             const Padding(
-              padding: EdgeInsets.only(left: 2.0, top: 5),
+              padding: EdgeInsets.only(left: 2.0, right: 4),
               child: Icon(
                 Icons.verified,
                 size: 16,

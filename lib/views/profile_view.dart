@@ -201,7 +201,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                     child: Icon(
                                                       FontAwesomeIcons.plus,
                                                       color: kPink,
-                                                      size: 6,
+                                                      size: 12,
                                                     ),
                                                   ),
                                                 ))

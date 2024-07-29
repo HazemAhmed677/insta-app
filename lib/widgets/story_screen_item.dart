@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:insta_app/constants.dart';
-import 'package:insta_app/helper/delete_story_after24_function.dart';
 import 'package:insta_app/models/user_model.dart';
 import 'package:insta_app/views/custom_story_view.dart';
 
