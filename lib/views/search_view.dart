@@ -41,8 +41,10 @@ class _SearchViewState extends State<SearchView> {
           //Text field ------------------
           CustomSearchTextField(
             onChanged: (value) {
-              input = value;
-              setState(() {});
+              if (value != '') {
+                input = value;
+                setState(() {});
+              }
             },
             onSubmitted: (value) async {
               if (value != '') {

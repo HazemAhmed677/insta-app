@@ -83,7 +83,7 @@ class _ProfileViewState extends State<ProfileView> {
                               children: [
                                 (widget.userModel!.uid !=
                                         FirebaseAuth.instance.currentUser!.uid)
-                                    ? (userProfile.stories!.isNotEmpty)
+                                    ? (userProfile.stories! != [])
                                         ? InkWell(
                                             borderRadius:
                                                 BorderRadius.circular(40),
@@ -144,7 +144,8 @@ class _ProfileViewState extends State<ProfileView> {
                                                 ? InkWell(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            40),
+                                                      40,
+                                                    ),
                                                     onTap: () {
                                                       Get.to(
                                                         CustomStoryView(
